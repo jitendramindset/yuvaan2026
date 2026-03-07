@@ -2,6 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://nodeos.local/schema/node.schema.json",
   "title": "NodeOS Universal Node",
+  "description": "Every entity in NodeOS — profile, wallet, device, widget, workflow, agent, etc — is a Node. The kernel validates, resolves permissions, and renders the appropriate UI widget.",
   "type": "object",
   "required": [
     "node_id",
@@ -17,25 +18,179 @@
     "version"
   ],
   "properties": {
-    "node_id": { "type": "string", "minLength": 1 },
-    "node_type": { "type": "string", "minLength": 1 },
-    "owner": { "type": "string", "minLength": 1 },
+    "node_id":   { "type": "string", "minLength": 1, "description": "Globally unique identifier: <type>.<namespace>.<name>" },
+    "node_type": { "type": "string", "minLength": 1, "description": "Category: profile | wallet | widget | workflow | device | agent | system | economy | data | media | relation | trust | layout | risk | transaction" },
+    "owner":     { "type": "string", "minLength": 1, "description": "User or system that owns this node" },
+
     "permissions": {
       "type": "object",
+      "description": "Role-based access control applied by the kernel before any read/write/execute",
       "required": ["read", "write", "execute"],
       "properties": {
-        "read": { "type": "array", "items": { "type": "string" } },
-        "write": { "type": "array", "items": { "type": "string" } },
-        "execute": { "type": "array", "items": { "type": "string" } }
+        "read":    { "type": "array", "items": { "type": "string" }, "description": "Users/roles that can read this node" },
+        "write":   { "type": "array", "items": { "type": "string" }, "description": "Users/roles that can modify this node" },
+        "execute": { "type": "array", "items": { "type": "string" }, "description": "Users/roles that can run actions on this node" }
       }
     },
-    "ui_schema": { "type": "object" },
-    "data": { "type": "object" },
-    "actions": { "type": "array", "items": { "type": "object" } },
-    "children": { "type": "array", "items": { "type": "string" } },
-    "logs": { "type": "array", "items": { "type": "object" } },
-    "state_hash": { "type": "string" },
-    "version": { "type": "integer", "minimum": 1 }
+
+    "roles": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Roles attached to this node (admin, user, viewer, auditor, etc). Used for role-based dashboard rendering."
+    },
+
+    "access_type": {
+      "type": "string",
+      "enum": ["public", "private", "shared", "system", "brand", "guest"],
+      "description": "Visibility scope: public = any user, private = owner only, shared = explicit ACL, system = kernel only, brand = brand-scoped, guest = unauthenticated read"
+    },
+
+    "view_type": {
+      "type": "string",
+      "enum": ["dashboard", "modal", "page", "embedded", "overlay", "hidden", "voice"],
+      "description": "How the kernel renders this node in the UI. dashboard = widget on grid, modal = popup, page = full page, voice = voice-only"
+    },
+
+    "ui_schema": {
+      "type": "object",
+      "description": "Widget rendering configuration resolved by the kernel",
+      "properties": {
+        "component":  { "type": "string", "description": "React component name from WIDGET_REGISTRY (ProfileCard, WalletCard, etc)" },
+        "size":       { "type": "string", "enum": ["xs", "sm", "md", "lg", "xl", "2xl"], "description": "Default widget size hint" },
+        "theme":      { "type": "string", "enum": ["default", "accent", "dark", "light"], "description": "Widget colour theme" },
+        "position": {
+          "type": "object",
+          "description": "Optional default position on dashboard grid",
+          "properties": {
+            "x": { "type": "integer", "minimum": 0, "maximum": 11 },
+            "y": { "type": "integer", "minimum": 0 },
+            "w": { "type": "integer", "minimum": 1, "maximum": 12 },
+            "h": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "visible_to_roles": { "type": "array", "items": { "type": "string" }, "description": "Only render widget for these roles" }
+      }
+    },
+
+    "metadata": {
+      "type": "object",
+      "description": "Arbitrary key-value metadata: tags, labels, search index, analytics flags",
+      "properties": {
+        "tags":        { "type": "array", "items": { "type": "string" } },
+        "labels":      { "type": "object", "additionalProperties": { "type": "string" } },
+        "description": { "type": "string" },
+        "created_at":  { "type": "string", "format": "date-time" },
+        "updated_at":  { "type": "string", "format": "date-time" },
+        "brand_id":    { "type": "string", "description": "Brand namespace this node belongs to" },
+        "industry":    { "type": "string" },
+        "locale":      { "type": "string" }
+      }
+    },
+
+    "karma_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1000,
+      "description": "Node trust/quality score computed by the karma engine based on usage, reviews, and verifications"
+    },
+
+    "data": {
+      "type": "object",
+      "description": "Node payload. Schema is node_type-specific. The kernel passes this to the widget component as props."
+    },
+
+    "actions": {
+      "type": "array",
+      "description": "Callable actions on this node. Each action maps to a kernel function or workflow trigger.",
+      "items": {
+        "type": "object",
+        "required": ["action_id", "label", "handler"],
+        "properties": {
+          "action_id":   { "type": "string" },
+          "label":       { "type": "string" },
+          "handler":     { "type": "string", "description": "Kernel function path or webhook URL" },
+          "icon":        { "type": "string" },
+          "roles":       { "type": "array", "items": { "type": "string" } },
+          "requires_ai": { "type": "boolean", "description": "If true, the kernel routes this through the AI engine" },
+          "params":      { "type": "object", "description": "Static parameters passed to the handler" }
+        }
+      }
+    },
+
+    "children": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Child node IDs. Kernel resolves these to load dependent nodes when this node is rendered."
+    },
+
+    "parent": {
+      "type": ["string", "null"],
+      "description": "Parent node ID. null for root nodes."
+    },
+
+    "relations": {
+      "type": "array",
+      "description": "Typed relationships to other nodes",
+      "items": {
+        "type": "object",
+        "required": ["type", "target"],
+        "properties": {
+          "type":   { "type": "string", "enum": ["child", "sibling", "depends_on", "triggers", "owned_by", "part_of", "linked_to"] },
+          "target": { "type": "string", "description": "Target node_id" },
+          "weight": { "type": "number", "description": "Edge weight for graph algorithms" }
+        }
+      }
+    },
+
+    "logs": {
+      "type": "array",
+      "description": "Immutable audit log entries written by the kernel",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ts":     { "type": "string", "format": "date-time" },
+          "event":  { "type": "string" },
+          "actor":  { "type": "string" },
+          "detail": { "type": "object" }
+        }
+      }
+    },
+
+    "state_hash": {
+      "type": "string",
+      "description": "SHA-256 of the canonical node JSON. Used for integrity verification and sync conflict detection."
+    },
+
+    "version": { "type": "integer", "minimum": 1, "description": "Monotonically increasing version number" },
+
+    "status": {
+      "type": "string",
+      "enum": ["active", "inactive", "archived", "pending", "error"],
+      "default": "active"
+    },
+
+    "ai_context": {
+      "type": "object",
+      "description": "AI engine configuration for nodes that have AI capabilities",
+      "properties": {
+        "model":      { "type": "string", "description": "AI model to use (gpt-4, claude-3, gemini-pro, etc)" },
+        "api_key_ref":{ "type": "string", "description": "Reference to the encrypted API key in the vault" },
+        "memory_node":{ "type": "string", "description": "Node ID that stores AI conversation memory" },
+        "tools":      { "type": "array", "items": { "type": "string" }, "description": "MCP tool names available to this AI node" },
+        "system_prompt": { "type": "string" }
+      }
+    },
+
+    "mcp_config": {
+      "type": "object",
+      "description": "MCP (Model Context Protocol) / webhook / n8n integration config",
+      "properties": {
+        "webhook_url": { "type": "string", "format": "uri" },
+        "mcp_server":  { "type": "string" },
+        "trigger":     { "type": "string", "enum": ["on_create", "on_update", "on_delete", "on_action", "scheduled", "manual"] },
+        "headers":     { "type": "object", "additionalProperties": { "type": "string" } }
+      }
+    }
   },
   "additionalProperties": true
 }

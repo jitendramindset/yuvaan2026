@@ -3,21 +3,40 @@
   "node_type": "dashboard",
   "owner": "user.default",
   "permissions": {
-    "read": ["user.default"],
-    "write": ["user.default"],
-    "execute": ["user.default", "system"]
+    "read": [
+      "user.default"
+    ],
+    "write": [
+      "user.default"
+    ],
+    "execute": [
+      "user.default",
+      "system"
+    ]
   },
   "ui_schema": {
     "layout": "grid",
-    "areas": ["profile", "connections", "wallet", "notifications", "activity_feed"]
+    "areas": [
+      "profile",
+      "connections",
+      "wallet",
+      "notifications",
+      "activity_feed"
+    ]
   },
   "data": {
     "theme": "nodeos-light",
-    "widgets": ["widget.profile.card"]
+    "widgets": [
+      "widget.profile.card"
+    ]
   },
   "actions": [],
-  "children": ["widget.profile.card"],
+  "children": [
+    "widget.profile.card"
+  ],
   "logs": [],
   "state_hash": "",
-  "version": 1
+  "version": 1,
+  "status": "active",
+  "updated_at": "2026-03-07T21:47:13.688Z"
 }
