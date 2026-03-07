@@ -1,0 +1,50 @@
+{
+  "nid_hash": "system_customization_root_v1",
+  "owner_id": "system",
+  "node_type": "layout",
+  "label": "Customization Engine",
+  "description": "Elementor-like layout engine: widget catalogue, drag-drop grid, save/publish per platform",
+  "dna_blob": {
+    "brand_scope": "system",
+    "archetype": "ui_builder",
+    "intent_tags": ["customization", "layout", "widget_builder", "drag_drop"],
+    "dharma_tags": [],
+    "trait_vector": [],
+    "origin_type": "system",
+    "soul_id": "system_customization_root"
+  },
+  "perm_blob": {
+    "grants": [
+      { "subject_nid_hash": "*", "scope": "self", "actions": ["read", "write"], "effect": "ALLOW" }
+    ],
+    "version": "1"
+  },
+  "rule_blob": { "rules": [], "version": "1" },
+  "runtime_blob": {
+    "active_layout_id": null,
+    "active_widgets": ["profile_card", "wallet_summary", "ai_chat", "stat_card", "activity_feed"],
+    "execution_context": "ui",
+    "state": {
+      "platforms": ["vanshawali", "dravyam", "ai_dashboard", "admin", "device_hub"],
+      "grid_columns": 12,
+      "default_gap": 16
+    }
+  },
+  "sys_blob": {
+    "created_at": "2025-01-01T00:00:00.000Z",
+    "updated_at": "2025-01-01T00:00:00.000Z",
+    "schema_version": "1.0.0",
+    "migration_id": null,
+    "checksum": "",
+    "backup_enabled": false,
+    "ttl_seconds": null
+  },
+  "karma_score": 100,
+  "trust_score": 100,
+  "health_score": 100,
+  "privacy_mode": "public",
+  "task_status": "idle",
+  "is_activated": true,
+  "actions": [],
+  "children": []
+}

@@ -1,0 +1,21 @@
+{
+  "name": "NodeOS — Yuvaan",
+  "short_name": "NodeOS",
+  "description": "Universal Node Operating System — run offline in app or web mode",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0f1117",
+  "theme_color": "#6c63ff",
+  "orientation": "any",
+  "icons": [
+    { "src": "/nodeos-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ],
+  "categories": ["business", "productivity", "utilities"],
+  "shortcuts": [
+    { "name": "Voice Control", "short_name": "Voice",    "url": "/voice",      "description": "Send a voice command" },
+    { "name": "Services",      "short_name": "Services", "url": "/services",   "description": "Check all service status" },
+    { "name": "Install",       "short_name": "Install",  "url": "/install",    "description": "Install & verify NodeOS" },
+    { "name": "Device Info",   "short_name": "Device",   "url": "/device",     "description": "View device information" }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "nid_hash": "system_admin_root_v1",
+  "owner_id": "system",
+  "node_type": "system",
+  "label": "Admin Engine",
+  "description": "Super-admin control plane: user management, 7-day activity tracking, production mode",
+  "dna_blob": {
+    "brand_scope": "system",
+    "archetype": "admin",
+    "intent_tags": ["admin", "user_management", "audit", "activity_tracking"],
+    "dharma_tags": ["restricted"],
+    "trait_vector": [],
+    "origin_type": "system",
+    "soul_id": "system_admin_root"
+  },
+  "perm_blob": {
+    "grants": [
+      { "subject_nid_hash": "system", "scope": "global", "actions": ["read", "write", "execute"], "effect": "ALLOW" },
+      { "subject_nid_hash": "*", "scope": "none", "actions": ["*"], "effect": "DENY" }
+    ],
+    "version": "1"
+  },
+  "rule_blob": {
+    "rules": [
+      {
+        "rule_id": "admin_key_required",
+        "description": "All admin actions require master key validation",
+        "condition": { "field": "actor_id", "operator": "not_equals", "value": "system" },
+        "action": { "type": "require_admin_key" }
+      }
+    ],
+    "version": "1"
+  },
+  "runtime_blob": {
+    "active_layout_id": null,
+    "active_widgets": ["activity_feed", "stat_card", "node_inspector"],
+    "execution_context": "kernel",
+    "state": {
+      "mode": "development",
+      "activity_window_days": 7,
+      "admin_actions_log": []
+    }
+  },
+  "sys_blob": {
+    "created_at": "2025-01-01T00:00:00.000Z",
+    "updated_at": "2025-01-01T00:00:00.000Z",
+    "schema_version": "1.0.0",
+    "migration_id": null,
+    "checksum": "",
+    "backup_enabled": true,
+    "ttl_seconds": null
+  },
+  "karma_score": 100,
+  "trust_score": 100,
+  "health_score": 100,
+  "privacy_mode": "stealth",
+  "task_status": "idle",
+  "is_activated": true,
+  "actions": [],
+  "children": []
+}

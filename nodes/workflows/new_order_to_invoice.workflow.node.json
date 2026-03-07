@@ -1,0 +1,52 @@
+{
+  "node_id": "workflow.new_order_to_invoice",
+  "node_type": "workflow",
+  "owner": "system",
+  "permissions": {
+    "read": ["owner"],
+    "write": ["owner"],
+    "execute": ["owner", "system"]
+  },
+  "data": {
+    "title": "New Order → Invoice",
+    "trigger": "event:order.created",
+    "steps": [
+      {
+        "id": "1",
+        "label": "New Order Received",
+        "type": "trigger",
+        "action": "capture_order",
+        "outputs": ["2"]
+      },
+      {
+        "id": "2",
+        "label": "Update Inventory",
+        "type": "action",
+        "action": "decrement_stock",
+        "inputs": ["1"],
+        "outputs": ["3"]
+      },
+      {
+        "id": "3",
+        "label": "Generate Invoice",
+        "type": "action",
+        "action": "create_invoice",
+        "inputs": ["2"],
+        "outputs": ["4"]
+      },
+      {
+        "id": "4",
+        "label": "Notify Customer",
+        "type": "action",
+        "action": "send_notification",
+        "inputs": ["3"],
+        "outputs": []
+      }
+    ]
+  },
+  "actions": [
+    { "name": "execute-workflow", "type": "emit_log" }
+  ],
+  "state_hash": "",
+  "version": 1
+}

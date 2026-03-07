@@ -1,0 +1,76 @@
+{
+  "node_id": "onboarding.v2",
+  "node_type": "data",
+  "owner": "system",
+  "permissions": {
+    "read": ["system", "user.default"],
+    "write": ["system"],
+    "execute": ["system", "user.default"]
+  },
+  "ui_schema": {
+    "steps": [
+      {
+        "step": "user_identity",
+        "title": "Who are you?",
+        "voice_prompt": "Welcome! Let's start with your name. What's your full name?",
+        "fields": ["full_name", "phone", "email", "language", "timezone", "country"]
+      },
+      {
+        "step": "company_setup",
+        "title": "Your business",
+        "voice_prompt": "Are you setting up a company, or are you a freelancer or solo user?",
+        "fields": ["business_type", "company_name", "company_logo"]
+      },
+      {
+        "step": "industry_selection",
+        "title": "Your industry",
+        "voice_prompt": "What industry does your business belong to?",
+        "fields": ["industry", "sub_industry"]
+      },
+      {
+        "step": "business_size",
+        "title": "Team size",
+        "voice_prompt": "How many people are on your team?",
+        "fields": ["size", "employee_count"]
+      },
+      {
+        "step": "operations",
+        "title": "What you need",
+        "voice_prompt": "Which modules do you need? For example: sales, inventory, HR, CRM.",
+        "fields": ["modules"]
+      },
+      {
+        "step": "team_structure",
+        "title": "Your teams",
+        "voice_prompt": "Tell me about your departments and roles.",
+        "fields": ["departments", "roles"]
+      },
+      {
+        "step": "product_service",
+        "title": "Products & services",
+        "voice_prompt": "What products or services do you offer?",
+        "fields": ["products", "services", "pricing_model"]
+      },
+      {
+        "step": "data_preferences",
+        "title": "Data you manage",
+        "voice_prompt": "What kind of data do you want to manage?",
+        "fields": ["preferences"]
+      }
+    ],
+    "completion_action": "generate-workspace"
+  },
+  "data": {
+    "creates": [
+      "profile.node", "wallet.node", "agent.node",
+      "company.node", "dashboard.node", "workflow.nodes"
+    ]
+  },
+  "actions": [
+    { "name": "emit-onboarding-started", "type": "emit_log" },
+    { "name": "generate-workspace",      "type": "emit_log" }
+  ],
+  "children": ["profile.vanshawali.default"],
+  "state_hash": "",
+  "version": 2
+}

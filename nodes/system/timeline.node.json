@@ -1,0 +1,23 @@
+{
+  "node_id": "timeline.user.default",
+  "node_type": "data",
+  "owner": "user.default",
+  "permissions": {
+    "read": ["owner"],
+    "write": ["system", "owner"],
+    "execute": ["system"]
+  },
+  "data": {
+    "description": "User's full activity timeline — transactions, social actions, locations, system events",
+    "event_types": ["action", "transaction", "social", "location", "system"],
+    "retention_days": 365,
+    "events": []
+  },
+  "actions": [
+    { "name": "append-event",    "type": "emit_log" },
+    { "name": "query-timeline",  "type": "emit_log" },
+    { "name": "export-history",  "type": "emit_log" }
+  ],
+  "state_hash": "",
+  "version": 1
+}

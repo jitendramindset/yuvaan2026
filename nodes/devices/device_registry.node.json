@@ -1,0 +1,55 @@
+{
+  "nid_hash": "device_registry_root_v1",
+  "owner_id": "system",
+  "node_type": "device",
+  "label": "Device Registry",
+  "description": "Central registry for all paired and discovered devices",
+  "dna_blob": {
+    "brand_scope": "system",
+    "archetype": "registry",
+    "intent_tags": ["device_management", "pairing", "auth"],
+    "dharma_tags": [],
+    "trait_vector": [],
+    "origin_type": "system",
+    "soul_id": "device_registry_root"
+  },
+  "perm_blob": {
+    "grants": [
+      { "subject_nid_hash": "system", "scope": "global", "actions": ["read", "write"], "effect": "ALLOW" }
+    ],
+    "version": "1"
+  },
+  "rule_blob": {
+    "rules": [],
+    "version": "1"
+  },
+  "runtime_blob": {
+    "active_layout_id": null,
+    "active_widgets": [],
+    "execution_context": "kernel",
+    "state": {
+      "total_devices": 0,
+      "active_devices": 0,
+      "supported_mediums": ["usb", "network", "bluetooth", "nfc", "cmd"]
+    }
+  },
+  "sys_blob": {
+    "created_at": "2025-01-01T00:00:00.000Z",
+    "updated_at": "2025-01-01T00:00:00.000Z",
+    "schema_version": "1.0.0",
+    "migration_id": null,
+    "checksum": "",
+    "backup_enabled": true,
+    "ttl_seconds": null
+  },
+  "karma_score": 100,
+  "trust_score": 100,
+  "health_score": 100,
+  "privacy_mode": "private",
+  "task_status": "idle",
+  "is_activated": true,
+  "actions": [
+    { "type": "emit_log", "payload": { "event": "device_registry_boot" } }
+  ],
+  "children": []
+}

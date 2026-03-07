@@ -1,0 +1,39 @@
+{
+  "node_id": "widget.voice.control",
+  "node_type": "widget",
+  "owner": "system",
+  "permissions": {
+    "read": ["user.default"],
+    "write": ["owner"],
+    "execute": ["user.default"]
+  },
+  "data": {
+    "widget_type": "voice_control",
+    "label": "Voice Control",
+    "description": "Floating mic button. Hold to speak, release to process. Shows voice reply as toast.",
+    "trigger": "push_to_talk",
+    "feedback": "voice_reply_toast",
+    "supported_intents": [
+      "navigate", "widget_request", "onboarding", "action",
+      "query", "location", "social", "ai", "system"
+    ],
+    "languages": ["en", "hi", "ta", "te", "mr", "bn", "gu"],
+    "shortcuts": {
+      "go home":           "/",
+      "open sales":        "/dashboard/sales",
+      "open inventory":    "/dashboard/inventory",
+      "show family tree":  "/vanshawali",
+      "share location":    "/map",
+      "open wallet":       "/wallet",
+      "open chat":         "/chat"
+    }
+  },
+  "actions": [
+    { "name": "process-voice",  "type": "emit_log" },
+    { "name": "navigate",       "type": "emit_log" },
+    { "name": "add-widget",     "type": "emit_log" },
+    { "name": "voice-onboard",  "type": "emit_log" }
+  ],
+  "state_hash": "",
+  "version": 1
+}

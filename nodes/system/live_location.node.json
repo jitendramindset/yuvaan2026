@@ -1,0 +1,30 @@
+{
+  "node_id": "map.live_location",
+  "node_type": "data",
+  "owner": "system",
+  "permissions": {
+    "read": ["owner", "group.members"],
+    "write": ["owner"],
+    "execute": ["owner"]
+  },
+  "data": {
+    "description": "Live location sharing — share with family, friends, or groups. Shows all shared users on map.",
+    "features": [
+      "share_live_location",
+      "stop_sharing",
+      "view_family_on_map",
+      "view_group_on_map",
+      "location_history",
+      "safe_zone_alerts"
+    ],
+    "privacy": "only_invited_users_see_location",
+    "default_expiry_hours": 8
+  },
+  "actions": [
+    { "name": "start-sharing",  "type": "emit_log" },
+    { "name": "stop-sharing",   "type": "emit_log" },
+    { "name": "view-map",       "type": "emit_log" }
+  ],
+  "state_hash": "",
+  "version": 1
+}

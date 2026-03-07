@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "event_id": "964c45c3-f1dc-4fdf-838a-6e59c7e8af13",
+    "node_id": "system.root",
+    "action": "executed:set_data:kernel_mode",
+    "timestamp": "2026-03-07T18:53:24.885Z",
+    "result": "success",
+    "device_id": "unknown"
+  },
+  {
+    "event_id": "3a364feb-9ade-4178-acbb-a6ba4c270be3",
+    "node_id": "system.root",
+    "action": "executed:set_data:kernel_mode",
+    "timestamp": "2026-03-07T18:54:59.786Z",
+    "result": "success",
+    "device_id": "unknown"
+  },
+  {
+    "event_id": "b51f7da0-30c2-4dbb-bb38-f2e390a603cc",
+    "node_id": "profile.vanshawali.default",
+    "action": "executed:emit_log:profile-ready-log",
+    "timestamp": "2026-03-07T18:54:59.824Z",
+    "result": "success",
+    "device_id": "unknown"
+  }
+]

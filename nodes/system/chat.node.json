@@ -1,0 +1,52 @@
+{
+  "nid_hash": "system_chat_root_v1",
+  "owner_id": "system",
+  "node_type": "agent",
+  "label": "AI Chat Engine",
+  "description": "AI assistant: natural language → widget render, navigation, kernel actions, automation",
+  "dna_blob": {
+    "brand_scope": "system",
+    "archetype": "ai_assistant",
+    "intent_tags": ["chat", "ai", "automation", "widget_render", "navigation"],
+    "dharma_tags": [],
+    "trait_vector": [],
+    "origin_type": "system",
+    "soul_id": "system_chat_root"
+  },
+  "perm_blob": {
+    "grants": [
+      { "subject_nid_hash": "*", "scope": "self", "actions": ["read", "write", "execute"], "effect": "ALLOW" }
+    ],
+    "version": "1"
+  },
+  "rule_blob": { "rules": [], "version": "1" },
+  "runtime_blob": {
+    "active_layout_id": null,
+    "active_widgets": ["ai_chat"],
+    "execution_context": "kernel",
+    "state": {
+      "supported_intents": [
+        "render_widget", "navigate", "run_action", "query_data", "run_automation", "show_help"
+      ],
+      "max_history_per_session": 50,
+      "platforms": ["vanshawali", "dravyam", "ai_dashboard", "admin", "device_hub"]
+    }
+  },
+  "sys_blob": {
+    "created_at": "2025-01-01T00:00:00.000Z",
+    "updated_at": "2025-01-01T00:00:00.000Z",
+    "schema_version": "1.0.0",
+    "migration_id": null,
+    "checksum": "",
+    "backup_enabled": false,
+    "ttl_seconds": null
+  },
+  "karma_score": 100,
+  "trust_score": 100,
+  "health_score": 100,
+  "privacy_mode": "public",
+  "task_status": "idle",
+  "is_activated": true,
+  "actions": [],
+  "children": []
+}

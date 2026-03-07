@@ -1,0 +1,30 @@
+{
+  "node_id": "company.template",
+  "node_type": "data",
+  "owner": "system",
+  "permissions": {
+    "read": ["system", "owner"],
+    "write": ["owner"],
+    "execute": ["owner", "system"]
+  },
+  "data": {
+    "company_name": "",
+    "business_type": "company",
+    "industry": "",
+    "sub_industry": "",
+    "size": "small",
+    "operations": [],
+    "departments": [],
+    "products": [],
+    "services": [],
+    "data_preferences": [],
+    "ui_layout_id": ""
+  },
+  "children": ["dashboard.main", "wallet.owner"],
+  "actions": [
+    { "name": "generate-ui", "type": "emit_log" },
+    { "name": "create-department-nodes", "type": "emit_log" }
+  ],
+  "state_hash": "",
+  "version": 1
+}
