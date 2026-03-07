@@ -1,0 +1,46 @@
+{
+  "node_id": "personal.vanshawali.default",
+  "node_type": "profile",
+  "owner": "user.default",
+  "permissions": {
+    "read": ["user.default", "family.circle"],
+    "write": ["user.default"],
+    "execute": ["user.default", "system"]
+  },
+  "ui_schema": {
+    "component": "PersonalInfoCard",
+    "layout": "form"
+  },
+  "data": {
+    "full_name": "",
+    "nickname": "",
+    "gender": "",
+    "date_of_birth": "",
+    "age": null,
+    "marital_status": "",
+    "blood_group": "",
+    "height_cm": null,
+    "religion": "",
+    "community": "",
+    "bio": "",
+    "languages_known": []
+  },
+  "actions": [
+    {
+      "name": "auto-calc-age",
+      "type": "set_data",
+      "input": {
+        "key": "age",
+        "value": "__computed_from_dob__"
+      }
+    },
+    {
+      "name": "log-personal-updated",
+      "type": "emit_log"
+    }
+  ],
+  "children": [],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

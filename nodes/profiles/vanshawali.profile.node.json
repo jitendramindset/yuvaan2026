@@ -1,0 +1,47 @@
+{
+  "node_id": "profile.vanshawali.default",
+  "node_type": "profile",
+  "owner": "user.default",
+  "permissions": {
+    "read": ["user.default", "family.circle"],
+    "write": ["user.default"],
+    "execute": ["user.default", "system"]
+  },
+  "ui_schema": {
+    "layout": "profile-card",
+    "sections": ["personal", "contact", "location", "social", "family", "education", "profession", "preference", "property", "media", "trust"]
+  },
+  "data": {
+    "personal_info": {
+      "name": "Default User",
+      "dob": "",
+      "location": ""
+    },
+    "onboarding_step": 0,
+    "onboarding_complete": false
+  },
+  "actions": [
+    {
+      "name": "profile-ready-log",
+      "type": "emit_log"
+    }
+  ],
+  "children": [
+    "personal.vanshawali.default",
+    "contact.vanshawali.default",
+    "location.vanshawali.default",
+    "social.vanshawali.default",
+    "family.vanshawali.default",
+    "education.vanshawali.default",
+    "profession.vanshawali.default",
+    "preference.vanshawali.default",
+    "property.vanshawali.default",
+    "media.vanshawali.default",
+    "trust.vanshawali.default",
+    "wallet.dravyam.default",
+    "agent.yunaan.default"
+  ],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

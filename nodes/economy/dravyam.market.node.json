@@ -1,0 +1,28 @@
+{
+  "node_id": "dravyam.market.default",
+  "node_type": "economy",
+  "owner": "system",
+  "permissions": {
+    "read": ["*"],
+    "write": ["system"],
+    "execute": ["system"]
+  },
+  "ui_schema": {
+    "component": "MarketPriceWidget",
+    "layout": "price-ticker"
+  },
+  "data": {
+    "token": "DRAVYAM",
+    "current_price_inr": 1.0,
+    "supply": 0,
+    "demand": 0,
+    "transaction_volume_24h": 0,
+    "trust_index": 50,
+    "price_history": []
+  },
+  "actions": [],
+  "children": [],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

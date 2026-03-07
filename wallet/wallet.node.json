@@ -1,0 +1,28 @@
+{
+  "node_id": "wallet.default",
+  "node_type": "wallet",
+  "owner": "user.default",
+  "permissions": {
+    "read": ["user.default"],
+    "write": ["user.default", "system"],
+    "execute": ["user.default", "system"]
+  },
+  "ui_schema": {
+    "component": "WalletPanel"
+  },
+  "data": {
+    "balances": {
+      "DRAVYAM": 0,
+      "INR": 0,
+      "USD": 0,
+      "AED": 0
+    },
+    "bank_links": [],
+    "transactions": []
+  },
+  "actions": [],
+  "children": ["transaction.sample"],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

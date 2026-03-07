@@ -1,0 +1,32 @@
+{
+  "node_id": "workflow.sample.notification",
+  "node_type": "workflow",
+  "owner": "user.default",
+  "permissions": {
+    "read": ["user.default"],
+    "write": ["user.default"],
+    "execute": ["user.default", "agent.yunaan.default"]
+  },
+  "ui_schema": {
+    "builder": "node-canvas"
+  },
+  "data": {
+    "description": "Sample trigger to notification flow"
+  },
+  "actions": [
+    {
+      "name": "run-sample-workflow",
+      "type": "run_workflow"
+    }
+  ],
+  "steps": [
+    {
+      "trigger": "new_message",
+      "action": "send_notification"
+    }
+  ],
+  "children": [],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

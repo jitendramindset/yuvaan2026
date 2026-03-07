@@ -1,0 +1,22 @@
+{
+  "node_id": "widget.profile.card",
+  "node_type": "widget",
+  "owner": "user.default",
+  "permissions": {
+    "read": ["user.default"],
+    "write": ["user.default"],
+    "execute": ["user.default", "system"]
+  },
+  "ui_schema": {
+    "component": "ProfileCard",
+    "size": "md"
+  },
+  "data": {
+    "source": "profile.vanshawali.default"
+  },
+  "actions": [],
+  "children": [],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

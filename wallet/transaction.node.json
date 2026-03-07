@@ -1,0 +1,29 @@
+{
+  "node_id": "transaction.sample",
+  "node_type": "transaction",
+  "owner": "user.default",
+  "permissions": {
+    "read": ["user.default", "system"],
+    "write": ["system"],
+    "execute": ["system"]
+  },
+  "ui_schema": {
+    "component": "TransactionItem"
+  },
+  "data": {
+    "flow": [
+      "create transaction.node",
+      "lock balance",
+      "process payment",
+      "update ledger",
+      "release lock"
+    ],
+    "rollback_after_seconds": 60,
+    "status": "pending"
+  },
+  "actions": [],
+  "children": [],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

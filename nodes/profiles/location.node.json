@@ -1,0 +1,51 @@
+{
+  "node_id": "location.vanshawali.default",
+  "node_type": "profile",
+  "owner": "user.default",
+  "permissions": {
+    "read": ["user.default", "family.circle"],
+    "write": ["user.default"],
+    "execute": ["user.default", "system"]
+  },
+  "ui_schema": {
+    "component": "LocationCard",
+    "layout": "form"
+  },
+  "data": {
+    "current_address": {
+      "line1": "",
+      "line2": "",
+      "village": "",
+      "city": "",
+      "district": "",
+      "state": "",
+      "country": "India",
+      "postal_code": ""
+    },
+    "permanent_address": {
+      "line1": "",
+      "line2": "",
+      "village": "",
+      "city": "",
+      "district": "",
+      "state": "",
+      "country": "India",
+      "postal_code": ""
+    },
+    "geo": {
+      "latitude": null,
+      "longitude": null
+    },
+    "migration_history": []
+  },
+  "actions": [
+    {
+      "name": "log-location-updated",
+      "type": "emit_log"
+    }
+  ],
+  "children": [],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

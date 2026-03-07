@@ -1,0 +1,41 @@
+{
+  "node_id": "trust.vanshawali.default",
+  "node_type": "trust",
+  "owner": "system",
+  "permissions": {
+    "read": ["user.default", "system"],
+    "write": ["system"],
+    "execute": ["system"]
+  },
+  "ui_schema": {
+    "component": "TrustScoreCard",
+    "layout": "score-ring"
+  },
+  "data": {
+    "profile_completion_score": 0,
+    "verification_level": "unverified",
+    "family_connections": 0,
+    "activity_score": 0,
+    "karma_score": 0,
+    "completion_breakdown": {
+      "basic_info":   { "weight": 20, "filled": false },
+      "contact":      { "weight": 10, "filled": false },
+      "location":     { "weight": 10, "filled": false },
+      "education":    { "weight": 10, "filled": false },
+      "profession":   { "weight": 10, "filled": false },
+      "family":       { "weight": 20, "filled": false },
+      "preferences":  { "weight": 10, "filled": false },
+      "media":        { "weight": 10, "filled": false }
+    }
+  },
+  "actions": [
+    {
+      "name": "recalculate-trust",
+      "type": "run_workflow"
+    }
+  ],
+  "children": [],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nodeos.local/schema/node.schema.json",
+  "title": "NodeOS Universal Node",
+  "type": "object",
+  "required": [
+    "node_id",
+    "node_type",
+    "owner",
+    "permissions",
+    "ui_schema",
+    "data",
+    "actions",
+    "children",
+    "logs",
+    "state_hash",
+    "version"
+  ],
+  "properties": {
+    "node_id": { "type": "string", "minLength": 1 },
+    "node_type": { "type": "string", "minLength": 1 },
+    "owner": { "type": "string", "minLength": 1 },
+    "permissions": {
+      "type": "object",
+      "required": ["read", "write", "execute"],
+      "properties": {
+        "read": { "type": "array", "items": { "type": "string" } },
+        "write": { "type": "array", "items": { "type": "string" } },
+        "execute": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "ui_schema": { "type": "object" },
+    "data": { "type": "object" },
+    "actions": { "type": "array", "items": { "type": "object" } },
+    "children": { "type": "array", "items": { "type": "string" } },
+    "logs": { "type": "array", "items": { "type": "object" } },
+    "state_hash": { "type": "string" },
+    "version": { "type": "integer", "minimum": 1 }
+  },
+  "additionalProperties": true
+}

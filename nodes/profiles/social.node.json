@@ -1,0 +1,34 @@
+{
+  "node_id": "social.vanshawali.default",
+  "node_type": "profile",
+  "owner": "user.default",
+  "permissions": {
+    "read": ["*"],
+    "write": ["user.default"],
+    "execute": ["user.default", "system"]
+  },
+  "ui_schema": {
+    "component": "SocialLinksCard",
+    "layout": "form"
+  },
+  "data": {
+    "linkedin": "",
+    "instagram": "",
+    "facebook": "",
+    "twitter_x": "",
+    "youtube": "",
+    "github": "",
+    "website": "",
+    "blog": ""
+  },
+  "actions": [
+    {
+      "name": "log-social-updated",
+      "type": "emit_log"
+    }
+  ],
+  "children": [],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

@@ -1,0 +1,38 @@
+{
+  "node_id": "card.dravyam.default",
+  "node_type": "wallet",
+  "owner": "user.default",
+  "permissions": {
+    "read": ["user.default", "system"],
+    "write": ["system"],
+    "execute": ["system"]
+  },
+  "ui_schema": {
+    "component": "CardList",
+    "layout": "masked-card"
+  },
+  "data": {
+    "cards": [
+      {
+        "card_id": "",
+        "card_type": "",
+        "network": "",
+        "last_four": "",
+        "expiry_month": null,
+        "expiry_year": null,
+        "token": "",
+        "is_active": false
+      }
+    ]
+  },
+  "actions": [
+    {
+      "name": "log-card-tokenized",
+      "type": "emit_log"
+    }
+  ],
+  "children": [],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

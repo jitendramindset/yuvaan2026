@@ -1,0 +1,35 @@
+{
+  "node_id": "system.root",
+  "node_type": "system",
+  "owner": "system",
+  "permissions": {
+    "read": ["*"],
+    "write": ["system"],
+    "execute": ["system"]
+  },
+  "ui_schema": {
+    "title": "NodeOS System Root"
+  },
+  "data": {
+    "kernel_mode": "boot",
+    "version": "0.1.0"
+  },
+  "actions": [
+    {
+      "name": "set-ready",
+      "type": "set_data",
+      "input": {
+        "key": "kernel_mode",
+        "value": "ready"
+      }
+    }
+  ],
+  "children": [
+    "profile.vanshawali.default",
+    "dashboard.main",
+    "economy.dravyam"
+  ],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

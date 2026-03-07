@@ -1,0 +1,46 @@
+{
+  "node_id": "wallet.dravyam.default",
+  "node_type": "wallet",
+  "owner": "user.default",
+  "permissions": {
+    "read": ["user.default", "system"],
+    "write": ["system"],
+    "execute": ["user.default", "system"]
+  },
+  "ui_schema": {
+    "component": "WalletPanel",
+    "layout": "dashboard-card"
+  },
+  "data": {
+    "wallet_id": "wallet.dravyam.default",
+    "kyc_status": "pending",
+    "balances": {
+      "DRAVYAM": 0,
+      "INR": 0,
+      "USD": 0,
+      "AED": 0,
+      "EUR": 0
+    },
+    "linked_banks": [],
+    "linked_cards": [],
+    "daily_limit": {
+      "INR": 100000,
+      "DRAVYAM": 10000
+    },
+    "is_frozen": false
+  },
+  "actions": [
+    {
+      "name": "log-wallet-accessed",
+      "type": "emit_log"
+    }
+  ],
+  "children": [
+    "bank_account.dravyam.default",
+    "balance.dravyam.default",
+    "ledger.dravyam.default"
+  ],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

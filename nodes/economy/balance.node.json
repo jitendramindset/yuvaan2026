@@ -1,0 +1,31 @@
+{
+  "node_id": "balance.dravyam.default",
+  "node_type": "wallet",
+  "owner": "user.default",
+  "permissions": {
+    "read": ["user.default", "system"],
+    "write": ["system"],
+    "execute": ["system"]
+  },
+  "ui_schema": {
+    "component": "BalanceWidget",
+    "layout": "currency-list"
+  },
+  "data": {
+    "DRAVYAM": { "available": 0, "locked": 0 },
+    "INR":      { "available": 0, "locked": 0 },
+    "USD":      { "available": 0, "locked": 0 },
+    "AED":      { "available": 0, "locked": 0 },
+    "EUR":      { "available": 0, "locked": 0 }
+  },
+  "actions": [
+    {
+      "name": "log-balance-updated",
+      "type": "emit_log"
+    }
+  ],
+  "children": [],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

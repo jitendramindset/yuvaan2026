@@ -1,0 +1,27 @@
+{
+  "node_id": "fraud.dravyam.default",
+  "node_type": "risk",
+  "owner": "system",
+  "permissions": {
+    "read": ["system"],
+    "write": ["system"],
+    "execute": ["system"]
+  },
+  "ui_schema": {
+    "component": "FraudMonitor",
+    "layout": "alert-list"
+  },
+  "data": {
+    "monitors": [],
+    "thresholds": {
+      "velocity_per_hour": 10,
+      "max_amount_single_tx": 500000,
+      "geo_mismatch_block": true
+    }
+  },
+  "actions": [],
+  "children": [],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

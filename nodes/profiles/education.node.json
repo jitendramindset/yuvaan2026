@@ -1,0 +1,38 @@
+{
+  "node_id": "education.vanshawali.default",
+  "node_type": "profile",
+  "owner": "user.default",
+  "permissions": {
+    "read": ["user.default", "family.circle"],
+    "write": ["user.default"],
+    "execute": ["user.default", "system"]
+  },
+  "ui_schema": {
+    "component": "EducationCard",
+    "layout": "list"
+  },
+  "data": {
+    "highest_qualification": "",
+    "entries": [
+      {
+        "school_name": "",
+        "college": "",
+        "university": "",
+        "board": "",
+        "year_of_passing": null,
+        "subjects": [],
+        "skills": []
+      }
+    ]
+  },
+  "actions": [
+    {
+      "name": "log-education-updated",
+      "type": "emit_log"
+    }
+  ],
+  "children": [],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

@@ -1,0 +1,31 @@
+{
+  "node_id": "property.vanshawali.default",
+  "node_type": "profile",
+  "owner": "user.default",
+  "permissions": {
+    "read": ["user.default"],
+    "write": ["user.default"],
+    "execute": ["user.default", "system"]
+  },
+  "ui_schema": {
+    "component": "PropertyCard",
+    "layout": "list"
+  },
+  "data": {
+    "house": [],
+    "land": [],
+    "vehicles": [],
+    "business_ownership": [],
+    "investments": []
+  },
+  "actions": [
+    {
+      "name": "log-property-updated",
+      "type": "emit_log"
+    }
+  ],
+  "children": [],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

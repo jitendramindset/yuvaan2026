@@ -1,0 +1,24 @@
+{
+  "node_id": "economy.dravyam",
+  "node_type": "economy",
+  "owner": "system",
+  "permissions": {
+    "read": ["*"],
+    "write": ["system"],
+    "execute": ["system", "agent.yunaan.default"]
+  },
+  "ui_schema": {
+    "title": "Dravyam Economy"
+  },
+  "data": {
+    "token": "DRAVYAM",
+    "transaction_fee": "1%",
+    "distribution": "node_score",
+    "reward_pool": 0
+  },
+  "actions": [],
+  "children": ["wallet.default"],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

@@ -1,0 +1,33 @@
+{
+  "node_id": "preference.vanshawali.default",
+  "node_type": "profile",
+  "owner": "user.default",
+  "permissions": {
+    "read": ["user.default"],
+    "write": ["user.default"],
+    "execute": ["user.default", "system"]
+  },
+  "ui_schema": {
+    "component": "PreferenceCard",
+    "layout": "chips"
+  },
+  "data": {
+    "hobbies": [],
+    "interests": [],
+    "likes": [],
+    "dislikes": [],
+    "food_preference": "",
+    "lifestyle": "",
+    "goals": []
+  },
+  "actions": [
+    {
+      "name": "log-preference-updated",
+      "type": "emit_log"
+    }
+  ],
+  "children": [],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

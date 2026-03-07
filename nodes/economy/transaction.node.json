@@ -1,0 +1,39 @@
+{
+  "node_id": "transaction.dravyam.template",
+  "node_type": "transaction",
+  "owner": "system",
+  "permissions": {
+    "read": ["user.default", "system"],
+    "write": ["system"],
+    "execute": ["system"]
+  },
+  "ui_schema": {
+    "component": "TransactionItem",
+    "layout": "list-row"
+  },
+  "data": {
+    "transaction_id": "",
+    "from_wallet": "",
+    "to_wallet": "",
+    "amount": 0,
+    "currency": "INR",
+    "payment_method": "",
+    "status": "initiated",
+    "timestamp": "",
+    "reference_id": "",
+    "fee": 0,
+    "fee_percent": 1,
+    "rollback_after_seconds": 60,
+    "fraud_score": 0
+  },
+  "actions": [
+    {
+      "name": "log-transaction-created",
+      "type": "emit_log"
+    }
+  ],
+  "children": [],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

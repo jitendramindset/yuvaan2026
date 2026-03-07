@@ -1,0 +1,26 @@
+{
+  "node_id": "onboarding.default",
+  "node_type": "data",
+  "owner": "system",
+  "permissions": {
+    "read": ["system", "user.default"],
+    "write": ["system"],
+    "execute": ["system"]
+  },
+  "ui_schema": {
+    "flow": ["identity", "contact", "family", "education", "preferences"]
+  },
+  "data": {
+    "creates": ["profile.node", "family.node", "preference.node"]
+  },
+  "actions": [
+    {
+      "name": "emit-onboarding-created",
+      "type": "emit_log"
+    }
+  ],
+  "children": ["profile.vanshawali.default", "dashboard.main"],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

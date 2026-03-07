@@ -1,0 +1,23 @@
+{
+  "node_id": "agent.yunaan.default",
+  "node_type": "agent",
+  "owner": "user.default",
+  "permissions": {
+    "read": ["user.default"],
+    "write": ["user.default"],
+    "execute": ["user.default", "system"]
+  },
+  "ui_schema": {
+    "agent_mode": "chat"
+  },
+  "data": {
+    "tools": ["shell", "browser", "api", "device_monitor"],
+    "memory": "local",
+    "permissions": ["execute_workflow"]
+  },
+  "actions": [],
+  "children": ["workflow.sample.notification", "device.default.local"],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

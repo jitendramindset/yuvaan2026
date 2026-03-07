@@ -1,0 +1,23 @@
+{
+  "node_id": "device.default.local",
+  "node_type": "device",
+  "owner": "user.default",
+  "permissions": {
+    "read": ["user.default", "agent.yunaan.default"],
+    "write": ["user.default"],
+    "execute": ["agent.yunaan.default", "system"]
+  },
+  "ui_schema": {
+    "card": "device-status"
+  },
+  "data": {
+    "device_hash": "",
+    "sensors": ["camera", "mic"],
+    "permissions": ["monitor"]
+  },
+  "actions": [],
+  "children": [],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}
