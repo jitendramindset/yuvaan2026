@@ -1,0 +1,62 @@
+{
+  "_meta": {
+    "category": "AI & Agent",
+    "group": 10,
+    "count": 8,
+    "description": "Yunaan AI agent and cognitive support nodes. Intent detection in chat.engine.ts; voice in voice.engine.ts."
+  },
+  "engine_files": ["kernel/chat.engine.ts","kernel/voice.engine.ts","agents/yunaan.agent.node.json"],
+  "types": [
+    {
+      "type": "agent",
+      "description": "Yunaan AI agent instance. Tools: shell, browser, api, device_monitor. One per user.",
+      "default_permissions": { "read": ["owner","system"], "write": ["system"], "execute": ["owner","system"] },
+      "key_data_fields": ["agent_id","name","tools","model","system_prompt_node_id","memory_node_id","active_session_id","karma_score"],
+      "tools": ["shell","browser","api","device_monitor"],
+      "intents": ["render_widget","navigate","run_action","create_workflow","social_connect","create_node","run_query","open_file"]
+    },
+    {
+      "type": "memory",
+      "description": "Vector + conversation memory store. Short-term LRU + long-term FAISS index.",
+      "default_permissions": { "read": ["owner","agent"], "write": ["agent","system"], "execute": ["agent","system"] },
+      "key_data_fields": ["short_term_entries","context_window_size","faiss_index_path","last_compacted_at","embedding_model","retention_days"]
+    },
+    {
+      "type": "prompt",
+      "description": "System prompt or instruction template for an agent. Version-controlled.",
+      "default_permissions": { "read": ["owner","agent"], "write": ["owner","admin"], "execute": ["agent"] },
+      "key_data_fields": ["name","content","role","version","model_target","temperature","max_tokens","variables"]
+    },
+    {
+      "type": "tool",
+      "description": "AI tool definition — function signature, description, input schema, permission scope.",
+      "default_permissions": { "read": ["owner","agent","system"], "write": ["admin","system"], "execute": ["agent","system"] },
+      "key_data_fields": ["name","description","input_schema","output_schema","handler_path","permission_required","timeout_ms"]
+    },
+    {
+      "type": "intent",
+      "description": "Parsed user intent — type, confidence, extracted entities, matched action.",
+      "default_permissions": { "read": ["owner","agent","system"], "write": ["agent","system"], "execute": ["system"] },
+      "key_data_fields": ["intent_type","raw_text","confidence","entities","matched_action","session_id","processed_at"],
+      "intent_types": ["render_widget","navigate","run_action","create_workflow","social_connect","query_data","voice_command","system_control"]
+    },
+    {
+      "type": "suggestion",
+      "description": "AI-generated recommendation — next action, widget to add, person to connect.",
+      "default_permissions": { "read": ["owner","agent"], "write": ["agent","system"], "execute": ["owner"] },
+      "key_data_fields": ["title","description","action_type","action_payload","confidence","presented_at","accepted","dismissed"]
+    },
+    {
+      "type": "insight",
+      "description": "AI-generated insight from data — anomaly, trend, pattern, opportunity.",
+      "default_permissions": { "read": ["owner","agent"], "write": ["agent","system"], "execute": ["owner","agent"] },
+      "key_data_fields": ["category","summary","evidence_node_ids","severity","generated_at","acknowledged","related_workflow_id"]
+    },
+    {
+      "type": "assistant",
+      "description": "User-facing assistant profile — avatar, name, personality, language, voice.",
+      "default_permissions": { "read": ["owner"], "write": ["owner","system"], "execute": ["owner","agent"] },
+      "key_data_fields": ["name","avatar_url","personality","languages","voice_id","auto_suggestions","active","linked_agent_id"]
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "_meta": {
+    "category": "Device & Environment",
+    "group": 11,
+    "count": 6,
+    "description": "Device telemetry, filesystem, process, network and backup nodes. Managed by device.engine.ts."
+  },
+  "engine_files": ["kernel/device.engine.ts","config/device.config.ts"],
+  "types": [
+    {
+      "type": "sensor",
+      "description": "Physical or software sensor reading — temperature, GPS, accelerometer, light, etc.",
+      "default_permissions": { "read": ["owner","system"], "write": ["system"], "execute": ["system"] },
+      "key_data_fields": ["sensor_type","value","unit","last_reading_at","device_id","threshold_high","threshold_low","alert_enabled"]
+    },
+    {
+      "type": "monitor",
+      "description": "Application or device performance monitor — CPU, memory, uptime, error rate.",
+      "default_permissions": { "read": ["owner","admin","system"], "write": ["system"], "execute": ["system","owner"] },
+      "key_data_fields": ["target_node_id","cpu_pct","memory_mb","uptime_s","disk_io_kbps","net_io_kbps","alert_rules","sampled_at"]
+    },
+    {
+      "type": "filesystem",
+      "description": "Virtual or device filesystem root — path, permissions, quota, usage.",
+      "default_permissions": { "read": ["owner","system"], "write": ["owner","system"], "execute": ["owner","system"] },
+      "key_data_fields": ["root_path","owner","total_bytes","used_bytes","free_bytes","read_only","encryption_enabled","last_synced_at"]
+    },
+    {
+      "type": "process",
+      "description": "OS or kernel process descriptor — PID, state, resource usage, parent.",
+      "default_permissions": { "read": ["owner","admin","system"], "write": ["system"], "execute": ["system","admin"] },
+      "key_data_fields": ["pid","name","status","cpu_pct","memory_mb","started_at","parent_pid","command","restartable"]
+    },
+    {
+      "type": "network",
+      "description": "Network interface or connection — type, IP, SSID, signal, VPN status.",
+      "default_permissions": { "read": ["owner","system"], "write": ["system"], "execute": ["system","owner"] },
+      "key_data_fields": ["interface","type","ip","ssid","mac","signal_strength","bandwidth_mbps","vpn_active","last_checked_at"]
+    },
+    {
+      "type": "backup",
+      "description": "Backup configuration — schedule, destination, last run, encrypted flag.",
+      "default_permissions": { "read": ["owner","admin"], "write": ["owner","admin","system"], "execute": ["system","admin"] },
+      "key_data_fields": ["label","source_paths","destination","schedule_cron","last_backup_at","last_backup_size_bytes","encrypted","retention_days","status"]
+    }
+  ]
+}

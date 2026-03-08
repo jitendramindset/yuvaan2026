@@ -1,0 +1,85 @@
+{
+  "_meta": {
+    "category": "Core System",
+    "group": 1,
+    "count": 12,
+    "description": "Fundamental OS-level nodes. Every NodeOS instance has exactly one system.node and one kernel.node at the root."
+  },
+  "types": [
+    {
+      "type": "system",
+      "description": "Global OS configuration, feature flags, environment settings. Root of the node graph.",
+      "singleton": true,
+      "default_permissions": { "read": ["system","admin"], "write": ["system"], "execute": ["system"] },
+      "key_data_fields": ["os_version","feature_flags","environment","locale","timezone","maintenance_mode"]
+    },
+    {
+      "type": "kernel",
+      "description": "Kernel runtime settings — karma policy, dharma rules, sync policy, execution limits.",
+      "singleton": true,
+      "default_permissions": { "read": ["system","admin"], "write": ["system"], "execute": ["system"] },
+      "key_data_fields": ["karma_policy","dharma_rules","sync_interval_ms","max_execution_ms","log_level"]
+    },
+    {
+      "type": "device",
+      "description": "Physical or virtual device identity. Stores capabilities, sensors, pairing state.",
+      "default_permissions": { "read": ["owner","system"], "write": ["owner","system"], "execute": ["owner","system"] },
+      "key_data_fields": ["device_name","platform","os","capabilities","sensors","paired_at","last_heartbeat"]
+    },
+    {
+      "type": "session",
+      "description": "Active authenticated session. TTL: 8 hours. Contains auth method and device fingerprint.",
+      "default_permissions": { "read": ["owner","system"], "write": ["system"], "execute": ["owner","system"] },
+      "key_data_fields": ["user_id","device_id","auth_method","created_at","expires_at","ip_hash","is_active"]
+    },
+    {
+      "type": "user",
+      "description": "Account credentials and auth providers. Linked to a profile.node (Vanshawali root).",
+      "default_permissions": { "read": ["owner","system"], "write": ["owner","system"], "execute": ["owner","agent","system"] },
+      "key_data_fields": ["username","email","phone","auth_providers","created_at","status","profile_id"]
+    },
+    {
+      "type": "preference",
+      "description": "UI, language, privacy and notification defaults for a user.",
+      "default_permissions": { "read": ["owner"], "write": ["owner"], "execute": ["owner","system"] },
+      "key_data_fields": ["language","theme","timezone","notification_channels","privacy_defaults","dashboard_id"]
+    },
+    {
+      "type": "notification",
+      "description": "System or user-generated alert. Tracks read/unread state and delivery channels.",
+      "default_permissions": { "read": ["owner"], "write": ["system","agent"], "execute": ["system"] },
+      "key_data_fields": ["title","body","category","read","delivered_at","action_url","priority"]
+    },
+    {
+      "type": "log",
+      "description": "Append-only event log entry. Written by log.engine.ts. Never deleted.",
+      "default_permissions": { "read": ["owner","admin","system"], "write": ["system"], "execute": ["system"] },
+      "key_data_fields": ["node_id","action","actor","result","timestamp","device_id","session_id"]
+    },
+    {
+      "type": "audit",
+      "description": "Compliance/security audit trail. SHA3-256 chained. Used by admin.engine.ts.",
+      "default_permissions": { "read": ["admin","system"], "write": ["system"], "execute": ["system"] },
+      "key_data_fields": ["event_type","actor_id","resource_id","before_hash","after_hash","timestamp","risk_score"]
+    },
+    {
+      "type": "permission",
+      "description": "RBAC rules and ACL scopes. Evaluated by permission.engine.ts before every action.",
+      "default_permissions": { "read": ["owner","admin","system"], "write": ["admin","system"], "execute": ["system"] },
+      "key_data_fields": ["grants","default_effect","resource_pattern","expiry","created_by"]
+    },
+    {
+      "type": "role",
+      "description": "Role definition (admin, member, viewer, auditor, agent, guest). Assigned to user/device nodes.",
+      "default_permissions": { "read": ["system","admin"], "write": ["admin","system"], "execute": ["system"] },
+      "key_data_fields": ["role_name","description","allowed_actions","denied_actions","hierarchy_level","is_system_role"]
+    },
+    {
+      "type": "profile",
+      "description": "Vanshawali root profile pointer. Parents all 11 identity sub-nodes + wallet + agent.",
+      "default_permissions": { "read": ["owner","family.circle"], "write": ["owner"], "execute": ["owner","system","agent"] },
+      "key_data_fields": ["user_id","profile_type","onboarding_complete","completion_score","active_layout_id"],
+      "children": ["personal","contact","location","social","family","education","profession","preference","property","media","trust","wallet","agent"]
+    }
+  ]
+}

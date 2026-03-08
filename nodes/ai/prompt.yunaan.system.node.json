@@ -1,0 +1,26 @@
+{
+  "node_id": "prompt.yunaan.system",
+  "node_type": "prompt",
+  "owner": "system",
+  "permissions": {
+    "read": ["owner", "agent"],
+    "write": ["owner", "admin"],
+    "execute": ["agent"]
+  },
+  "ui_schema": { "component": "Card", "size": "sm" },
+  "data": {
+    "name": "Yunaan System Prompt",
+    "role": "system",
+    "version": "1.0.0",
+    "model_target": "gpt-4o",
+    "temperature": 0.7,
+    "max_tokens": 2048,
+    "variables": ["user_name", "current_page", "karma_level"],
+    "content": "You are Yunaan, the intelligent assistant of NodeOS. You help users manage their Digital Human profile, run workflows, and navigate the system. Be concise, helpful, and proactive. Address the user as {{user_name}}. Current context: page={{current_page}}, karma={{karma_level}}."
+  },
+  "actions": [],
+  "children": [],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

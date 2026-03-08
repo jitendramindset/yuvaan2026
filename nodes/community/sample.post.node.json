@@ -1,0 +1,27 @@
+{
+  "node_id": "post.sample.welcome",
+  "node_type": "post",
+  "owner": "user.default",
+  "permissions": {
+    "read": ["public"],
+    "write": ["owner"],
+    "execute": ["owner", "admin"]
+  },
+  "ui_schema": { "component": "Feed", "size": "md" },
+  "data": {
+    "author_id": "user.default",
+    "content": "Welcome to NodeOS! This is the first post on the community feed.",
+    "media_urls": [],
+    "visibility": "public",
+    "hashtags": ["welcome", "nodeos"],
+    "mentions": [],
+    "reactions_count": 0,
+    "comments_count": 0,
+    "published_at": "2026-03-08T00:00:00.000Z"
+  },
+  "actions": [],
+  "children": [],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

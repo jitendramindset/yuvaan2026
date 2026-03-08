@@ -1,0 +1,85 @@
+{
+  "_meta": {
+    "category": "Finance & Dravyam",
+    "group": 5,
+    "count": 12,
+    "description": "Dravyam economy + fiat finance nodes. Every transaction is fraud-scored before execution. Ledger is append-only."
+  },
+  "engine_files": ["kernel/dravyam.engine.ts","kernel/fraud.engine.ts","kernel/ledger/ledger_engine.ts","kernel/webhook.engine.ts"],
+  "types": [
+    {
+      "type": "wallet",
+      "description": "Multi-currency balance store. Supports DRAVYAM, INR, USD, AED, EUR. Daily limits scaled by trust score.",
+      "default_permissions": { "read": ["owner"], "write": ["system","kernel"], "execute": ["owner","agent","kernel"] },
+      "key_data_fields": ["balances","locked_balances","daily_limits","kyc_level","last_transaction_at","wallet_address"]
+    },
+    {
+      "type": "bank_account",
+      "description": "Linked bank account — masked account no, IFSC, UPI ID, verification status.",
+      "default_permissions": { "read": ["owner","system"], "write": ["owner","system"], "execute": ["system"] },
+      "key_data_fields": ["bank_name","account_number_masked","ifsc","upi_id","verified","linked_at","is_primary"]
+    },
+    {
+      "type": "card",
+      "description": "Tokenized payment card — network, last four digits, expiry, billing address.",
+      "default_permissions": { "read": ["owner","system"], "write": ["owner","system"], "execute": ["system"] },
+      "key_data_fields": ["network","last_four","expiry_month","expiry_year","card_token","billing_address","is_default","verified"]
+    },
+    {
+      "type": "transaction",
+      "description": "Individual payment transaction. Auto fraud-scored. Status: draft→locked→processing→complete|failed.",
+      "default_permissions": { "read": ["owner","admin","system"], "write": ["system"], "execute": ["system"] },
+      "key_data_fields": ["tx_id","from_wallet","to_wallet","amount","currency","fee","fraud_score","status","created_at","completed_at","rollback_after_seconds","notes"],
+      "fraud_thresholds": { "velocity_per_hour": 10, "max_amount": 500000, "geo_mismatch_block": true, "block_score": 70 }
+    },
+    {
+      "type": "ledger",
+      "description": "Append-only accounting ledger. SHA3-256 chained entries. One per wallet.",
+      "default_permissions": { "read": ["owner","admin","system"], "write": ["system"], "execute": ["system"] },
+      "key_data_fields": ["entries","total_debits","total_credits","balance_snapshot","last_compacted_at","chain_hash"]
+    },
+    {
+      "type": "payment_order",
+      "description": "Payment gateway order object — created before capture. 1% platform fee applied.",
+      "default_permissions": { "read": ["owner","system"], "write": ["system"], "execute": ["system","owner"] },
+      "key_data_fields": ["order_id","amount","currency","fee_amount","gateway","status","created_at","expires_at","callback_url"]
+    },
+    {
+      "type": "refund",
+      "description": "Refund record linked to a transaction. Stores reason, amount, timeline.",
+      "default_permissions": { "read": ["owner","admin","system"], "write": ["system","admin"], "execute": ["system"] },
+      "key_data_fields": ["original_tx_id","refund_amount","currency","reason","status","requested_at","processed_at","processed_by"]
+    },
+    {
+      "type": "subscription",
+      "description": "Recurring billing plan — amount, interval, next billing date, active/paused.",
+      "default_permissions": { "read": ["owner","system"], "write": ["owner","system"], "execute": ["system","agent"] },
+      "key_data_fields": ["plan_name","amount","currency","interval","next_billing_at","status","payment_method_id","invoice_ids"]
+    },
+    {
+      "type": "pricing",
+      "description": "Product/service price rule — base price, tiers, discounts, validity period.",
+      "default_permissions": { "read": ["public"], "write": ["owner","admin"], "execute": ["system","agent"] },
+      "key_data_fields": ["product_id","base_price","currency","tiers","discount_rules","valid_from","valid_until","is_active"]
+    },
+    {
+      "type": "tax",
+      "description": "Tax configuration — GST, VAT, TDS rules per category, jurisdiction.",
+      "default_permissions": { "read": ["owner","admin","finance"], "write": ["admin","finance"], "execute": ["system"] },
+      "key_data_fields": ["tax_type","rate","jurisdiction","category","hsn_sac_code","is_compound","effective_from"]
+    },
+    {
+      "type": "currency",
+      "description": "Supported currency with exchange rate to base (INR). Updated by Dravyam market node.",
+      "default_permissions": { "read": ["public"], "write": ["system"], "execute": ["system"] },
+      "key_data_fields": ["code","name","symbol","exchange_rate_to_inr","is_fiat","is_crypto","last_updated"]
+    },
+    {
+      "type": "economy",
+      "description": "Dravyam token economy — supply, demand, price, platform fee, node_score distribution.",
+      "singleton": true,
+      "default_permissions": { "read": ["public"], "write": ["system"], "execute": ["system"] },
+      "key_data_fields": ["token_name","symbol","total_supply","circulating_supply","price_inr","platform_fee_pct","trust_index","last_updated"]
+    }
+  ]
+}

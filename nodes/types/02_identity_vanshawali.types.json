@@ -1,0 +1,101 @@
+{
+  "_meta": {
+    "category": "Identity & Vanshawali",
+    "group": 2,
+    "count": 14,
+    "description": "The Vanshawali identity graph. Root is profile.node; 11 sub-nodes cover every dimension of a person's digital identity."
+  },
+  "types": [
+    {
+      "type": "identity",
+      "description": "Legal identity details — national ID, passport, aadhaar, PAN, voter ID.",
+      "default_permissions": { "read": ["owner"], "write": ["owner"], "execute": ["owner","system"] },
+      "key_data_fields": ["national_id","passport_no","aadhaar_masked","pan_masked","voter_id_masked","verification_status","verified_at"]
+    },
+    {
+      "type": "personal",
+      "description": "Core biographical data — name, DOB, gender, blood group, religion, gotra, languages.",
+      "default_permissions": { "read": ["owner","family.circle"], "write": ["owner"], "execute": ["owner","system"] },
+      "key_data_fields": ["full_name","nickname","gender","date_of_birth","blood_group","religion","community","gotra","bio","languages_known","marital_status","height_cm"]
+    },
+    {
+      "type": "contact",
+      "description": "Phone, email, WhatsApp, Telegram — each with privacy level and verification status.",
+      "default_permissions": { "read": ["owner","family.circle"], "write": ["owner"], "execute": ["owner","system"] },
+      "key_data_fields": ["phone","email","whatsapp","telegram_id","emergency_contact","alternate_contact"],
+      "privacy_per_field": true
+    },
+    {
+      "type": "location",
+      "description": "Current address, permanent address, geo coordinates, migration history.",
+      "default_permissions": { "read": ["owner","family.circle"], "write": ["owner"], "execute": ["owner","system"] },
+      "key_data_fields": ["current_address","permanent_address","geo","migration_history","share_live_location","location_privacy"]
+    },
+    {
+      "type": "social",
+      "description": "Social platform links — LinkedIn, Instagram, Facebook, X/Twitter, GitHub, YouTube, website, blog.",
+      "default_permissions": { "read": ["public"], "write": ["owner"], "execute": ["owner","agent"] },
+      "key_data_fields": ["linkedin","instagram","facebook","twitter_x","github","youtube","website","blog","discord","telegram_channel"]
+    },
+    {
+      "type": "family",
+      "description": "Family graph root. Contains members[] with relations. Supports 13 relation types.",
+      "default_permissions": { "read": ["owner","family.circle"], "write": ["owner"], "execute": ["owner","system"] },
+      "key_data_fields": ["members","relation_types","gotra_lineage","family_name","native_place"],
+      "relation_types": ["father","mother","spouse","son","daughter","brother","sister","grandfather","grandmother","uncle","aunt","nephew","niece"]
+    },
+    {
+      "type": "family_member",
+      "description": "Individual family member entry — name, relation, DOB, profession, location, contact.",
+      "default_permissions": { "read": ["owner","family.circle"], "write": ["owner"], "execute": ["owner"] },
+      "key_data_fields": ["name","relation","date_of_birth","gender","profession","location","phone","linked_profile_id","photo_url","notes"]
+    },
+    {
+      "type": "relationship",
+      "description": "Graph edge between two profile nodes. Typed, directional, with trust level.",
+      "default_permissions": { "read": ["owner","system"], "write": ["owner","system"], "execute": ["system"] },
+      "key_data_fields": ["from_profile_id","to_profile_id","relation_type","trust_level","verified","created_at","mutual"]
+    },
+    {
+      "type": "education",
+      "description": "Academic history — school, college, university, board, year, subjects, grade, skills.",
+      "default_permissions": { "read": ["owner","family.circle","public"], "write": ["owner"], "execute": ["owner","agent"] },
+      "key_data_fields": ["entries","highest_qualification","fields_of_study","current_institution","gpa_scale"]
+    },
+    {
+      "type": "skill",
+      "description": "Skill tags with proficiency levels. Can be endorsed by connections.",
+      "default_permissions": { "read": ["public"], "write": ["owner"], "execute": ["owner","agent"] },
+      "key_data_fields": ["skills","endorsements","verified_skills","last_updated"]
+    },
+    {
+      "type": "interest",
+      "description": "Hobbies, passions, causes. Used for matching and widget personalisation.",
+      "default_permissions": { "read": ["public"], "write": ["owner"], "execute": ["owner","agent"] },
+      "key_data_fields": ["hobbies","interests","causes","food_preference","lifestyle","goals","bucket_list"]
+    },
+    {
+      "type": "media",
+      "description": "Profile photo, background image, certificates, gallery, documents.",
+      "default_permissions": { "read": ["owner","family.circle"], "write": ["owner"], "execute": ["owner","system"] },
+      "key_data_fields": ["profile_photo","background_photo","documents","certificates","family_photos","gallery","total_size_bytes"]
+    },
+    {
+      "type": "timeline",
+      "description": "Life events and activity timeline. Auto-populated by all node actions.",
+      "default_permissions": { "read": ["owner","family.circle"], "write": ["system","owner"], "execute": ["system"] },
+      "key_data_fields": ["events","event_types","retention_days","total_events","last_event_at"]
+    },
+    {
+      "type": "trust",
+      "description": "Profile completion score (0–100), trust level, verification badges, wallet multiplier.",
+      "default_permissions": { "read": ["owner","system","public"], "write": ["system"], "execute": ["system"] },
+      "key_data_fields": ["profile_completion_score","verification_level","family_connections","karma_score","completion_breakdown","wallet_limit_multiplier"],
+      "levels": ["Seed (0-39)","Sprout (40-59)","Root (60-79)","Elder (80-100)"],
+      "completion_weights": {
+        "basic_info": 20, "contact": 10, "location": 10, "education": 10,
+        "profession": 10, "family": 20, "preferences": 10, "media": 10
+      }
+    }
+  ]
+}

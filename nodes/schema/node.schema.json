@@ -19,7 +19,26 @@
   ],
   "properties": {
     "node_id":   { "type": "string", "minLength": 1, "description": "Globally unique identifier: <type>.<namespace>.<name>" },
-    "node_type": { "type": "string", "minLength": 1, "description": "Category: profile | wallet | widget | workflow | device | agent | system | economy | data | media | relation | trust | layout | risk | transaction" },
+    "node_type": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Digital Human Node Library — 120 canonical types across 12 groups",
+      "enum": [
+        "system","kernel","device","session","user","preference","notification","log","audit","permission","role","profile",
+        "identity","personal","contact","location","social","family","family_member","relationship","education","skill","interest","media","timeline","trust",
+        "professional","work_experience","project","certification","portfolio","resume","reference","achievement","availability","network",
+        "company","company_profile","department","employee","team","partner","customer","supplier","product","service","inventory","order","invoice","contract",
+        "wallet","bank_account","card","transaction","ledger","payment_order","refund","subscription","pricing","tax","currency","economy",
+        "app","integration","api","webhook","dataset","file","document","message","calendar","task",
+        "workflow","trigger","condition","action","schedule","queue","pipeline","automation","event","activity",
+        "dashboard","layout","widget","card_widget","table_widget","chart_widget","form_widget","feed_widget","tree_widget","timeline_widget","chat_widget","canvas_widget",
+        "builder","theme","style","template","component","script","validation","localization",
+        "agent","memory","prompt","tool","intent","suggestion","insight","assistant",
+        "sensor","monitor","filesystem","process","network","backup",
+        "group","post","comment","reaction","follow","notification_feed",
+        "organization","bot","vector","checkpoint","migration","risk","dharma","gossip","data","plugin","profile_seed"
+      ]
+    },
     "owner":     { "type": "string", "minLength": 1, "description": "User or system that owns this node" },
 
     "permissions": {

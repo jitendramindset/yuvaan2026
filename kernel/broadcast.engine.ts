@@ -55,3 +55,32 @@ export function broadcastNodeUpdate(node: NodeRecord, options: BroadcastOptions 
     handlers.get(target)?.(event);
   }
 }
+
+/**
+ * Lightweight event broadcast — use when you don't have a full NodeRecord.
+ * Accepts a node id string and any serialisable payload.
+ */
+export function broadcastEvent(
+  nodeId: string,
+  eventType: string,
+  data?: unknown,
+  options: BroadcastOptions = {},
+): void {
+  const targets: BroadcastTarget[] =
+    options.targets ?? ["devices", "peers", "agents", "ui"];
+
+  const event: BroadcastEvent = {
+    event:      "node_update",
+    node_id:    nodeId,
+    timestamp:  new Date().toISOString(),
+    state_hash: `${nodeId}:${eventType}:${Date.now()}`,
+  };
+
+  // Attach extra data for UI consumers that read the raw event
+  (event as unknown as Record<string, unknown>)["event_type"] = eventType;
+  (event as unknown as Record<string, unknown>)["data"]       = data;
+
+  for (const target of targets) {
+    handlers.get(target)?.(event);
+  }
+}

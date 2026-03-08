@@ -1,0 +1,70 @@
+{
+  "_meta": {
+    "category": "Professional & Career",
+    "group": 3,
+    "count": 10,
+    "description": "Career-layer nodes. Built from profession.vanshawali sub-node and enriched over time."
+  },
+  "types": [
+    {
+      "type": "professional",
+      "description": "Professional summary — headline, current role, expertise areas, open to opportunities.",
+      "default_permissions": { "read": ["public"], "write": ["owner"], "execute": ["owner","agent"] },
+      "key_data_fields": ["headline","current_title","current_company","expertise","open_to","years_experience","profile_url"]
+    },
+    {
+      "type": "work_experience",
+      "description": "Individual job entry — company, role, start/end, location, responsibilities, skills used.",
+      "default_permissions": { "read": ["owner","public"], "write": ["owner"], "execute": ["owner","agent"] },
+      "key_data_fields": ["company","role","employment_type","start_date","end_date","is_current","location","description","skills_used","achievements"]
+    },
+    {
+      "type": "project",
+      "description": "Professional or personal project — name, description, tech stack, outcome, links.",
+      "default_permissions": { "read": ["owner","public"], "write": ["owner"], "execute": ["owner","agent"] },
+      "key_data_fields": ["name","description","tech_stack","role","start_date","end_date","outcome","links","collaborators"]
+    },
+    {
+      "type": "certification",
+      "description": "Professional certificate or licence — issuer, issue date, expiry, credential ID.",
+      "default_permissions": { "read": ["owner","public"], "write": ["owner"], "execute": ["system"] },
+      "key_data_fields": ["name","issuer","issue_date","expiry_date","credential_id","verification_url","category"]
+    },
+    {
+      "type": "portfolio",
+      "description": "Portfolio items — case studies, design work, code samples, publications.",
+      "default_permissions": { "read": ["public"], "write": ["owner"], "execute": ["owner","agent"] },
+      "key_data_fields": ["items","categories","featured_item_ids","total_views","last_updated"]
+    },
+    {
+      "type": "resume",
+      "description": "Auto-generated CV from professional sub-nodes. Rendered as PDF or structured JSON.",
+      "default_permissions": { "read": ["owner","public"], "write": ["system","owner"], "execute": ["system","agent"] },
+      "key_data_fields": ["template_id","generated_at","format","sections_included","pdf_url","json_url","version"]
+    },
+    {
+      "type": "reference",
+      "description": "Professional reference — referee name, relation, contact, endorsement text.",
+      "default_permissions": { "read": ["owner"], "write": ["owner"], "execute": ["owner"] },
+      "key_data_fields": ["referee_name","relation","company","email","phone","endorsement_text","verified"]
+    },
+    {
+      "type": "achievement",
+      "description": "Award, recognition, milestone or karma badge.",
+      "default_permissions": { "read": ["public"], "write": ["owner","system"], "execute": ["system"] },
+      "key_data_fields": ["title","issuer","date","description","badge_url","category","karma_points_awarded"]
+    },
+    {
+      "type": "availability",
+      "description": "Job/contract availability status — open_to_work, freelance, consulting, start date.",
+      "default_permissions": { "read": ["public"], "write": ["owner"], "execute": ["owner","agent"] },
+      "key_data_fields": ["status","types","notice_period_days","preferred_locations","remote_ok","hourly_rate","updated_at"]
+    },
+    {
+      "type": "network",
+      "description": "Professional connection graph — mutual connections, shared skills, follow status.",
+      "default_permissions": { "read": ["owner","system"], "write": ["system"], "execute": ["system","agent"] },
+      "key_data_fields": ["connections","pending_requests","followers","following","mutual_count","connection_strength_map"]
+    }
+  ]
+}

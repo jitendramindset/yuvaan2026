@@ -1,22 +1,60 @@
 // ─── Node Type Enum ─────────────────────────────────────────────────────────
+// 120-type Digital Human Node Library
+// Groups: Core System | Identity & Vanshawali | Professional | Company |
+//         Finance | Integration | Workflow | UI/Widget | Builder |
+//         AI/Agent | Device | Community/Social
 export type NodeType =
-  // Core identity
-  | "user" | "device" | "organization" | "bot"
-  // Content
-  | "post" | "comment" | "media" | "document"
-  // Graph & trust
-  | "relation" | "permission" | "trust" | "gossip"
-  // System
-  | "event" | "vector" | "checkpoint" | "migration"
-  // UI
-  | "widget" | "layout"
-  // Governance
-  | "risk" | "dharma"
-  // Economy & tasks
-  | "wallet" | "task"
-  // Legacy (kept for backward compat with existing node JSON files)
-  | "system" | "profile" | "dashboard" | "data" | "workflow" | "agent"
-  | "transaction" | "economy" | "plugin";
+  // ── 1. Core System (12) ──────────────────────────────────────────────────
+  | "system" | "kernel" | "device" | "session"
+  | "user" | "preference" | "notification" | "log"
+  | "audit" | "permission" | "role" | "profile"
+  // ── 2. Identity & Vanshawali (14) ────────────────────────────────────────
+  | "identity" | "personal" | "contact" | "location"
+  | "social" | "family" | "family_member" | "relationship"
+  | "education" | "skill" | "interest" | "media"
+  | "timeline" | "trust"
+  // ── 3. Professional & Career (10) ────────────────────────────────────────
+  | "professional" | "work_experience" | "project" | "certification"
+  | "portfolio" | "resume" | "reference" | "achievement"
+  | "availability" | "network"
+  // ── 4. Company & Organization (14) ───────────────────────────────────────
+  | "company" | "company_profile" | "department" | "employee"
+  | "team" | "partner" | "customer" | "supplier"
+  | "product" | "service" | "inventory" | "order"
+  | "invoice" | "contract"
+  // ── 5. Finance & Dravyam (12) ────────────────────────────────────────────
+  | "wallet" | "bank_account" | "card" | "transaction"
+  | "ledger" | "payment_order" | "refund" | "subscription"
+  | "pricing" | "tax" | "currency" | "economy"
+  // ── 6. Application & Integration (10) ────────────────────────────────────
+  | "app" | "integration" | "api" | "webhook"
+  | "dataset" | "file" | "document" | "message"
+  | "calendar" | "task"
+  // ── 7. Workflow & Automation (10) ────────────────────────────────────────
+  | "workflow" | "trigger" | "condition" | "action"
+  | "schedule" | "queue" | "pipeline" | "automation"
+  | "event" | "activity"
+  // ── 8. UI & Widget (12) ──────────────────────────────────────────────────
+  | "dashboard" | "layout" | "widget"
+  | "card_widget" | "table_widget" | "chart_widget"
+  | "form_widget" | "feed_widget" | "tree_widget"
+  | "timeline_widget" | "chat_widget" | "canvas_widget"
+  // ── 9. Builder & Customization (8) ───────────────────────────────────────
+  | "builder" | "theme" | "style" | "template"
+  | "component" | "script" | "validation" | "localization"
+  // ── 10. AI & Agent (8) ───────────────────────────────────────────────────
+  | "agent" | "memory" | "prompt" | "tool"
+  | "intent" | "suggestion" | "insight" | "assistant"
+  // ── 11. Device & Environment (6) ─────────────────────────────────────────
+  | "sensor" | "monitor" | "filesystem" | "process"
+  | "network" | "backup"
+  // ── 12. Community & Social (6) ───────────────────────────────────────────
+  | "group" | "post" | "comment" | "reaction"
+  | "follow" | "notification_feed"
+  // ── Legacy aliases (kept for backward compat) ────────────────────────────
+  | "organization" | "bot" | "vector" | "checkpoint"
+  | "migration" | "risk" | "dharma" | "gossip"
+  | "data" | "plugin" | "profile_seed";
 
 // ─── Enum Types ──────────────────────────────────────────────────────────────
 export type PrivacyMode = "public" | "protected" | "private" | "stealth" | "encrypted";

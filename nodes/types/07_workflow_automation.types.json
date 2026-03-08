@@ -1,0 +1,74 @@
+{
+  "_meta": {
+    "category": "Workflow & Automation",
+    "group": 7,
+    "count": 10,
+    "description": "Declarative automation nodes. The kernel's workflow.engine.ts executes these step-by-step. Similar to n8n but node-native."
+  },
+  "engine_file": "kernel/workflow.engine.ts",
+  "types": [
+    {
+      "type": "workflow",
+      "description": "Automation workflow root. Contains ordered steps: trigger → conditions → actions.",
+      "default_permissions": { "read": ["owner","admin","agent"], "write": ["owner","admin"], "execute": ["owner","agent","system"] },
+      "key_data_fields": ["name","description","trigger_node_id","steps","is_active","last_run_at","run_count","error_count","version"],
+      "children": ["trigger","condition","action","schedule"]
+    },
+    {
+      "type": "trigger",
+      "description": "Event trigger that starts a workflow — node_event, schedule, webhook, voice_command, manual.",
+      "default_permissions": { "read": ["owner","system"], "write": ["owner","admin"], "execute": ["system"] },
+      "key_data_fields": ["trigger_type","event_pattern","node_type_filter","conditions","debounce_ms","is_active"],
+      "trigger_types": ["node_create","node_update","node_delete","on_schedule","on_webhook","on_voice","on_manual","on_payment","on_message"]
+    },
+    {
+      "type": "condition",
+      "description": "Conditional gate in a workflow — if/else, switch, threshold check. Uses JSONPath expressions.",
+      "default_permissions": { "read": ["owner","system"], "write": ["owner","admin"], "execute": ["system"] },
+      "key_data_fields": ["expression","operator","value","on_true_step_id","on_false_step_id","type"]
+    },
+    {
+      "type": "action",
+      "description": "Workflow action step — create_node, update_node, send_notification, call_api, run_script.",
+      "default_permissions": { "read": ["owner","system"], "write": ["owner","admin"], "execute": ["system","agent"] },
+      "key_data_fields": ["action_type","target_node_type","payload_template","retry_count","timeout_ms","on_error"],
+      "action_types": ["create_node","update_node","delete_node","send_notification","send_message","call_api","run_script","emit_log","broadcast","lock_balance","release_balance"]
+    },
+    {
+      "type": "schedule",
+      "description": "Cron/timer definition used by trigger nodes — cron expression, timezone, next run.",
+      "default_permissions": { "read": ["owner","system"], "write": ["owner","admin"], "execute": ["system"] },
+      "key_data_fields": ["cron_expression","timezone","next_run_at","last_run_at","run_count","is_active"]
+    },
+    {
+      "type": "queue",
+      "description": "Async task queue — pending jobs with priority, retry, dead-letter handling.",
+      "default_permissions": { "read": ["owner","admin","system"], "write": ["system"], "execute": ["system"] },
+      "key_data_fields": ["queue_name","pending_count","processing_count","failed_count","max_retry","dead_letter_node_id","last_drained_at"]
+    },
+    {
+      "type": "pipeline",
+      "description": "Multi-step data pipeline — ETL, report generation, batch processing.",
+      "default_permissions": { "read": ["owner","admin","analytics"], "write": ["owner","admin"], "execute": ["system","agent"] },
+      "key_data_fields": ["name","steps","input_dataset_id","output_dataset_id","schedule_id","last_run_at","status","duration_ms"]
+    },
+    {
+      "type": "automation",
+      "description": "Higher-level automation pack — bundles multiple workflows, triggers, and widgets as a unit.",
+      "default_permissions": { "read": ["owner","admin"], "write": ["owner","admin"], "execute": ["owner","agent","system"] },
+      "key_data_fields": ["name","description","category","workflow_ids","widget_ids","installed_at","is_active","version"]
+    },
+    {
+      "type": "event",
+      "description": "Domain event definition — name, schema, producers, consumers.",
+      "default_permissions": { "read": ["owner","system"], "write": ["system"], "execute": ["system"] },
+      "key_data_fields": ["event_name","schema","producers","consumers","retention_hours","fired_count","last_fired_at"]
+    },
+    {
+      "type": "activity",
+      "description": "Executed workflow step record — inputs, outputs, duration, status, error.",
+      "default_permissions": { "read": ["owner","admin","system"], "write": ["system"], "execute": ["system"] },
+      "key_data_fields": ["workflow_id","step_id","action_type","inputs","outputs","status","started_at","ended_at","duration_ms","error"]
+    }
+  ]
+}

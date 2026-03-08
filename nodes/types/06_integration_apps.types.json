@@ -1,0 +1,71 @@
+{
+  "_meta": {
+    "category": "Application & Integration",
+    "group": 6,
+    "count": 10,
+    "description": "External platform connectors and structured data nodes. Each integration spawns an integration.node linked to a connector workflow."
+  },
+  "supported_platforms": ["Facebook","Instagram","Gmail","WhatsApp","Slack","Google Drive","Dropbox","GitHub","Notion","Trello","Jira","Figma","Stripe","Razorpay","Shopify"],
+  "types": [
+    {
+      "type": "app",
+      "description": "Installed NodeOS app (marketplace widget pack or external integration bundle).",
+      "default_permissions": { "read": ["owner","system"], "write": ["owner","admin"], "execute": ["owner","agent","system"] },
+      "key_data_fields": ["app_name","version","listing_id","installed_at","permissions_granted","is_active","entry_node_id"]
+    },
+    {
+      "type": "integration",
+      "description": "Active connection to an external platform. Stores access token ref (encrypted blob), sync status.",
+      "default_permissions": { "read": ["owner","system"], "write": ["owner","system"], "execute": ["owner","agent","system"] },
+      "key_data_fields": ["platform","account_id","account_name","token_ref","scopes","last_sync_at","sync_interval_minutes","status","webhook_id"]
+    },
+    {
+      "type": "api",
+      "description": "API endpoint definition — method, URL pattern, auth, rate limit, schema.",
+      "default_permissions": { "read": ["owner","developer"], "write": ["owner","admin"], "execute": ["owner","agent","system"] },
+      "key_data_fields": ["name","method","path","auth_type","rate_limit","request_schema","response_schema","version","is_active"]
+    },
+    {
+      "type": "webhook",
+      "description": "Outbound webhook — URL, events it fires on, HMAC-SHA256 signature key ref.",
+      "default_permissions": { "read": ["owner","admin"], "write": ["owner","admin"], "execute": ["system"] },
+      "key_data_fields": ["target_url","events","secret_ref","is_active","last_fired_at","consecutive_failures","retry_policy"]
+    },
+    {
+      "type": "dataset",
+      "description": "Structured data source — CSV, JSON, SQL query result, API poll result.",
+      "default_permissions": { "read": ["owner","agent","analytics"], "write": ["owner","system"], "execute": ["agent","system"] },
+      "key_data_fields": ["name","source_type","schema","row_count","last_refreshed_at","refresh_interval","storage_path"]
+    },
+    {
+      "type": "file",
+      "description": "Stored file metadata — name, MIME type, size, storage path (blob store ref), sharing.",
+      "default_permissions": { "read": ["owner"], "write": ["owner"], "execute": ["system"] },
+      "key_data_fields": ["filename","mime_type","size_bytes","blob_hash","storage_path","uploaded_at","shared_with","is_public"]
+    },
+    {
+      "type": "document",
+      "description": "Structured document — rich text, PDF, markdown, or spreadsheet. Version-controlled.",
+      "default_permissions": { "read": ["owner"], "write": ["owner"], "execute": ["owner","agent"] },
+      "key_data_fields": ["title","content_type","content_blob_ref","version","word_count","created_at","last_edited_at","collaborators"]
+    },
+    {
+      "type": "message",
+      "description": "Message entity — chat message, email, WhatsApp message. Threaded via parent_id.",
+      "default_permissions": { "read": ["owner","recipient"], "write": ["owner"], "execute": ["owner","system"] },
+      "key_data_fields": ["from_id","to_id","channel","subject","body","read_at","sent_at","parent_id","attachments","is_encrypted"]
+    },
+    {
+      "type": "calendar",
+      "description": "Calendar event — title, start/end, location, attendees, recurrence, reminders.",
+      "default_permissions": { "read": ["owner","attendees"], "write": ["owner"], "execute": ["owner","agent","system"] },
+      "key_data_fields": ["title","start_at","end_at","timezone","location","attendees","recurrence","reminder_minutes","meeting_url","external_event_id"]
+    },
+    {
+      "type": "task",
+      "description": "Task/to-do — title, assignee, due date, priority, status, parent project.",
+      "default_permissions": { "read": ["owner","assignee","team"], "write": ["owner","assignee"], "execute": ["owner","agent","system"] },
+      "key_data_fields": ["title","description","assignee_id","due_date","priority","status","project_id","tags","estimated_hours","completed_at"]
+    }
+  ]
+}

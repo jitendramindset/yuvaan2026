@@ -1,0 +1,24 @@
+{
+  "node_id": "memory.yunaan.default",
+  "node_type": "memory",
+  "owner": "user.default",
+  "permissions": {
+    "read": ["owner", "agent"],
+    "write": ["agent", "system"],
+    "execute": ["agent", "system"]
+  },
+  "ui_schema": { "component": "Card", "size": "sm" },
+  "data": {
+    "short_term_entries": [],
+    "context_window_size": 50,
+    "faiss_index_path": "storage/faiss/yunaan.index",
+    "last_compacted_at": null,
+    "embedding_model": "text-embedding-ada-002",
+    "retention_days": 90
+  },
+  "actions": [],
+  "children": [],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

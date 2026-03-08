@@ -2,10 +2,12 @@
 import { useEffect, useState } from "react";
 import { Edit3, Shield } from "lucide-react";
 import Link from "next/link";
+import { useProfile, profileDisplayName, profileRole } from "@/hooks/useProfile";
 
 interface Props { config: Record<string, unknown> }
 
 export function ProfileCard({ config }: Props) {
+  const profile = useProfile();
   const [karma, setKarma] = useState<number>(850);
   const [nodeCount, setNodeCount] = useState(0);
 
@@ -13,19 +15,20 @@ export function ProfileCard({ config }: Props) {
     fetch("/api/backend/admin/nodes")
       .then((r) => r.json())
       .then(({ nodes, count }) => {
-        const profile = (nodes as { node_type: string; karma_score: number }[]).find(
+        const node = (nodes as { node_type: string; karma_score: number }[]).find(
           (n) => n.node_type === "profile"
         );
-        if (profile?.karma_score) setKarma(profile.karma_score || 850);
+        if (node?.karma_score) setKarma(node.karma_score || 850);
         setNodeCount(count ?? nodes.length);
       })
       .catch(() => {});
   }, []);
 
-  const name    = (config.name    as string) ?? "Jitendra";
-  const role    = (config.role    as string) ?? "Admin";
-  const username = (config.username as string) ?? "user.default";
-  const roles   = ["Admin", "User", "Premium"];
+  // config overrides take priority, otherwise use onboarding profile data
+  const name     = (config.name     as string) || profileDisplayName(profile);
+  const role     = (config.role     as string) || profileRole(profile);
+  const username = (config.username as string) || profile.email || "user.default";
+  const roles    = ["Admin", "User", "Premium"];
 
   return (
     <div className="h-full flex flex-col gap-3">
@@ -39,6 +42,7 @@ export function ProfileCard({ config }: Props) {
         </div>
         <div className="min-w-0">
           <div className="font-semibold truncate">{name}</div>
+          <div className="text-xs truncate" style={{ color: "var(--accent)" }}>{role}</div>
           <div className="text-xs truncate" style={{ color: "var(--muted)" }}>@{username}</div>
           <span className="badge badge-green text-xs">● Online</span>
         </div>

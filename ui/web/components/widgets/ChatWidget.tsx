@@ -24,13 +24,19 @@ export function ChatWidget({ config }: Props) {
     setMsgs((m) => [...m, { role: "user", text }]);
     setBusy(true);
     try {
-      const res = await fetch("/api/backend/voice/command", {
+      const res = await fetch("/api/backend/chat/message", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, user_id: "user.default", session_id: "dashboard-chat" }),
+        body: JSON.stringify({ owner_id: "user.default", message: text, session_id: "dashboard-chat" }),
       });
-      const data = await res.json() as { voice_reply?: string };
-      setMsgs((m) => [...m, { role: "ai", text: data.voice_reply ?? "Done." }]);
+      const data = await res.json() as { reply?: string; suggestions?: string[] };
+      const reply = data.reply ?? "Done.";
+      const suggestions = data.suggestions ?? [];
+      setMsgs((m) => [
+        ...m,
+        { role: "ai", text: reply },
+        ...(suggestions.length > 0 ? [{ role: "ai" as const, text: `💡 ${suggestions.join("  ·  ")}` }] : []),
+      ]);
     } catch {
       setMsgs((m) => [...m, { role: "ai", text: "AI engine offline. Check backend." }]);
     } finally {

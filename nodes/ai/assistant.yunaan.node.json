@@ -1,0 +1,26 @@
+{
+  "node_id": "assistant.yunaan.default",
+  "node_type": "assistant",
+  "owner": "user.default",
+  "permissions": {
+    "read": ["owner"],
+    "write": ["owner", "system"],
+    "execute": ["owner", "agent"]
+  },
+  "ui_schema": { "component": "ChatWidget", "size": "lg" },
+  "data": {
+    "name": "Yunaan",
+    "avatar_url": "/images/yunaan-avatar.png",
+    "personality": "helpful, concise, proactive",
+    "languages": ["en", "hi"],
+    "voice_id": "en-IN-Wavenet-A",
+    "auto_suggestions": true,
+    "active": true,
+    "linked_agent_id": "agent.yunaan.default"
+  },
+  "actions": [],
+  "children": ["agent.yunaan.default", "memory.yunaan.default"],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

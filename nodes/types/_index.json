@@ -1,0 +1,109 @@
+{
+  "_meta": {
+    "title": "Digital Human Node Library",
+    "version": "1.0.0",
+    "total_types": 120,
+    "total_groups": 12,
+    "description": "Canonical catalog of all 120 NodeOS node types organized in 12 functional groups.",
+    "last_updated": "2025-01-01"
+  },
+  "groups": [
+    {
+      "id": 1,
+      "name": "Core System",
+      "file": "01_core_system.types.json",
+      "count": 12,
+      "types": ["system","kernel","device","session","user","preference","notification","log","audit","permission","role","profile"],
+      "primary_engine": "kernel/kernel.engine.ts"
+    },
+    {
+      "id": 2,
+      "name": "Identity & Vanshawali",
+      "file": "02_identity_vanshawali.types.json",
+      "count": 14,
+      "types": ["identity","personal","contact","location","social","family","family_member","relationship","education","skill","interest","media","timeline","trust"],
+      "primary_engine": "kernel/profile.engine.ts"
+    },
+    {
+      "id": 3,
+      "name": "Professional & Career",
+      "file": "03_professional_career.types.json",
+      "count": 10,
+      "types": ["professional","work_experience","project","certification","portfolio","resume","reference","achievement","availability","network"],
+      "primary_engine": "kernel/profile.engine.ts"
+    },
+    {
+      "id": 4,
+      "name": "Company & Organization",
+      "file": "04_company_organization.types.json",
+      "count": 14,
+      "types": ["company","company_profile","department","employee","team","partner","customer","supplier","product","service","inventory","order","invoice","contract"],
+      "primary_engine": "kernel/company.engine.ts"
+    },
+    {
+      "id": 5,
+      "name": "Finance & Dravyam",
+      "file": "05_finance_dravyam.types.json",
+      "count": 12,
+      "types": ["wallet","bank_account","card","transaction","ledger","payment_order","refund","subscription","pricing","tax","currency","economy"],
+      "primary_engine": "kernel/dravyam.engine.ts"
+    },
+    {
+      "id": 6,
+      "name": "Application & Integration",
+      "file": "06_integration_apps.types.json",
+      "count": 10,
+      "types": ["app","integration","api","webhook","dataset","file","document","message","calendar","task"],
+      "primary_engine": "kernel/webhook.engine.ts"
+    },
+    {
+      "id": 7,
+      "name": "Workflow & Automation",
+      "file": "07_workflow_automation.types.json",
+      "count": 10,
+      "types": ["workflow","trigger","condition","action","schedule","queue","pipeline","automation","event","activity"],
+      "primary_engine": "kernel/workflow.engine.ts"
+    },
+    {
+      "id": 8,
+      "name": "UI & Widget",
+      "file": "08_ui_widgets.types.json",
+      "count": 12,
+      "types": ["dashboard","layout","widget","card_widget","table_widget","chart_widget","form_widget","feed_widget","tree_widget","timeline_widget","chat_widget","canvas_widget"],
+      "primary_engine": "kernel/ui.generator.ts"
+    },
+    {
+      "id": 9,
+      "name": "Builder & Customization",
+      "file": "09_builder_customization.types.json",
+      "count": 8,
+      "types": ["builder","theme","style","template","component","script","validation","localization"],
+      "primary_engine": "kernel/customization.engine.ts"
+    },
+    {
+      "id": 10,
+      "name": "AI & Agent",
+      "file": "10_ai_agent.types.json",
+      "count": 8,
+      "types": ["agent","memory","prompt","tool","intent","suggestion","insight","assistant"],
+      "primary_engine": "kernel/chat.engine.ts"
+    },
+    {
+      "id": 11,
+      "name": "Device & Environment",
+      "file": "11_device_environment.types.json",
+      "count": 6,
+      "types": ["sensor","monitor","filesystem","process","network","backup"],
+      "primary_engine": "kernel/device.engine.ts"
+    },
+    {
+      "id": 12,
+      "name": "Community & Social",
+      "file": "12_community_social.types.json",
+      "count": 6,
+      "types": ["group","post","comment","reaction","follow","notification_feed"],
+      "primary_engine": "kernel/broadcast.engine.ts"
+    }
+  ],
+  "legacy_aliases": ["organization","bot","vector","checkpoint","migration","risk","dharma","gossip","data","plugin","profile_seed"]
+}

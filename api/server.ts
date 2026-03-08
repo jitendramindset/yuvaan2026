@@ -70,6 +70,22 @@ import {
   handleAutomate,
 } from "./routes/chat.routes.js";
 import {
+  handleSetAIProvider,
+  handleListAIProviders,
+  handleRemoveAIProvider,
+  handleTestAIProvider,
+  handleGetActiveProvider,
+} from "./routes/ai_provider.routes.js";
+import {
+  handleAddConnection,
+  handleListConnections,
+  handleRemoveConnection,
+  handleTestConnectionRoute,
+  handleUpdateConnectionRoute,
+  handleGetConnectionTools,
+  handleGetConnectionPresets,
+} from "./routes/connection.routes.js";
+import {
   handleVoiceCommand,
   handleGetVoiceSession,
   handleEndVoiceSession,
@@ -99,6 +115,35 @@ import {
   handleArchiveNode,
   handleNodeGraph,
 } from "./routes/node_admin.routes.js";
+import {
+  handleGetPresets,
+  handleListHubDevices,
+  handleAddHubDevice,
+  handleUpdateHubDevice,
+  handleRemoveHubDevice,
+  handleSendCommand,
+  handleGetDeviceState,
+  handleProbeDevice,
+  handleDeviceWSUpgrade,
+} from "./routes/device_hub.routes.js";
+import {
+  handleSensorEvent,
+  handleGetSensorContext,
+  handleStartVR,
+  handleUpdateVR,
+  handleEndVR,
+  handleGetVR,
+} from "./routes/sensor.routes.js";
+import {
+  handleGatewayCreateOrder,
+  handleGatewayCapture,
+  handleGatewayRefund,
+  handleGatewayWebhook,
+  handleGatewayStatus,
+  handleMarketPrice,
+  handleDistribute,
+  handleGetPool,
+} from "./routes/gateway.routes.js";
 
 const port = Number(process.env["PORT"] ?? 3000);
 
@@ -205,6 +250,22 @@ const routes: Array<{ method: string; path: string | RegExp; handler: Handler }>
   { method: "GET",  path: /^\/chat\/history\/.+$/,       handler: handleChatHistory },
   { method: "POST", path: "/chat/automate",              handler: handleAutomate },
 
+  // ── AI Providers (key management) ────────────────────────────────────────────
+  { method: "POST",   path: /^\/ai-providers\/[^/]+$/, handler: handleSetAIProvider },
+  { method: "GET",    path: /^\/ai-providers\/[^/]+\/active$/, handler: handleGetActiveProvider },
+  { method: "GET",    path: /^\/ai-providers\/[^/]+$/, handler: handleListAIProviders },
+  { method: "POST",   path: /^\/ai-providers\/[^/]+\/test$/, handler: handleTestAIProvider },
+  { method: "DELETE", path: /^\/ai-providers\/[^/]+\/[^/]+$/, handler: handleRemoveAIProvider },
+
+  // ── Connections (MCP / REST / OAuth / Device) ─────────────────────────────────
+  { method: "GET",    path: "/connections/presets", handler: handleGetConnectionPresets },
+  { method: "POST",   path: /^\/connections\/[^/]+$/, handler: handleAddConnection },
+  { method: "GET",    path: /^\/connections\/[^/]+\/tools$/, handler: handleGetConnectionTools },
+  { method: "GET",    path: /^\/connections\/[^/]+$/, handler: handleListConnections },
+  { method: "DELETE", path: /^\/connections\/[^/]+\/[^/]+$/, handler: handleRemoveConnection },
+  { method: "PATCH",  path: /^\/connections\/[^/]+\/[^/]+$/, handler: handleUpdateConnectionRoute },
+  { method: "POST",   path: /^\/connections\/[^/]+\/[^/]+\/test$/, handler: handleTestConnectionRoute },
+
   // ── Voice Control ─────────────────────────────────────────────────────────────
   { method: "POST", path: "/voice/command",              handler: handleVoiceCommand },
   { method: "GET",  path: /^\/voice\/session\/.+$/,      handler: handleGetVoiceSession },
@@ -239,6 +300,34 @@ const routes: Array<{ method: string; path: string | RegExp; handler: Handler }>
   // ── Devices aliases ───────────────────────────────────────────────────────────
   { method: "GET",  path: "/devices",                                 handler: handleListDevices },
   { method: "GET",  path: "/devices/list",                            handler: handleListDevices },
+
+  // ── Device Hub (universal device control) ─────────────────────────────────
+  { method: "GET",  path: "/hub/presets",                                            handler: handleGetPresets },
+  { method: "POST", path: "/hub/probe",                                              handler: handleProbeDevice },
+  { method: "GET",  path: /^\/hub\/devices\/.+$/,                                    handler: handleListHubDevices },
+  { method: "POST", path: /^\/hub\/devices\/.+$/,                                    handler: handleAddHubDevice },
+  { method: "PATCH",path: /^\/hub\/devices\/.+\/.+$/,                               handler: handleUpdateHubDevice },
+  { method: "DELETE",path:/^\/hub\/devices\/.+\/.+$/,                               handler: handleRemoveHubDevice },
+  { method: "POST", path: /^\/hub\/devices\/.+\/.+\/command$/,                      handler: handleSendCommand },
+  { method: "GET",  path: /^\/hub\/devices\/.+\/.+\/state$/,                        handler: handleGetDeviceState },
+
+  // ── Sensor / VR ────────────────────────────────────────────────────────────
+  { method: "POST",   path: "/sensor/event",                   handler: handleSensorEvent },
+  { method: "GET",    path: /^\/sensor\/context\/.+$/,         handler: handleGetSensorContext },
+  { method: "POST",   path: "/sensor/vr/start",                handler: handleStartVR },
+  { method: "GET",    path: /^\/sensor\/vr\/.+$/,              handler: handleGetVR },
+  { method: "PATCH",  path: /^\/sensor\/vr\/.+$/,              handler: handleUpdateVR },
+  { method: "DELETE", path: /^\/sensor\/vr\/.+$/,              handler: handleEndVR },
+
+  // ── Dravyam Payment Gateway ────────────────────────────────────────────────
+  { method: "POST",   path: "/gateway/create-order",           handler: handleGatewayCreateOrder },
+  { method: "POST",   path: "/gateway/capture",                handler: handleGatewayCapture },
+  { method: "POST",   path: "/gateway/refund",                 handler: handleGatewayRefund },
+  { method: "POST",   path: "/gateway/webhook",                handler: handleGatewayWebhook },
+  { method: "GET",    path: /^\/gateway\/status\/.+$/,         handler: handleGatewayStatus },
+  { method: "GET",    path: "/gateway/market",                 handler: handleMarketPrice },
+  { method: "POST",   path: "/gateway/distribute",             handler: handleDistribute },
+  { method: "GET",    path: "/gateway/pool",                   handler: handleGetPool },
 ];
 
 const server = createServer((req, res) => {
@@ -266,6 +355,16 @@ const server = createServer((req, res) => {
   json(res, 404, { error: "Not found", path: url });
 });
 
+// ── WebSocket upgrade for Device Hub real-time channel ───────────────────────
+// ws:// connections arrive as HTTP Upgrade requests on /hub/ws/:deviceId
+server.on("upgrade", (req, socket, head) => {
+  if ((req.url ?? "").startsWith("/hub/ws/")) {
+    handleDeviceWSUpgrade(req, socket as import("node:net").Socket, head);
+  } else {
+    socket.destroy();
+  }
+});
+
 if (import.meta.url === `file://${process.argv[1]}`) {
   server.listen(port, () => {
     process.stdout.write(`\nNodeOS API  http://localhost:${port}\n`);
@@ -273,6 +372,10 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     process.stdout.write(`  POST /kernel/run\n`);
     process.stdout.write(`  POST /dravyam/create-order\n`);
     process.stdout.write(`  — Device   POST /devices/detect | /devices/pair | /devices/confirm-pin\n`);
+    process.stdout.write(`  — Hub      GET  /hub/presets | POST /hub/probe\n`);
+    process.stdout.write(`             GET/POST /hub/devices/:ownerId\n`);
+    process.stdout.write(`             POST /hub/devices/:ownerId/:deviceId/command\n`);
+    process.stdout.write(`             WS  ws://localhost:${port}/hub/ws/:deviceId\n`);
     process.stdout.write(`  — Auth     POST /auth/password | /auth/biometric | /auth/hardware-key\n`);
     process.stdout.write(`  — Admin    GET  /admin/snapshot | POST /admin/action\n`);
     process.stdout.write(`  — Privacy  POST /privacy/analyze | /privacy/apply\n`);

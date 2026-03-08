@@ -464,6 +464,53 @@ export default function BuilderPage() {
                 />
               </div>
 
+              {/* Accent color */}
+              <div>
+                <label className="text-xs font-semibold block mb-1" style={{ color: "var(--muted)" }}>ACCENT COLOR</label>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="color"
+                    value={String(selectedWidget.config.accent ?? "#6c63ff")}
+                    onChange={(e) => updateConfig(selectedWidget.id, { accent: e.target.value })}
+                    style={{ width: 36, height: 28, padding: 2, borderRadius: 6, border: "1px solid var(--border)", cursor: "pointer", background: "var(--bg)" }}
+                  />
+                  <input
+                    type="text"
+                    value={String(selectedWidget.config.accent ?? "#6c63ff")}
+                    onChange={(e) => {
+                      if (/^#[0-9a-fA-F]{0,6}$/.test(e.target.value))
+                        updateConfig(selectedWidget.id, { accent: e.target.value });
+                    }}
+                    placeholder="#6c63ff"
+                    className="text-xs flex-1"
+                    style={{ padding: "4px 8px", fontFamily: "monospace" }}
+                  />
+                  <button
+                    className="text-xs"
+                    style={{ color: "var(--muted)", fontSize: 10, padding: "2px 4px" }}
+                    onClick={() => updateConfig(selectedWidget.id, { accent: undefined })}
+                    title="Reset to default"
+                  >
+                    ↺
+                  </button>
+                </div>
+                {/* Quick palette */}
+                <div className="flex gap-1 mt-1.5 flex-wrap">
+                  {["#6c63ff","#a855f7","#22c55e","#f59e0b","#00d2ff","#ec4899","#f97316","#ef4444","#3b82f6"].map((c) => (
+                    <button
+                      key={c}
+                      onClick={() => updateConfig(selectedWidget.id, { accent: c })}
+                      title={c}
+                      style={{
+                        width: 18, height: 18, borderRadius: 4, background: c,
+                        border: selectedWidget.config.accent === c ? "2px solid white" : "2px solid transparent",
+                        cursor: "pointer",
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+
               {/* Position */}
               <div>
                 <div className="text-xs font-semibold mb-2" style={{ color: "var(--muted)" }}>POSITION</div>

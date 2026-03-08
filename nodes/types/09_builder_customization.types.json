@@ -1,0 +1,61 @@
+{
+  "_meta": {
+    "category": "Builder & Customization",
+    "group": 9,
+    "count": 8,
+    "description": "Elementor-style builder nodes. Sessions, themes, templates and reusable components. Users can publish templates to the marketplace."
+  },
+  "engine_file": "kernel/customization.engine.ts",
+  "types": [
+    {
+      "type": "builder",
+      "description": "UI builder session — tracks current canvas state, selected widget, undo stack.",
+      "default_permissions": { "read": ["owner"], "write": ["owner"], "execute": ["owner","system"] },
+      "key_data_fields": ["session_id","dashboard_id","selected_widget_id","undo_stack","redo_stack","dirty","last_saved_at"]
+    },
+    {
+      "type": "theme",
+      "description": "Color scheme + typography + radius tokens. Applied globally or per dashboard.",
+      "default_permissions": { "read": ["public"], "write": ["owner","admin"], "execute": ["system"] },
+      "key_data_fields": ["name","colors","fonts","radii","shadows","breakpoints","is_default","preview_url"]
+    },
+    {
+      "type": "style",
+      "description": "Named CSS style set for a specific widget or container. Scoped overrides.",
+      "default_permissions": { "read": ["owner"], "write": ["owner"], "execute": ["system"] },
+      "key_data_fields": ["name","target_widget_type","css_vars","custom_css","is_global"]
+    },
+    {
+      "type": "template",
+      "description": "Reusable layout template — pre-built dashboard for an industry or use case.",
+      "default_permissions": { "read": ["public"], "write": ["owner","admin"], "execute": ["owner","agent"] },
+      "key_data_fields": ["name","description","industry","thumbnail_url","widget_count","layout_snapshot","is_published","rating","install_count"]
+    },
+    {
+      "type": "component",
+      "description": "Reusable UI component — heading, divider, spacer, map, embed. Slot-based composition.",
+      "default_permissions": { "read": ["owner"], "write": ["owner"], "execute": ["owner","system"] },
+      "key_data_fields": ["name","component_type","slots","props_schema","preview_url","custom_js","is_published"]
+    },
+    {
+      "type": "script",
+      "description": "Custom JavaScript logic block. Runs inside widgets and canvas nodes. Sandboxed execution.",
+      "default_permissions": { "read": ["owner"], "write": ["owner"], "execute": ["owner","system"] },
+      "key_data_fields": ["name","code","language","sandbox_level","allowed_apis","last_run_at","error_count"],
+      "note": "Code must be JavaScript (not TypeScript) to allow user-authored content per system blueprint."
+    },
+    {
+      "type": "validation",
+      "description": "Field validation rule set — required, regex, min/max, custom JS validator.",
+      "default_permissions": { "read": ["owner","system"], "write": ["owner"], "execute": ["system"] },
+      "key_data_fields": ["rules","target_form_id","on_error_message","strict_mode"]
+    },
+    {
+      "type": "localization",
+      "description": "Translation strings for a dashboard or component. Supports 22 Indian + global languages.",
+      "default_permissions": { "read": ["public"], "write": ["owner","admin"], "execute": ["system"] },
+      "key_data_fields": ["locale","strings","fallback_locale","coverage_pct","last_updated"],
+      "supported_locales": ["en","hi","ta","te","mr","bn","gu","kn","ml","pa","or","as","ur","en-IN"]
+    }
+  ]
+}

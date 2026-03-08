@@ -160,9 +160,42 @@ export function generateNodes(sessionId: string): OnboardingResult {
   const walletId  = `wallet.${userId}`;
   const agentId   = `agent.${userId}`;
 
-  nodes.push({ type: "profile",    node_id: profileId, description: "User profile"   });
-  nodes.push({ type: "wallet",     node_id: walletId,  description: "Dravyam wallet"  });
-  nodes.push({ type: "agent",      node_id: agentId,   description: "Personal AI agent" });
+  nodes.push({ type: "profile", node_id: profileId, description: "Vanshawali root profile" });
+  nodes.push({ type: "wallet",  node_id: walletId,  description: "Dravyam wallet" });
+  nodes.push({ type: "agent",   node_id: agentId,   description: "Personal AI agent (Yunaan)" });
+
+  // ── Vanshawali sub-nodes (11 profile sections) ────────────────────────────
+  const vanshawaliSubnodes: Array<[string, string]> = [
+    ["personal",   "Personal identity (name, dob, gender, religion)"],
+    ["contact",    "Contact (phone, email, WhatsApp, Telegram)"],
+    ["location",   "Address & geo location"],
+    ["social",     "Social links (LinkedIn, Instagram, GitHub…)"],
+    ["family",     "Family tree — parents, spouse, children"],
+    ["education",  "Education timeline"],
+    ["profession", "Career & profession timeline"],
+    ["preference", "Interests, hobbies & lifestyle preferences"],
+    ["property",   "Assets, properties & investments"],
+    ["media",      "Profile photo, gallery & documents"],
+    ["trust",      "Trust score & profile completion ring"],
+  ];
+  for (const [section, desc] of vanshawaliSubnodes) {
+    nodes.push({
+      type:        section,
+      node_id:     `${section}.vanshawali.${userId}`,
+      description: desc,
+    });
+  }
+
+  // ── Pre-populate personal data from onboarding identity step ─────────────
+  if (identity) {
+    // The profile.engine.ts computeProfileCompletion will pick these up when
+    // the profile node is hydrated from storage.
+    nodes.push({
+      type:        "profile_seed",
+      node_id:     `profile_seed.${userId}`,
+      description: `Seed: name=${identity.full_name ?? ""}, email=${identity.email ?? ""}, phone=${identity.phone ?? ""}`,
+    });
+  }
 
   // ── Company node ───────────────────────────────────────────────────────────
   let companyId: string | undefined;

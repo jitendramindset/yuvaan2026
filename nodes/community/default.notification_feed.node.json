@@ -1,0 +1,24 @@
+{
+  "node_id": "notification_feed.default",
+  "node_type": "notification_feed",
+  "owner": "user.default",
+  "permissions": {
+    "read": ["owner"],
+    "write": ["system", "agent"],
+    "execute": ["owner", "system"]
+  },
+  "ui_schema": { "component": "Timeline", "size": "md" },
+  "data": {
+    "owner_id": "user.default",
+    "unread_count": 0,
+    "items": [],
+    "last_read_at": "2026-03-08T00:00:00.000Z",
+    "muted_sources": [],
+    "delivery_channel": "in_app"
+  },
+  "actions": [],
+  "children": [],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

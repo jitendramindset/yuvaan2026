@@ -1,0 +1,95 @@
+{
+  "_meta": {
+    "category": "Company & Organization",
+    "group": 4,
+    "count": 14,
+    "description": "Business entity nodes. Created during onboarding (company_setup step) and populated by ERP modules."
+  },
+  "types": [
+    {
+      "type": "company",
+      "description": "Company root node. Parents company_profile, departments, employees, products, orders.",
+      "default_permissions": { "read": ["owner","employees","system"], "write": ["owner","admin"], "execute": ["owner","admin","agent","system"] },
+      "key_data_fields": ["company_name","industry","registration_no","gst_no","founded_year","headcount","status"],
+      "children": ["company_profile","department","employee","team","product","service","order","invoice","contract"]
+    },
+    {
+      "type": "company_profile",
+      "description": "Public-facing company details — name, logo, address, website, tagline, social links.",
+      "default_permissions": { "read": ["public"], "write": ["admin","owner"], "execute": ["agent"] },
+      "key_data_fields": ["legal_name","trade_name","logo_url","tagline","website","address","email","phone","social_links","founded_year"]
+    },
+    {
+      "type": "department",
+      "description": "Organisational department — name, head, employee list, budget node reference.",
+      "default_permissions": { "read": ["employees","admin","owner"], "write": ["admin","owner"], "execute": ["admin","system"] },
+      "key_data_fields": ["name","head_employee_id","employee_ids","parent_dept_id","budget_node_id","cost_centre"]
+    },
+    {
+      "type": "employee",
+      "description": "Staff record — linked to a user.node. Stores employment terms, department, role.",
+      "default_permissions": { "read": ["admin","owner","self"], "write": ["admin","owner"], "execute": ["admin","system"] },
+      "key_data_fields": ["user_id","employee_id","department_id","role_id","join_date","employment_type","salary_grade","status","reports_to"]
+    },
+    {
+      "type": "team",
+      "description": "Cross-functional or project team — members, purpose, active workflows.",
+      "default_permissions": { "read": ["members","admin","owner"], "write": ["admin","owner"], "execute": ["admin","agent"] },
+      "key_data_fields": ["name","purpose","member_ids","lead_id","active_workflows","created_at"]
+    },
+    {
+      "type": "partner",
+      "description": "Business partner — vendor, distributor, reseller, alliance. Stores agreements.",
+      "default_permissions": { "read": ["owner","admin"], "write": ["owner","admin"], "execute": ["admin","system"] },
+      "key_data_fields": ["name","type","contact_info","agreement_ids","since_date","status","credit_limit"]
+    },
+    {
+      "type": "customer",
+      "description": "Customer/client record — contact, order history, segment, lifetime value.",
+      "default_permissions": { "read": ["owner","admin","sales"], "write": ["owner","admin","sales"], "execute": ["system","agent"] },
+      "key_data_fields": ["name","email","phone","segment","acquisition_channel","lifetime_value","order_ids","status","linked_profile_id"]
+    },
+    {
+      "type": "supplier",
+      "description": "Vendor/supplier record — contact, products supplied, payment terms.",
+      "default_permissions": { "read": ["owner","admin","procurement"], "write": ["owner","admin"], "execute": ["system","agent"] },
+      "key_data_fields": ["name","contact_info","product_categories","payment_terms","lead_time_days","rating","status"]
+    },
+    {
+      "type": "product",
+      "description": "Product catalogue entry — name, SKU, category, price, stock_node_id, images.",
+      "default_permissions": { "read": ["public"], "write": ["owner","admin","inventory"], "execute": ["system","agent"] },
+      "key_data_fields": ["name","sku","category","description","price","currency","tax_rate","stock_node_id","images","is_active"]
+    },
+    {
+      "type": "service",
+      "description": "Service offering — name, description, pricing model, SLA, delivery scope.",
+      "default_permissions": { "read": ["public"], "write": ["owner","admin"], "execute": ["agent","system"] },
+      "key_data_fields": ["name","description","pricing_model","base_price","currency","sla_hours","delivery_type","is_active"]
+    },
+    {
+      "type": "inventory",
+      "description": "Stock levels per product per warehouse. Triggers reorder workflow when low.",
+      "default_permissions": { "read": ["owner","admin","inventory"], "write": ["system","admin"], "execute": ["system","agent"] },
+      "key_data_fields": ["product_id","warehouse_id","quantity","reserved","available","reorder_point","unit_cost","last_updated"]
+    },
+    {
+      "type": "order",
+      "description": "Sales order — line items, customer, shipping, payment status, linked invoice_id.",
+      "default_permissions": { "read": ["owner","admin","sales","customer.self"], "write": ["admin","sales"], "execute": ["system","agent"] },
+      "key_data_fields": ["order_no","customer_id","line_items","subtotal","tax","total","currency","status","shipping_address","payment_status","invoice_id"]
+    },
+    {
+      "type": "invoice",
+      "description": "Billing invoice — issued to customer, linked to order, tracks payment.",
+      "default_permissions": { "read": ["owner","admin","finance","customer.self"], "write": ["admin","finance"], "execute": ["system","agent"] },
+      "key_data_fields": ["invoice_no","customer_id","order_id","line_items","subtotal","tax","total","currency","due_date","paid_date","status","pdf_url"]
+    },
+    {
+      "type": "contract",
+      "description": "Legal agreement — parties, terms, start/end, signed status, document blob.",
+      "default_permissions": { "read": ["owner","admin","legal"], "write": ["admin","legal"], "execute": ["system"] },
+      "key_data_fields": ["title","parties","type","start_date","end_date","value","currency","status","document_url","signed_at","signed_by"]
+    }
+  ]
+}

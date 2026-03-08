@@ -1,5 +1,10 @@
 import { randomUUID } from "node:crypto";
 import { runNode } from "./kernel.engine.js";
+import { buildSystemPrompt, type SystemPromptContext } from "./system_prompt.engine.js";
+import { chatCompletion, getActiveProvider, type AIMessage } from "./ai_provider.engine.js";
+import { getConnectionTools } from "./connection.engine.js";
+import { learnChatMessage, getMemorySummary } from "./learning.engine.js";
+import { inferIntention, buildSafetySuggestions } from "./intention.engine.js";
 import type {
   ChatMessage,
   ChatSession,
@@ -178,63 +183,150 @@ export function getChatHistory(sessionId: string): ChatMessage[] {
 
 export async function processMessage(req: ChatRequest): Promise<ChatResponse> {
   const session = getOrCreateSession(req);
-  const intent = detectIntent(req.message);
 
-  // Append user message to history
+  // ── Record learning event ────────────────────────────────────────────────
+  learnChatMessage(req.owner_id, req.message, session.session_id);
+
+  // ── Infer intention (danger check + context enrichment) ─────────────────
+  const memorySummary = getMemorySummary(req.owner_id);
+  const intention     = inferIntention({
+    owner_id:       req.owner_id,
+    message:        req.message,
+    current_route:  (req as unknown as Record<string, unknown>)["current_route"] as string | undefined,
+  });
+  const safetySuggestions = buildSafetySuggestions(intention);
+
+  // ── Build system prompt ──────────────────────────────────────────────────
+  const promptCtx: SystemPromptContext = {
+    ownerId:         req.owner_id,
+    connectedTools:  getConnectionTools(req.owner_id),
+    recentActivity:  memorySummary.recentActivity,
+    incompleteTasks: memorySummary.incompleteTasks,
+  };
+  const systemPrompt = buildSystemPrompt(promptCtx);
+
+  // ── Build AI message history (last 10 turns) ─────────────────────────────
+  const historyMsgs: AIMessage[] = session.messages.slice(-10).map((m) => ({
+    role:    m.role === "system" ? "system" : m.role,
+    content: m.content,
+  }));
+
+  const aiMessages: AIMessage[] = [
+    { role: "system", content: systemPrompt },
+    ...historyMsgs,
+    { role: "user", content: req.message },
+  ];
+
+  // ── Append user message to session history ───────────────────────────────
+  const detectedIntent = detectIntent(req.message);
   const userMsg: ChatMessage = {
     message_id: randomUUID(),
     session_id: session.session_id,
-    role: "user",
-    content: req.message,
-    intent,
-    timestamp: new Date().toISOString(),
+    role:       "user",
+    content:    req.message,
+    intent:     detectedIntent,
+    timestamp:  new Date().toISOString(),
   };
   session.messages.push(userMsg);
 
-  let reply = "I didn't understand that. Try asking me to show a widget, navigate somewhere, or run an action.";
-  let action_result: unknown = undefined;
+  // ── Call AI (falls back to NodeOS built-in if no key) ────────────────────
+  let aiResponseRaw = "{}";
+  let parseError    = false;
+  try {
+    const provider   = getActiveProvider(req.owner_id);
+    aiResponseRaw    = await chatCompletion(aiMessages, provider);
+  } catch {
+    parseError = true;
+  }
 
-  switch (intent.type) {
-    case "render_widget": {
-      const r = await handleRenderWidget(intent, session);
-      reply = r.reply; action_result = r.action_result; break;
-    }
-    case "navigate": {
-      const r = handleNavigate(intent, session);
-      reply = r.reply; action_result = r.action_result; break;
-    }
-    case "run_action": {
-      const r = await handleRunAction(intent, session);
-      reply = r.reply; action_result = r.action_result; break;
-    }
-    case "query_data": {
-      const r = handleQueryData(intent, session);
-      reply = r.reply; action_result = r.action_result; break;
-    }
-    case "run_automation": {
-      const r = await handleAutomation(intent, session);
-      reply = r.reply; action_result = r.action_result; break;
-    }
-    case "show_help": {
-      reply = handleHelp().reply; break;
+  // ── Parse JSON response from AI ───────────────────────────────────────────
+  interface AIJsonResponse {
+    reply?:        string;
+    intent?:       string;
+    confidence?:   number;
+    actions?:      Array<{ tool: string; params?: Record<string, unknown> }>;
+    node_updates?: Array<{ node_id: string; patch: Record<string, unknown> }>;
+    suggestions?:  string[];
+    learning?:     string;
+    karma_delta?:  number;
+  }
+
+  let parsed: AIJsonResponse = {};
+  try {
+    parsed = JSON.parse(aiResponseRaw) as AIJsonResponse;
+  } catch {
+    parseError = true;
+  }
+
+  const reply = parsed.reply
+    ?? (parseError
+      ? "I'm having trouble connecting to the AI right now. Check **Settings → AI Providers** to configure your key."
+      : "I processed your request but got an unexpected response.");
+
+  // ── Append safety suggestions to reply if danger detected ────────────────
+  const fullReply = safetySuggestions.length > 0
+    ? `${reply}\n\n${safetySuggestions.join("\n")}`
+    : reply;
+
+  // ── Merge suggestions from AI + safety ───────────────────────────────────
+  const suggestions: string[] = [
+    ...(parsed.suggestions ?? []),
+    ...memorySummary.patterns.slice(0, 2),
+  ];
+
+  // ── Execute server-side AI actions (create_node, run_node, etc.) ─────────
+  let action_result: unknown = undefined;
+  if (parsed.actions?.length) {
+    const serverActions = parsed.actions.filter((a) =>
+      ["create_node", "read_node", "list_nodes", "run_node"].includes(a.tool),
+    );
+    if (serverActions.length > 0) {
+      const results = [];
+      for (const act of serverActions) {
+        try {
+          if (act.tool === "run_node") {
+            const r = await runNode({ nodeId: String(act.params?.["node_id"] ?? ""), actorId: req.owner_id });
+            results.push({ tool: act.tool, ok: true, result: r });
+          } else {
+            results.push({ tool: act.tool, ok: true, result: "stub" });
+          }
+        } catch (err) {
+          results.push({ tool: act.tool, ok: false, error: err instanceof Error ? err.message : "unknown" });
+        }
+      }
+      action_result = results;
     }
   }
 
+  // ── Record AI response to session ─────────────────────────────────────────
   const assistantMsg: ChatMessage = {
     message_id: randomUUID(),
     session_id: session.session_id,
-    role: "assistant",
-    content: reply,
-    timestamp: new Date().toISOString(),
+    role:       "assistant",
+    content:    fullReply,
+    timestamp:  new Date().toISOString(),
   };
   session.messages.push(assistantMsg);
 
   return {
-    message_id: assistantMsg.message_id,
-    session_id: session.session_id,
-    reply,
-    intent,
+    message_id:   assistantMsg.message_id,
+    session_id:   session.session_id,
+    reply:        fullReply,
+    intent: {
+      type:       (parsed.intent as ChatIntentType) ?? detectedIntent.type,
+      confidence: parsed.confidence ?? detectedIntent.confidence,
+      params:     {},
+    },
     action_result,
-    timestamp: assistantMsg.timestamp,
+    actions:      parsed.actions,
+    suggestions,
+    node_updates: parsed.node_updates,
+    karma_delta:  parsed.karma_delta,
+    timestamp:    assistantMsg.timestamp,
+  } as ChatResponse & {
+    actions?: unknown[];
+    suggestions?: string[];
+    node_updates?: unknown[];
+    karma_delta?: number;
   };
 }

@@ -1,0 +1,27 @@
+{
+  "node_id": "group.nodeos.default",
+  "node_type": "group",
+  "owner": "user.default",
+  "permissions": {
+    "read": ["public"],
+    "write": ["admin", "owner"],
+    "execute": ["member", "admin", "owner"]
+  },
+  "ui_schema": { "component": "Feed", "size": "lg" },
+  "data": {
+    "name": "NodeOS Community",
+    "description": "Default public group for NodeOS users",
+    "privacy": "public",
+    "member_ids": [],
+    "admin_ids": ["user.default"],
+    "rules": ["Be respectful", "No spam", "Stay on-topic"],
+    "tags": ["nodeos", "community"],
+    "avatar_url": "",
+    "member_count": 0
+  },
+  "actions": [],
+  "children": [],
+  "logs": [],
+  "state_hash": "",
+  "version": 1
+}

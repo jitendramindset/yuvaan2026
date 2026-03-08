@@ -163,3 +163,50 @@ export interface DravyamDistributionRecord {
   }>;
   timestamp: string;
 }
+
+// ─── Gateway (enhanced) ───────────────────────────────────────────────────────
+
+export interface GatewayCreateOrderRequest extends CreateOrderRequest {
+  trust_score:    number;
+  ip:             string;
+  device_hash:    string;
+  velocity_count: number;
+  geo_mismatch:   boolean;
+  webhook_url?:   string;
+}
+
+export interface GatewayOrderResponse {
+  success:         boolean;
+  order_id?:       string;
+  transaction_id?: string;
+  signature?:      string;
+  trust_level?:    string;
+  error?:          string;
+  fraud_blocked?:  boolean;
+  trust_blocked?:  boolean;
+}
+
+// ─── Price Engine ─────────────────────────────────────────────────────────────
+
+export interface TokenPriceSnapshot {
+  timestamp:          string;
+  price_inr:          number;
+  price_usd:          number;
+  circulating_supply: number;
+  market_cap_inr:     number;
+  demand_factor:      number;
+  trust_factor:       number;
+  tx_volume_24h:      number;
+}
+
+// ─── Trust ────────────────────────────────────────────────────────────────────
+
+export type TrustLevel = "Seed" | "Sprout" | "Root" | "Elder";
+
+export interface TrustPermissionResult {
+  allowed:     boolean;
+  reason?:     string;
+  trust_level: TrustLevel;
+  daily_limit: number;
+  single_tx_limit: number;
+}

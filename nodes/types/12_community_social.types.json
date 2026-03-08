@@ -1,0 +1,52 @@
+{
+  "_meta": {
+    "category": "Community & Social",
+    "group": 12,
+    "count": 6,
+    "description": "Social graph and community interaction nodes — group, post, comment, reaction, follow, feed."
+  },
+  "engine_files": ["kernel/broadcast.engine.ts","kernel/log.engine.ts"],
+  "types": [
+    {
+      "type": "group",
+      "description": "Community or interest group — members, privacy setting, admins, rules.",
+      "default_permissions": { "read": ["public"], "write": ["admin","owner"], "execute": ["member","admin","owner"] },
+      "key_data_fields": ["name","description","privacy","member_ids","admin_ids","rules","tags","created_by","avatar_url","member_count"],
+      "children": ["post","notification_feed"]
+    },
+    {
+      "type": "post",
+      "description": "Social post or microblog — text, media, visibility, hashtags, mention list.",
+      "default_permissions": { "read": ["public"], "write": ["owner"], "execute": ["owner","admin"] },
+      "key_data_fields": ["author_id","content","media_urls","visibility","hashtags","mentions","location_tag","reactions_count","comments_count","shared_from_id","published_at"],
+      "children": ["comment","reaction"]
+    },
+    {
+      "type": "comment",
+      "description": "Comment or threaded reply on a post, profile, or any content node.",
+      "default_permissions": { "read": ["public"], "write": ["owner"], "execute": ["owner","admin"] },
+      "key_data_fields": ["target_node_id","author_id","body","parent_comment_id","depth","reactions_count","edited","edited_at","created_at"],
+      "children": ["reaction"]
+    },
+    {
+      "type": "reaction",
+      "description": "Emoji or typed reaction on any node — like, love, insightful, celebrate, etc.",
+      "default_permissions": { "read": ["public"], "write": ["owner"], "execute": ["owner"] },
+      "key_data_fields": ["reactor_id","target_node_id","reaction_type","reacted_at"],
+      "reaction_types": ["like","love","celebrate","insightful","curious","support","dislike"]
+    },
+    {
+      "type": "follow",
+      "description": "Directed follow relationship between two user nodes.",
+      "default_permissions": { "read": ["owner","followed"], "write": ["owner"], "execute": ["owner"] },
+      "key_data_fields": ["follower_id","followed_id","followed_at","notify_on_post","notify_on_milestone","mutual"]
+    },
+    {
+      "type": "notification_feed",
+      "description": "Aggregated notification stream — unread count, items, last-read cursor.",
+      "default_permissions": { "read": ["owner"], "write": ["system","agent"], "execute": ["owner","system"] },
+      "key_data_fields": ["owner_id","unread_count","items","last_read_at","muted_sources","delivery_channel"],
+      "singleton": true
+    }
+  ]
+}
