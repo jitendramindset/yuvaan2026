@@ -51,12 +51,16 @@ export default function WidgetsPage() {
   const [showLive,   setShowLive]   = useState(true);
 
   useEffect(() => {
-    setLoading(true); setError(null);
-    api.customize
-      .widgets(platform || undefined, category || undefined)
-      .then((res) => setApiWidgets(res.widgets))
-      .catch((e: unknown) => setError(e instanceof Error ? e.message : String(e)))
-      .finally(() => setLoading(false));
+    async function loadWidgets() {
+      setLoading(true);
+      setError(null);
+      api.customize
+        .widgets(platform || undefined, category || undefined)
+        .then((res) => setApiWidgets(res.widgets))
+        .catch((e: unknown) => setError(e instanceof Error ? e.message : String(e)))
+        .finally(() => setLoading(false));
+    }
+    void loadWidgets();
   }, [platform, category]);
 
   const filteredApi = apiWidgets.filter((w) =>

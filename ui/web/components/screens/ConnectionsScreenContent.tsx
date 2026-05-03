@@ -58,8 +58,6 @@ export function ConnectionsScreenContent() {
     type: "rest_api", name: "", url: "", api_key: "", capabilities: "", icon: "🔌",
   });
 
-  useEffect(() => { void load(); }, []);
-
   async function load() {
     setLoading(true);
     try {
@@ -78,6 +76,11 @@ export function ConnectionsScreenContent() {
     } catch { /* offline mode */ }
     setLoading(false);
   }
+
+  useEffect(() => {
+    const id = window.setTimeout(() => { void load(); }, 0);
+    return () => window.clearTimeout(id);
+  }, []);
 
   async function addConnection() {
     if (!form.name.trim()) return;

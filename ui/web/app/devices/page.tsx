@@ -403,6 +403,7 @@ export default function DevicesPage() {
   const [loading,  setLoading]  = useState(true);
 
   // Load presets + devices
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     Promise.all([
       api<{ presets: Preset[] }>("/presets").then((r) => setPresets(r.presets)),
@@ -412,8 +413,9 @@ export default function DevicesPage() {
 
   // Demo: add sample devices for first-time visitors
   useEffect(() => {
-    if (!loading && devices.length === 0) {
-      const demo: HubDevice[] = [
+    const id = window.setTimeout(() => {
+      if (!loading && devices.length === 0) {
+        const demo: HubDevice[] = [
         { device_id:"demo-tv",  category:"tv",          icon:"📺", label:"Living Room TV",  model:"Samsung QN90B",   protocol:"websocket",  capabilities:["power_on","power_off","volume","mute","nav_up","nav_down","play","pause","launch_app"], status:"idle",    state:{ power:"on", volume:40, current_app:"Netflix" }, room:"Living Room", last_seen: new Date().toISOString() },
         { device_id:"demo-pc",  category:"pc",          icon:"🖥️", label:"Office PC",       model:"Windows 11",      protocol:"websocket",  capabilities:["keyboard","mouse","open_url","screenshot","power_off","sleep"],                         status:"online",  state:{ cpu_usage:32, power:"on" },                      room:"Office",       last_seen: new Date().toISOString() },
         { device_id:"demo-mob", category:"mobile",      icon:"📱", label:"My Phone",        model:"Pixel 9 Pro",     protocol:"websocket",  capabilities:["push_notification","tts_speak","camera_stream","read_location","read_health"],          status:"online",  state:{ battery:78, heart_rate:72 },                     room:"Pocket",       last_seen: new Date().toISOString() },
@@ -424,7 +426,9 @@ export default function DevicesPage() {
         { device_id:"demo-lk",  category:"lock",        icon:"🔒", label:"Front Door",      model:"August Smart Lock",protocol:"http_rest", capabilities:["lock","unlock","door_status"],                                                          status:"online",  state:{ locked:true },                                   room:"Entrance",     last_seen: new Date().toISOString() },
       ];
       setDevices(demo);
-    }
+      }
+    }, 0);
+    return () => window.clearTimeout(id);
   }, [loading, devices.length]);
 
   const categories = ["all", ...Array.from(new Set(devices.map((d) => d.category)))];
@@ -533,7 +537,7 @@ export default function DevicesPage() {
         <div className="mt-6 bg-[var(--surface)] border border-[var(--border)] rounded-xl p-5">
           <h3 className="font-medium text-sm mb-2 flex items-center gap-2"><Zap size={14} className="text-[var(--accent)]"/> Real-time Device Connection</h3>
           <p className="text-xs text-[var(--muted)] mb-2">Devices connect via WebSocket to: <code className="px-1.5 py-0.5 rounded bg-[var(--bg)] text-[var(--accent)]">ws://your-server:3000/hub/ws/&#123;deviceId&#125;</code></p>
-          <p className="text-xs text-[var(--muted)]">Once connected, the AI can control your device via voice: <span className="italic">"Turn on the TV", "Dim the bedroom lights to 40%", "Lock the front door"</span></p>
+          <p className="text-xs text-[var(--muted)]">Once connected, the AI can control your device via voice: <span className="italic">&apos;Turn on the TV&apos;, &apos;Dim the bedroom lights to 40%&apos;, &apos;Lock the front door&apos;</span></p>
         </div>
       </div>
 

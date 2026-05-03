@@ -3,6 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // Proxy all /api/backend/* requests to the NodeOS backend (localhost:3000)
   // so the browser never makes cross-origin calls — works in dev containers too.
+  turbopack: { root: __dirname },
+
   async rewrites() {
     return [
       {

@@ -179,7 +179,6 @@ function CircleDetail({ circle, onBack }: { circle: Circle; onBack: () => void }
     const m: CircleMember = { id: `m-${Date.now()}`, name: newName, role: "member", joined_at: new Date().toISOString() };
     const updated = [...members, m];
     setMembers(updated);
-    circle.members = updated;
     const all = loadCircles().map((c) => c.id === circle.id ? { ...c, members: updated } : c);
     saveCircles(all);
     setNewName(""); setAddMember(false);

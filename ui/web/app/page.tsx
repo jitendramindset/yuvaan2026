@@ -21,10 +21,9 @@ const TILES = [
 
 export default function HomePage() {
   const [online, setOnline] = useState<boolean | null>(null);
-  const [isApp,  setIsApp]  = useState(false);
+  const [isApp] = useState(() => typeof window !== "undefined" && window.matchMedia("(display-mode: standalone)").matches);
 
   useEffect(() => {
-    setIsApp(window.matchMedia("(display-mode: standalone)").matches);
     fetch(`${BASE}/health`, { signal: AbortSignal.timeout(3000) })
       .then((r) => setOnline(r.ok))
       .catch(() => setOnline(false));

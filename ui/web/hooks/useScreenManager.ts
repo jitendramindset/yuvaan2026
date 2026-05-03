@@ -91,10 +91,13 @@ export function useScreenManager() {
   const [ready, setReady]     = useState(false);
 
   useEffect(() => {
-    const stored = readStored();
-    setActive(stored);
-    setHistory(readHistory());
-    setReady(true);
+    const id = window.setTimeout(() => {
+      const stored = readStored();
+      setActive(stored);
+      setHistory(readHistory());
+      setReady(true);
+    }, 0);
+    return () => window.clearTimeout(id);
   }, []);
 
   const navigate = useCallback((screen: ScreenId) => {

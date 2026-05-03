@@ -59,10 +59,12 @@ export function useOBData(): OBData {
   const [data, setData] = useState<OBData>({});
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(OB_KEY);
-      if (raw) setData(JSON.parse(raw) as OBData);
-    } catch { /**/ }
+    const id = window.setTimeout(() => {
+      try {
+        const raw = localStorage.getItem(OB_KEY);
+        if (raw) setData(JSON.parse(raw) as OBData);
+      } catch { /**/ }
+    }, 0);
 
     const handler = (e: StorageEvent) => {
       if (e.key === OB_KEY && e.newValue) {
@@ -70,7 +72,10 @@ export function useOBData(): OBData {
       }
     };
     window.addEventListener("storage", handler);
-    return () => window.removeEventListener("storage", handler);
+    return () => {
+      window.removeEventListener("storage", handler);
+      window.clearTimeout(id);
+    };
   }, []);
 
   return data;

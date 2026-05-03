@@ -5,7 +5,7 @@
  * Multi-entry sections, "add custom if not in list", biometric capture.
  */
 import {
-  useCallback, useRef, useState,
+  useCallback, useEffect, useRef, useState,
 } from "react";
 import {
   Building2, Camera, CheckCircle, ChevronLeft, ChevronRight,
@@ -277,7 +277,16 @@ function MultiChip({
 // ─── Personal Steps ───────────────────────────────────────────────────────────
 
 function StepIdentity({ d, set }: { d: PersonalData; set: (p: Partial<PersonalData>) => void }) {
-  const age = d.dob ? Math.floor((Date.now() - new Date(d.dob).getTime()) / (365.25 * 86400000)) : null;
+  const [age, setAge] = useState<number | null>(null);
+
+  useEffect(() => {
+    const id = window.setTimeout(() => {
+      const now = Date.now();
+      setAge(d.dob ? Math.floor((now - new Date(d.dob).getTime()) / (365.25 * 86400000)) : null);
+    }, 0);
+    return () => window.clearTimeout(id);
+  }, [d.dob]);
+
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -607,7 +616,7 @@ function StepBiometric({ d, set }: { d: PersonalData; set: (p: Partial<PersonalD
         {!d.voice_recorded ? (
           <div>
             <p className="text-xs mb-2" style={{ color: "var(--muted)" }}>
-              Say: "My name is [your name] and I am logging into NodeOS"
+              Say: &apos;My name is [your name] and I am logging into NodeOS&apos;
             </p>
             {recording ? (
               <div>

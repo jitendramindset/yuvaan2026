@@ -46,10 +46,12 @@ export function useProfile(): ProfileData {
   const [profile, setProfile] = useState<ProfileData>({});
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(ONBOARDING_KEY);
-      if (raw) setProfile(JSON.parse(raw) as ProfileData);
-    } catch { /* ignore */ }
+    const id = window.setTimeout(() => {
+      try {
+        const raw = localStorage.getItem(ONBOARDING_KEY);
+        if (raw) setProfile(JSON.parse(raw) as ProfileData);
+      } catch { /* ignore */ }
+    }, 0);
 
     // Re-sync if the user completes onboarding in another tab
     const handler = (e: StorageEvent) => {
@@ -58,7 +60,10 @@ export function useProfile(): ProfileData {
       }
     };
     window.addEventListener("storage", handler);
-    return () => window.removeEventListener("storage", handler);
+    return () => {
+      window.removeEventListener("storage", handler);
+      window.clearTimeout(id);
+    };
   }, []);
 
   return profile;

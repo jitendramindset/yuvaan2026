@@ -66,6 +66,10 @@ function saveLayout(layout: LayoutWidget[]): void {
   try { localStorage.setItem(LAYOUT_KEY, JSON.stringify(layout)); } catch { /**/ }
 }
 
+function newWidgetId() {
+  return `vw-${Date.now()}`;
+}
+
 function widgetStyle(w: LayoutWidget): React.CSSProperties {
   const h = w.h * ROW_H + (w.h - 1) * GAP;
   return {
@@ -871,7 +875,7 @@ export default function VanshawaliPage() {
     if (!entry) return;
     const maxRow = layout.reduce((m, w) => Math.max(m, w.y + w.h), 0);
     const nw: LayoutWidget = {
-      id: `vw-${Date.now()}`,
+      id: newWidgetId(),
       widget_type: entry.type,
       x: 0, y: maxRow,
       w: entry.defaultW, h: entry.defaultH,

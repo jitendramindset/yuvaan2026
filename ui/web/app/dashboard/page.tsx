@@ -35,18 +35,24 @@ export default function DashboardPage() {
   const [showAdd, setShowAdd] = useState(false);
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(LAYOUT_STORAGE_KEY);
-      if (saved) setLayout(JSON.parse(saved) as LayoutWidget[]);
-    } catch { /* use defaults */ }
-    const tick = () => {
-      const now = new Date();
-      setHour(now.getHours());
-      setToday(now.toLocaleDateString("en-IN", { weekday: "long", month: "long", day: "numeric" }));
+    let intervalId: number | null = null;
+    const id = window.setTimeout(() => {
+      try {
+        const saved = localStorage.getItem(LAYOUT_STORAGE_KEY);
+        if (saved) setLayout(JSON.parse(saved) as LayoutWidget[]);
+      } catch { /* use defaults */ }
+      const tick = () => {
+        const now = new Date();
+        setHour(now.getHours());
+        setToday(now.toLocaleDateString("en-IN", { weekday: "long", month: "long", day: "numeric" }));
+      };
+      tick();
+      intervalId = window.setInterval(tick, 60_000);
+    }, 0);
+    return () => {
+      window.clearTimeout(id);
+      if (intervalId !== null) window.clearInterval(intervalId);
     };
-    tick();
-    const t = setInterval(tick, 60_000);
-    return () => clearInterval(t);
   }, []);
 
   const greeting =
@@ -64,7 +70,7 @@ export default function DashboardPage() {
     if (!entry) return;
     const maxRow = layout.reduce((m, w) => Math.max(m, w.y + w.h), 0);
     const newW: LayoutWidget = {
-      id: `w-${Date.now()}`,
+      id: newDashboardWidgetId(),
       widget_type: entry.type,
       x: 0,
       y: maxRow,
@@ -77,6 +83,12 @@ export default function DashboardPage() {
     try { localStorage.setItem(LAYOUT_STORAGE_KEY, JSON.stringify(next)); } catch { /* ignore */ }
     setShowAdd(false);
   }
+
+let dashboardWidgetCounter = 0;
+function newDashboardWidgetId() {
+  dashboardWidgetCounter += 1;
+  return `w-${dashboardWidgetCounter}`;
+}
 
   return (
     <OSShell dashboardContent={

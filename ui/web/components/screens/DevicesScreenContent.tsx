@@ -69,8 +69,6 @@ export function DevicesScreenContent() {
     api_key: "", protocol: "websocket", icon: "📺",
   });
 
-  useEffect(() => { void load(); }, []);
-
   async function load() {
     setLoading(true);
     try {

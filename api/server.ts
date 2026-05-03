@@ -166,6 +166,14 @@ function json(res: ServerResponse, status: number, body: unknown): void {
 }
 
 const routes: Array<{ method: string; path: string | RegExp; handler: Handler }> = [
+  // ── Root Info ─────────────────────────────────────────────────────────────────
+  { method: "GET", path: "/", handler: (_req, res) => json(res, 200, {
+    status: "NodeOS API",
+    message: "This server is the NodeOS backend API. Visit the frontend on port 3001.",
+    frontend: "http://localhost:3001",
+    health: "/health",
+  }) },
+
   // ── Health ──────────────────────────────────────────────────────────────────
   { method: "GET",  path: "/health", handler: (_req, res) => json(res, 200, { status: "ok", version: "0.1.0" }) },
 

@@ -227,10 +227,13 @@ function MapView() {
   const [locationError, setLocErr] = useState(false);
 
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(LOCATION_KEY);
-      if (stored) { const d = JSON.parse(stored); setMyLat(d.lat); setMyLon(d.lon); setSharing(d.sharing); }
-    } catch { /**/ }
+    const id = window.setTimeout(() => {
+      try {
+        const stored = localStorage.getItem(LOCATION_KEY);
+        if (stored) { const d = JSON.parse(stored); setMyLat(d.lat); setMyLon(d.lon); setSharing(d.sharing); }
+      } catch { /**/ }
+    }, 0);
+    return () => window.clearTimeout(id);
   }, []);
 
   function shareLocation() {

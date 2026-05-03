@@ -126,12 +126,23 @@ export function CalendarWidget({ config }: { config: Record<string, unknown> }) 
 // ─── 3. Countdown Widget ──────────────────────────────────────────────────────
 
 export function CountdownWidget({ config }: { config: Record<string, unknown> }) {
-  const target = (config.target as string) ?? new Date(Date.now() + 7 * 86400_000).toISOString();
+  const [target, setTarget] = useState<string>("");
+  const [now, setNow] = useState<number>(0);
   const label  = (config.label  as string) ?? "Countdown";
-  const [now, setNow] = useState(Date.now());
-  useEffect(() => { const t = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(t); }, []);
 
-  const diff = Math.max(0, new Date(target).getTime() - now);
+  useEffect(() => {
+    const id = window.setTimeout(() => {
+      setTarget((config.target as string) ?? new Date(Date.now() + 7 * 86400_000).toISOString());
+      setNow(Date.now());
+    }, 0);
+    const t = setInterval(() => setNow(Date.now()), 1000);
+    return () => {
+      window.clearTimeout(id);
+      clearInterval(t);
+    };
+  }, [config.target]);
+
+  const diff = target ? Math.max(0, new Date(target).getTime() - now) : 0;
   const d = Math.floor(diff / 86400_000);
   const h = Math.floor((diff % 86400_000) / 3600_000);
   const m = Math.floor((diff % 3600_000)  / 60_000);

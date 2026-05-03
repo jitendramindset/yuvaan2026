@@ -104,14 +104,17 @@ export function useTheme() {
 
   // hydrate from localStorage
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(LS_KEY);
-      if (raw) {
-        const saved = JSON.parse(raw) as ThemeVars;
-        applyVars(saved);
-        setTheme(saved);
-      }
-    } catch { /* ignore */ }
+    const id = window.setTimeout(() => {
+      try {
+        const raw = localStorage.getItem(LS_KEY);
+        if (raw) {
+          const saved = JSON.parse(raw) as ThemeVars;
+          applyVars(saved);
+          setTheme(saved);
+        }
+      } catch { /* ignore */ }
+    }, 0);
+    return () => window.clearTimeout(id);
   }, []);
 
   const applyTheme = useCallback((vars: ThemeVars) => {

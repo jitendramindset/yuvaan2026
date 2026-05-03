@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useEffect, useState, useCallback } from "react";
 import { api } from "@/lib/api";
 import { CheckCircle, XCircle, Loader, Cpu, Database, Shield, Zap, HardDrive } from "lucide-react";
@@ -70,7 +71,10 @@ export default function InstallPage() {
     setDone(true);
   }, []);
 
-  useEffect(() => { runInstall(); }, [runInstall]);
+  useEffect(() => {
+    const id = window.setTimeout(() => { void runInstall(); }, 0);
+    return () => window.clearTimeout(id);
+  }, [runInstall]);
 
   const statusIcon = (s: Status) => {
     if (s === "ok")      return <CheckCircle size={18} style={{ color: "#22c55e" }} />;
@@ -136,9 +140,9 @@ export default function InstallPage() {
           <p className="text-sm" style={{ color: "var(--muted)" }}>
             All subsystems online. Install as App for offline use, or continue in Web Mode.
           </p>
-          <a href="/" className="btn btn-primary block text-center mt-4">
+          <Link href="/" className="btn btn-primary block text-center mt-4">
             Open Dashboard →
-          </a>
+          </Link>
         </div>
       )}
 

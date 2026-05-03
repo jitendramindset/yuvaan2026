@@ -85,7 +85,10 @@ export default function ServicesPage() {
     setLastRun(new Date().toLocaleTimeString());
   }, [checkService]);
 
-  useEffect(() => { checkAll(); }, [checkAll]);
+  useEffect(() => {
+    const id = window.setTimeout(() => { void checkAll(); }, 0);
+    return () => window.clearTimeout(id);
+  }, [checkAll]);
 
   const statusColor = (s: ServiceStatus) =>
     ({ online: "#22c55e", degraded: "#f59e0b", offline: "#ef4444", checking: "var(--muted)" })[s];

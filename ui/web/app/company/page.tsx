@@ -20,15 +20,18 @@ export default function CompanyPage() {
   const [error,     setError]     = useState<string | null>(null);
 
   useEffect(() => {
-    setLoading(true);
-    api.company
-      .industryModules(industry)
-      .then((res) => {
-        setAvailable(res.modules);
-        setModules(res.modules.slice(0, 4));
-      })
-      .catch(() => setAvailable([]))
-      .finally(() => setLoading(false));
+    const id = window.setTimeout(() => {
+      setLoading(true);
+      api.company
+        .industryModules(industry)
+        .then((res) => {
+          setAvailable(res.modules);
+          setModules(res.modules.slice(0, 4));
+        })
+        .catch(() => setAvailable([]))
+        .finally(() => setLoading(false));
+    }, 0);
+    return () => window.clearTimeout(id);
   }, [industry]);
 
   async function generate() {

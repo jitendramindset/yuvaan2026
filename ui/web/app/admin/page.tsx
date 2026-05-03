@@ -236,11 +236,14 @@ function NodeInspector({
   const node = nodes.find((n) => n.node_id === nodeId);
 
   useEffect(() => {
-    setLoading(true);
-    api.admin.nodeJson(nodeId)
-      .then(setFull)
-      .catch(() => setFull(null))
-      .finally(() => setLoading(false));
+    const id = window.setTimeout(() => {
+      setLoading(true);
+      api.admin.nodeJson(nodeId)
+        .then(setFull)
+        .catch(() => setFull(null))
+        .finally(() => setLoading(false));
+    }, 0);
+    return () => window.clearTimeout(id);
   }, [nodeId]);
 
   if (!node) return null;

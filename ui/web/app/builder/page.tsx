@@ -67,6 +67,7 @@ export default function BuilderPage() {
   const dragOffRowRef = useRef<number>(0); // row offset within dragged widget
   const [ghostPos, setGhostPos] = useState<{ col: number; row: number } | null>(null);
   const [ghostSize, setGhostSize] = useState<{ w: number; h: number }>({ w: 4, h: 3 });
+  const [draggedId, setDraggedId] = useState<string | null>(null);
 
   // Recalculate column width when canvas resizes
   useEffect(() => {
@@ -83,10 +84,13 @@ export default function BuilderPage() {
 
   // Load saved layout
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(LAYOUT_STORAGE_KEY);
-      if (raw) setLayout(JSON.parse(raw) as LayoutWidget[]);
-    } catch { /* use defaults */ }
+    const id = window.setTimeout(() => {
+      try {
+        const raw = localStorage.getItem(LAYOUT_STORAGE_KEY);
+        if (raw) setLayout(JSON.parse(raw) as LayoutWidget[]);
+      } catch { /* use defaults */ }
+    }, 0);
+    return () => window.clearTimeout(id);
   }, []);
 
   // ── Drag handlers ────────────────────────────────────────────────────────────
@@ -96,6 +100,7 @@ export default function BuilderPage() {
     const w = layout.find((x) => x.id === id);
     if (!w) return;
     dragIdRef.current = id;
+    setDraggedId(id);
     // compute offset: which column/row within the widget was clicked
     if (canvasRef.current) {
       const rect = canvasRef.current.getBoundingClientRect();
@@ -123,6 +128,7 @@ export default function BuilderPage() {
       );
     }
     dragIdRef.current = null;
+    setDraggedId(null);
     setGhostPos(null);
   }, [ghostPos]);
 
@@ -194,7 +200,7 @@ export default function BuilderPage() {
 
   const cellStyle = (w: LayoutWidget, ghost: boolean): React.CSSProperties => {
     const px = w.h * ROW_H + (w.h - 1) * GAP;
-    const isBeingDragged = dragIdRef.current === w.id;
+    const isBeingDragged = draggedId === w.id;
     return {
       gridColumnStart: w.x + 1,
       gridColumnEnd:   `span ${w.w}`,
