@@ -23,7 +23,7 @@ interface SimNode {
   id: string; label: string; type: string; status: string;
   x: number;  y: number;   vx: number;   vy: number;
 }
-interface SimEdge { source: string; target: string; type: string }
+
 
 function runSimulation(
   nodes: NodeGraphNode[],

@@ -15,8 +15,8 @@
 
 import { useState, useRef, useEffect, KeyboardEvent } from "react";
 import {
-  Send, Mic, MicOff, Sparkles, ChevronRight, X, Terminal,
-  Zap, AlertCircle, CheckCircle, Loader,
+  Send, Mic, MicOff, Sparkles, Terminal,
+  Zap, Loader,
 } from "lucide-react";
 import { dispatchNavigate, type ScreenId } from "@/hooks/useScreenManager";
 

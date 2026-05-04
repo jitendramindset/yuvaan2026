@@ -26,7 +26,7 @@ export function Canvas({ config, data = {} }: CanvasProps): React.ReactElement {
     // Only allow scripts from trusted same-origin sources — no eval().
     // This is a sandboxed draw-only API.
     try {
-      const fn = new Function("canvas", "ctx", "data", scriptSrc); // eslint-disable-line no-new-func
+      const fn = new Function("canvas", "ctx", "data", scriptSrc);
       fn(canvas, ctx, data);
     } catch (err) {
       ctx.fillStyle = "#ff4d4f";

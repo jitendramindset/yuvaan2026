@@ -5,9 +5,9 @@
  * Interface: ({ config: Record<string, unknown> }) => JSX
  */
 import { BookOpen, Briefcase, Camera, Phone, Mail, Globe, Link2,
-         MapPin, Wallet, Share2, Star, GitBranch, UserPlus, Plus,
-         Heart, Users, Zap } from "lucide-react";
-import { useOBData, computeOBCompletion, OBData } from "@/hooks/useOBData";
+         MapPin, Wallet, GitBranch, UserPlus, Plus,
+         Zap } from "lucide-react";
+import { useOBData, computeOBCompletion } from "@/hooks/useOBData";
 
 // ─── Palette of hobby colors ──────────────────────────────────────────────────
 const HC = [

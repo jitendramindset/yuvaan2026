@@ -1,13 +1,12 @@
 "use client";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
-  Tv, Monitor, Smartphone, Camera, Mic, Gamepad2, Watch, Lightbulb,
-  Plug, Thermometer, Speaker, Glasses, Radio, Lock, Cpu, Car,
-  Wifi, WifiOff, PlusCircle, Trash2, Send, RefreshCw, Zap,
+  Lightbulb, Lock,
+  Wifi, WifiOff, PlusCircle, Trash2, Send, Zap,
   ChevronUp, ChevronDown, ChevronLeft, ChevronRight, Circle,
-  Home, RotateCcw, Menu, Volume2, VolumeX, Play, Pause, Square,
-  SkipForward, SkipBack, Maximize2, Power, Settings2, Search,
-  ToggleLeft, Thermometer as ThermoIcon, Eye, X, Check, Loader2,
+  Home, Menu, Volume2, VolumeX, Play, Pause, Square,
+  SkipForward, SkipBack, Maximize2, Power, Search,
+  Eye, X, Check, Loader2,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -65,13 +64,6 @@ interface Preset {
 }
 
 // ── Category metadata ──────────────────────────────────────────────────────────
-
-const CAT_ICON: Record<string, React.ElementType> = {
-  tv: Tv, pc: Monitor, mobile: Smartphone, camera: Camera, microphone: Mic,
-  gaming: Gamepad2, watch: Watch, iot_sensor: Cpu, smart_light: Lightbulb,
-  smart_plug: Plug, thermostat: Thermometer, speaker: Speaker,
-  vr_headset: Glasses, streaming: Radio, lock: Lock, car: Car, custom: Settings2,
-};
 
 const STATUS_COLOR: Record<DeviceStatus, string> = {
   online:  "bg-green-400",
@@ -338,7 +330,6 @@ function AddDeviceModal({ presets, onAdd, onClose }: { presets: Preset[]; onAdd:
 // ── Device Card ───────────────────────────────────────────────────────────────
 
 function DeviceCard({ device, onControl, onRemove }: { device: HubDevice; onControl: () => void; onRemove: () => void }) {
-  const Icon   = CAT_ICON[device.category] ?? Cpu;
   const online = device.status === "online" || device.status === "idle";
 
   return (
@@ -403,19 +394,28 @@ export default function DevicesPage() {
   const [loading,  setLoading]  = useState(true);
 
   // Load presets + devices
-  // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => {
-    Promise.all([
-      api<{ presets: Preset[] }>("/presets").then((r) => setPresets(r.presets)),
-      api<{ devices: HubDevice[] }>(`/devices/${OWNER}`).then((r) => setDevices(r.devices)),
-    ]).finally(() => setLoading(false));
-  }, []);
+useEffect(() => {
+  let isMounted = true;
+  Promise.all([
+    api<{ presets: Preset[] }>("/presets").then((r) => {
+      if (isMounted) setPresets(r.presets);
+    }),
+    api<{ devices: HubDevice[] }>(`/devices/${OWNER}`).then((r) => {
+      if (isMounted) setDevices(r.devices);
+    }),
+  ]).finally(() => {
+    if (isMounted) setLoading(false);
+  });
+  return () => {
+    isMounted = false;
+  };
+}, []);
 
-  // Demo: add sample devices for first-time visitors
-  useEffect(() => {
-    const id = window.setTimeout(() => {
-      if (!loading && devices.length === 0) {
-        const demo: HubDevice[] = [
+// Demo: add sample devices for first-time visitors
+useEffect(() => {
+  const id = window.setTimeout(() => {
+    if (!loading && devices.length === 0) {
+      const demo: HubDevice[] = [
         { device_id:"demo-tv",  category:"tv",          icon:"📺", label:"Living Room TV",  model:"Samsung QN90B",   protocol:"websocket",  capabilities:["power_on","power_off","volume","mute","nav_up","nav_down","play","pause","launch_app"], status:"idle",    state:{ power:"on", volume:40, current_app:"Netflix" }, room:"Living Room", last_seen: new Date().toISOString() },
         { device_id:"demo-pc",  category:"pc",          icon:"🖥️", label:"Office PC",       model:"Windows 11",      protocol:"websocket",  capabilities:["keyboard","mouse","open_url","screenshot","power_off","sleep"],                         status:"online",  state:{ cpu_usage:32, power:"on" },                      room:"Office",       last_seen: new Date().toISOString() },
         { device_id:"demo-mob", category:"mobile",      icon:"📱", label:"My Phone",        model:"Pixel 9 Pro",     protocol:"websocket",  capabilities:["push_notification","tts_speak","camera_stream","read_location","read_health"],          status:"online",  state:{ battery:78, heart_rate:72 },                     room:"Pocket",       last_seen: new Date().toISOString() },

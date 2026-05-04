@@ -337,7 +337,7 @@ function CreateCircleForm({ onDone }: { onDone: (c: Circle) => void }) {
 
 // ─── CircleWidget (default export) ───────────────────────────────────────────
 
-export function CircleWidget({ config: _c }: { config: Record<string, unknown> }) {
+export function CircleWidget({ }: { config: Record<string, unknown> }) {
   const [circles, setCircles]   = useState<Circle[]>(() => loadCircles());
   const [selected, setSelected] = useState<Circle | null>(null);
   const [creating, setCreating] = useState(false);

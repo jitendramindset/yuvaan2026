@@ -4,7 +4,7 @@
  * All accept { config: Record<string, unknown> }
  */
 import { useEffect, useState, useRef } from "react";
-import { MapPin, Camera, Video, Music, QrCode, Heart,
+import { MapPin, Camera, Video, Music, Heart,
          Share2, MessageCircle, Play, Pause, SkipBack,
          SkipForward, Grid, Image as ImageIcon, Radio } from "lucide-react";
 
@@ -12,7 +12,6 @@ import { MapPin, Camera, Video, Music, QrCode, Heart,
 export function MapWidget({ config }: { config: Record<string, unknown> }) {
   const lat   = (config.lat  as string) || "19.076";
   const lon   = (config.lon  as string) || "72.8777";
-  const zoom  = (config.zoom as string) || "13";
   const label = (config.label as string) || "Location";
   const showMap = config.showMap !== false;
 

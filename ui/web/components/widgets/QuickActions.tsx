@@ -1,7 +1,7 @@
 "use client";
 import {
   MessageCircle, Mic, Plus, ShoppingBag,
-  RefreshCw, Settings, Users, Smartphone,
+  Users, Smartphone,
   Globe, Zap, Shield, Download,
 } from "lucide-react";
 import { useRouter } from "next/navigation";

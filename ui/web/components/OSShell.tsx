@@ -21,7 +21,7 @@
  */
 
 import { useEffect, useState, lazy, Suspense } from "react";
-import { Loader, ChevronLeft, Mic, MicOff, Moon, Sun } from "lucide-react";
+import { Loader, ChevronLeft, Mic, MicOff } from "lucide-react";
 import { useScreenManager, SCREENS, type ScreenId } from "@/hooks/useScreenManager";
 import { profileDisplayName } from "@/hooks/useProfile";
 import { useProfile } from "@/hooks/useProfile";

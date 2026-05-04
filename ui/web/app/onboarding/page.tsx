@@ -7,6 +7,7 @@
 import {
   useCallback, useEffect, useRef, useState,
 } from "react";
+import Image from "next/image";
 import {
   Building2, Camera, CheckCircle, ChevronLeft, ChevronRight,
   Fingerprint, Mic, MicOff, Plus, Trash2, User, X,
@@ -159,7 +160,6 @@ function SelectOrAdd({
 }) {
   const [custom, setCustom] = useState(false);
   const [customVal, setCustomVal] = useState("");
-  const isOther = value === "__other__";
 
   return (
     <div>
@@ -579,7 +579,7 @@ function StepBiometric({ d, set }: { d: PersonalData; set: (p: Partial<PersonalD
         </div>
         {d.face_photo ? (
           <div className="flex gap-3 items-center">
-            <img src={d.face_photo} alt="face" className="rounded-xl" style={{ width: 80, height: 80, objectFit: "cover" }} />
+            <Image src={d.face_photo} alt="face" className="rounded-xl" width={80} height={80} style={{ objectFit: "cover" }} />
             <button onClick={() => set({ face_photo: "" })} className="btn btn-secondary text-xs">Retake</button>
           </div>
         ) : (

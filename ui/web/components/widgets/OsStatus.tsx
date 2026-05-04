@@ -2,9 +2,7 @@
 import { useEffect, useState } from "react";
 import { Activity } from "lucide-react";
 
-interface Props { config: Record<string, unknown> }
-
-export function OsStatus({ config }: Props) {
+export function OsStatus() {
   const [version, setVersion] = useState("1.0");
   const [engineStatus, setEngineStatus] = useState("running");
   const [nodeTotal, setNodeTotal] = useState(0);

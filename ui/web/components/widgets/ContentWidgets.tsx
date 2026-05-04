@@ -3,7 +3,7 @@
  * ContentWidgets — utility widgets: Weather, Calendar, Countdown, Progress,
  * Stats, Notifications, Embed, TagCloud, LinkPreview, Markdown
  */
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Wind, Thermometer, ChevronLeft, ChevronRight,
   Bell, Code, Tag, ExternalLink, Zap, Hash, FileText,
@@ -406,7 +406,7 @@ export function MarkdownWidget({ config }: { config: Record<string, unknown> }) 
 
 // ─── Notification widget needs no config prop ─────────────────────────────────
 // Export a config-accepting version too
-export function NotificationWidgetC({ config: _c }: { config: Record<string, unknown> }) {
+export function NotificationWidgetC({ }: { config: Record<string, unknown> }) {
   return <NotificationWidget />;
 }
 

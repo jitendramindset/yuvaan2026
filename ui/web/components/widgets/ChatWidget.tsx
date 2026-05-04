@@ -2,10 +2,9 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Send, Bot, User as UserIcon } from "lucide-react";
 
-interface Props { config: Record<string, unknown> }
 interface Msg { role: "user" | "ai"; text: string }
 
-export function ChatWidget({ config }: Props) {
+export function ChatWidget() {
   const [msgs, setMsgs] = useState<Msg[]>([
     { role: "ai", text: "Hello! I'm your NodeOS AI. Ask me anything or say a command like 'show my nodes' or 'open wallet'." },
   ]);

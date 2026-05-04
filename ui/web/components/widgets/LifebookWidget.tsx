@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import {
   hashContent, defaultSecuredItem, checkAccess, destroyInstance,
-  appendAccessLog, type SecuredItem,
+  type SecuredItem,
 } from "@/hooks/useNodeSecurity";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -47,6 +47,7 @@ export function savePosts(posts: LifebookPost[]) {
 
 const POST_TYPES = [
   { type: "text"  as PostType, icon: <FileText   size={13} />, label: "Text",  color: "#6c63ff" },
+  // eslint-disable-next-line jsx-a11y/alt-text
   { type: "image" as PostType, icon: <Image      size={13} />, label: "Image", color: "#22c55e" },
   { type: "video" as PostType, icon: <Video      size={13} />, label: "Video", color: "#ef4444" },
   { type: "voice" as PostType, icon: <Mic        size={13} />, label: "Voice", color: "#f59e0b" },
@@ -359,7 +360,7 @@ function Composer({ onPost }: { onPost: (p: LifebookPost) => void }) {
 
 // ─── LifebookWidget (default export) ─────────────────────────────────────────
 
-export function LifebookWidget({ config: _c }: { config: Record<string, unknown> }) {
+export function LifebookWidget({ }: { config: Record<string, unknown> }) {
   const [posts, setPosts] = useState<LifebookPost[]>(() => loadPosts());
   const [filter, setFilter] = useState<"all" | PostType>("all");
 

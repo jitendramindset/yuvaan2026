@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import { Smartphone, Monitor, Watch, Tablet, Plus } from "lucide-react";
 import Link from "next/link";
 
-interface Props { config: Record<string, unknown> }
-
 interface Device {
   device_id: string;
   device_name?: string;
@@ -22,7 +20,7 @@ const PLATFORM_ICONS: Record<string, React.ComponentType<{ size?: number; style?
   tablet:   Tablet,
 };
 
-export function DeviceStatus({ config }: Props) {
+export function DeviceStatus() {
   const [devices, setDevices] = useState<Device[]>([]);
 
   useEffect(() => {

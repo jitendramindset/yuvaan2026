@@ -12,16 +12,16 @@
  * All widgets use WidgetRenderer (same `LayoutWidget[]` format as dashboard).
  * Trust score (from profile completion) gates wallet limits and actions.
  */
-import { useCallback, useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import {
   Users, MapPin, BookOpen, Lock, LayoutDashboard,
   Plus, Edit3, X, Save, Check, Upload, Mic, Image,
-  Video, FileText, Share2, Shield, Clock, Eye, EyeOff,
-  Zap, AlertTriangle, UserPlus, Settings, ChevronRight,
-  Globe, Link2, Heart, MessageCircle, Play,
+  Video, FileText, Share2, Shield, Clock, Eye,
+  Zap, AlertTriangle, ChevronRight,
+  Heart, MessageCircle,
 } from "lucide-react";
 import {
-  WidgetRenderer, LayoutWidget, WIDGET_CATALOGUE, CatalogueEntry,
+  WidgetRenderer, LayoutWidget, WIDGET_CATALOGUE,
 } from "@/components/widgets/WidgetRenderer";
 import { useOBData, computeOBCompletion } from "@/hooks/useOBData";
 
@@ -292,6 +292,7 @@ function VaultTab() {
   }
 
   const KIND_ICON: Record<FileKind, React.ReactNode> = {
+    // eslint-disable-next-line jsx-a11y/alt-text
     image: <Image size={14} />,
     video: <Video size={14} />,
     audio: <Mic size={14} />,
@@ -467,6 +468,7 @@ function LifeBookTab({ circles }: { circles: Circle[] }) {
 
   const KIND_TABS: { k: PostKind; icon: React.ReactNode; label: string }[] = [
     { k: "text",  icon: <FileText size={12} />, label: "Text"  },
+    // eslint-disable-next-line jsx-a11y/alt-text
     { k: "image", icon: <Image size={12} />,    label: "Image" },
     { k: "video", icon: <Video size={12} />,    label: "Video" },
     { k: "voice", icon: <Mic size={12} />,      label: "Voice" },

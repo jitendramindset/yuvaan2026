@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
 import {
   Plus, X, Loader, Power, Volume2, VolumeX, Play,
   ChevronUp, ChevronDown, ChevronLeft, ChevronRight,
-  Wifi, WifiOff, Settings, Zap,
+  Zap,
 } from "lucide-react";
 
 interface Device {
@@ -41,13 +41,6 @@ interface Preset {
 const OWNER = "user.default";
 const BASE  = "/api/backend";
 
-const CAT_COLOR: Record<string, string> = {
-  tv:         "#6c63ff", pc:       "#3b82f6", mobile: "#22c55e",
-  gaming:     "#ec4899", watch:    "#f59e0b", smart_light: "#fbbf24",
-  thermostat: "#ef4444", speaker:  "#8b5cf6", vr_headset:  "#00d2ff",
-  camera:     "#94a3b8", iot_sensor: "#10b981",
-};
-
 function statusColor(s: string): string {
   if (s === "online")    return "#22c55e";
   if (s === "idle")      return "#f59e0b";
@@ -69,18 +62,21 @@ export function DevicesScreenContent() {
     api_key: "", protocol: "websocket", icon: "📺",
   });
 
-  async function load() {
-    setLoading(true);
-    try {
-      const [dRes, pRes] = await Promise.all([
-        fetch(`${BASE}/hub/devices/${OWNER}`),
-        fetch(`${BASE}/hub/presets`),
-      ]);
-      if (dRes.ok) { const d = await dRes.json() as { devices?: Device[] }; setDevices(d.devices ?? []); }
-      if (pRes.ok) { const d = await pRes.json() as { presets?: Preset[] }; setPresets(d.presets ?? []); }
-    } catch { /* offline */ }
-    setLoading(false);
-  }
+  useEffect(() => {
+    const load = async () => {
+      setLoading(true);
+      try {
+        const [dRes, pRes] = await Promise.all([
+          fetch(`${BASE}/hub/devices/${OWNER}`),
+          fetch(`${BASE}/hub/presets`),
+        ]);
+        if (dRes.ok) { const d = await dRes.json() as { devices?: Device[] }; setDevices(d.devices ?? []); }
+        if (pRes.ok) { const d = await pRes.json() as { presets?: Preset[] }; setPresets(d.presets ?? []); }
+      } catch { /* offline */ }
+      setLoading(false);
+    };
+    load();
+  }, []);
 
   async function addDevice() {
     if (!form.label.trim()) return;

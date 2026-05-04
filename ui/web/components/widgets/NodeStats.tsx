@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import { Network } from "lucide-react";
 import Link from "next/link";
 
-interface Props { config: Record<string, unknown> }
-
 const TYPE_COLORS: Record<string, string> = {
   system:     "#6c63ff",
   profile:    "#a855f7",
@@ -23,7 +21,7 @@ const TYPE_COLORS: Record<string, string> = {
   transaction: "#34d399",
 };
 
-export function NodeStats({ config }: Props) {
+export function NodeStats() {
   const [byType, setByType] = useState<Record<string, number>>({});
   const [total, setTotal] = useState(0);
   const [edges, setEdges] = useState(0);

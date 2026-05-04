@@ -2,8 +2,6 @@
 import { useEffect, useState } from "react";
 import { Clock } from "lucide-react";
 
-interface Props { config: Record<string, unknown> }
-
 interface Evt {
   ts: number;
   event: string;
@@ -18,7 +16,7 @@ const TYPE_COLORS: Record<string, string> = {
   device: "#64748b", economy: "#10b981",
 };
 
-export function Timeline({ config }: Props) {
+export function Timeline() {
   const [events, setEvents] = useState<Evt[]>([]);
 
   useEffect(() => {

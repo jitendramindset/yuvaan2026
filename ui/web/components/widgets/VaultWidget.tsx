@@ -7,7 +7,7 @@
  */
 import { useState, useEffect } from "react";
 import {
-  Lock, FileText, Image, File, Key, Award, Trash2, Plus,
+  Lock, FileText, Image, Key, Award, Trash2, Plus,
   MapPin, Navigation, Share2, Eye, EyeOff, Users,
   UserPlus, GitBranch, AlertTriangle, Shield, Hash as HashIcon,
   Timer, X, Check, ChevronDown,
@@ -79,6 +79,7 @@ const MOCK_CONNECTIONS: Connection[] = [
 
 const FILE_ICONS: Record<FileType, { icon: React.ReactNode; color: string }> = {
   document:    { icon: <FileText size={14} />, color: "#6c63ff" },
+  // eslint-disable-next-line jsx-a11y/alt-text
   photo:       { icon: <Image    size={14} />, color: "#22c55e" },
   certificate: { icon: <Award    size={14} />, color: "#f59e0b" },
   id_card:     { icon: <Shield   size={14} />, color: "#00d2ff" },
@@ -490,6 +491,7 @@ const VAULT_TABS: Array<{ id: VaultTab; label: string; icon: React.ReactNode }> 
   { id: "family", label: "Family Tree", icon: <GitBranch  size={12} /> },
 ];
 
+ // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function VaultWidget({ config: _c }: { config: Record<string, unknown> }) {
   const [tab, setTab] = useState<VaultTab>("files");
 
