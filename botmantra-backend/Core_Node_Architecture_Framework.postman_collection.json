@@ -1,0 +1,595 @@
+{
+  "info": {
+    "name": "Core Node Architecture - Framework Testing",
+    "description": "Complete test collection for the Node Kernel Architecture with Dharma Rules, Permission Engine, Event Queue, and Trust System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "2.0.0"
+  },
+  "item": [
+    {
+      "name": "🔑 CORE NODE OPERATIONS",
+      "item": [
+        {
+          "name": "1️⃣ Validate Node Action (Security Gate)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nidHash\": \"ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50\",\n  \"targetOwnerId\": \"c75d0110-9085-4411-8e2d-f1c5274d7f07\",\n  \"actionType\": \"execute\",\n  \"requesterUuid\": \"702c6c73-9fc6-4e25-8919-c1e7b16342b0\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/validate",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "validate"]
+            },
+            "description": "🔒 Security Gate - Validates node existence, active state, permissions, trust threshold, lifespan"
+          },
+          "response": []
+        },
+        {
+          "name": "2️⃣ Evaluate Dharma (Ethical Scoring)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nidHash\": \"ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50\",\n  \"action\": \"execute\",\n  \"targetOwnerId\": \"c75d0110-9085-4411-8e2d-f1c5274d7f07\",\n  \"amount\": 1000\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/evaluate-dharma",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "evaluate-dharma"]
+            },
+            "description": "⚖️ Dharma Engine - Reads dharma_rules table, applies karma impacts, checks ethical compliance"
+          },
+          "response": []
+        },
+        {
+          "name": "3️⃣ Apply Karma (Update Trust)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nidHash\": \"ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50\",\n  \"actorOwnerId\": \"c75d0110-9085-4411-8e2d-f1c5274d7f07\",\n  \"actionType\": \"positive_action\",\n  \"karmaDelta\": 15,\n  \"trustDelta\": 5,\n  \"reason\": \"Successfully executed authorized transaction\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/apply-karma",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "apply-karma"]
+            },
+            "description": "🎯 Updates node_trust_state + node_karma_log with reputation changes"
+          },
+          "response": []
+        },
+        {
+          "name": "4️⃣ Node Event Ingest (Event Queue)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nidHash\": \"ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50\",\n  \"eventType\": \"action_executed\",\n  \"payload\": {\n    \"action\": \"transfer\",\n    \"amount\": 1000,\n    \"recipient\": \"recipient-id-123\",\n    \"timestamp\": \"2026-01-28T15:30:00Z\"\n  },\n  \"prevHash\": \"previous-event-hash-xyz\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/event-ingest",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "event-ingest"]
+            },
+            "description": "📥 Event Driven Pipeline - Inserts into node_event_queue, triggers n8n workers"
+          },
+          "response": []
+        },
+        {
+          "name": "5️⃣ Node Runtime Execute (CORE KERNEL)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nodeHash\": \"ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50\",\n  \"action\": \"execute_transaction\",\n  \"params\": {\n    \"amount\": 1000,\n    \"recipient\": \"recipient-123\",\n    \"actionType\": \"transfer\"\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/execute",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "execute"]
+            },
+            "description": "🔥 CORE KERNEL - Main execution engine. Flow: validate → evaluate_dharma → event_ingest → log_execution → catch failures"
+          },
+          "response": []
+        },
+        {
+          "name": "6️⃣ Calculate Reputation (Update Levels)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nidHash\": \"ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/calculate-reputation",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "calculate-reputation"]
+            },
+            "description": "📈 Calculates reputation_level + experience_level based on karma and trust scores"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🗄️ CORE TABLES (READ)",
+      "item": [
+        {
+          "name": "Read: node_core (Identity + State)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/table/node_core?limit=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "table", "node_core"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "📊 Main OS table - Contains: Identity (nid_hash, owner_id), Security (pin_hash, encryption_key_ref), State (node_state, is_archived), Runtime (runtime_blob, sys_blob), UI (ui_blob), Memory (memory_blob), Economy (wallet_id, karma_score, trust_score)"
+          },
+          "response": []
+        },
+        {
+          "name": "Read: node_permission_effective (Permission Resolution)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/table/node_permission_effective?limit=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "table", "node_permission_effective"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "🔐 Permission resolution table - Fields: nid_hash, target_owner_id, can_read, can_update, can_execute, expires_at"
+          },
+          "response": []
+        },
+        {
+          "name": "Read: node_trust_state (Runtime Trust Snapshot)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/table/node_trust_state?limit=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "table", "node_trust_state"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "✅ Runtime trust snapshot - Fields: nid_hash, trust_score, karma_score, last_update"
+          },
+          "response": []
+        },
+        {
+          "name": "Read: node_karma_log (Reputation Ledger)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/table/node_karma_log?limit=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "table", "node_karma_log"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "📝 Reputation ledger - Fields: nid_hash, karma_delta, trust_delta, reason, created_at"
+          },
+          "response": []
+        },
+        {
+          "name": "Read: node_event_queue (Event Driven Pipeline)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/table/node_event_queue?limit=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "table", "node_event_queue"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "⚡ Event driven pipeline - Fields: event_id, nid_hash, event_type, payload, status, created_at"
+          },
+          "response": []
+        },
+        {
+          "name": "Read: node_execution_log (Audit Trail)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/table/node_execution_log?limit=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "table", "node_execution_log"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "📋 Audit trail - Tracks: nid_hash, action, requester, status, timestamp"
+          },
+          "response": []
+        },
+        {
+          "name": "Read: dharma_rules (Ethical Scoring Rules)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/table/dharma_rules?limit=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "table", "dharma_rules"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "⚖️ Ethical scoring rules - Fields: principle, karma_impact, trust_impact, severity"
+          },
+          "response": []
+        },
+        {
+          "name": "Read: users (Human Node Identity)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/table/users?limit=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "table", "users"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "👤 Users table - Human node identities linked to node_core via nid_hash"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🔍 QUERY & ANALYTICS",
+      "item": [
+        {
+          "name": "Get Node by NID Hash",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/session/ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "session", "ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50"]
+            },
+            "description": "🔎 Retrieve node session by nid_hash"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Node Execution History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/execution/ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50?limit=50",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "execution", "ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "50"
+                }
+              ]
+            },
+            "description": "📊 Get execution logs - Shows all actions taken by node"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Node Reputation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/reputation/ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "reputation", "ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50"]
+            },
+            "description": "⭐ Get current trust_score, karma_score, reputation_level"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Node Permissions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/permissions/ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50?targetOwnerId=c75d0110-9085-4411-8e2d-f1c5274d7f07",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "permissions", "ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50"],
+              "query": [
+                {
+                  "key": "targetOwnerId",
+                  "value": "c75d0110-9085-4411-8e2d-f1c5274d7f07"
+                }
+              ]
+            },
+            "description": "🔐 Get effective permissions - can_read, can_update, can_execute"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Node Events",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/events/ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50?limit=50",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "events", "ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "50"
+                }
+              ]
+            },
+            "description": "📅 Get event history from node_event_queue"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Node Failures",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/failures/ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50?limit=50",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "failures", "ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "50"
+                }
+              ]
+            },
+            "description": "❌ Get kernel exception captures from node_failure_log"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Dharma Logs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/dharma-logs/ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50?limit=50",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "dharma-logs", "ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "50"
+                }
+              ]
+            },
+            "description": "⚖️ Get dharma evaluation history - ethical scoring decisions"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Karma Logs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/karma-logs/ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50?limit=50",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "karma-logs", "ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "50"
+                }
+              ]
+            },
+            "description": "📈 Get karma change history - reputation ledger"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🧪 TESTING SCENARIOS",
+      "item": [
+        {
+          "name": "Scenario 1: Validate Active Node",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nidHash\": \"ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50\",\n  \"targetOwnerId\": \"c75d0110-9085-4411-8e2d-f1c5274d7f07\",\n  \"actionType\": \"execute\",\n  \"requesterUuid\": \"702c6c73-9fc6-4e25-8919-c1e7b16342b0\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/validate",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "validate"]
+            },
+            "description": "✅ Test Case: Validate ACTIVE node - expect valid: true"
+          },
+          "response": []
+        },
+        {
+          "name": "Scenario 2: Full Execution Flow",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nodeHash\": \"ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50\",\n  \"action\": \"execute_transaction\",\n  \"params\": {\n    \"amount\": 500,\n    \"recipient\": \"recipient-id\",\n    \"actionType\": \"transfer\"\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/execute",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "execute"]
+            },
+            "description": "🔄 Test Case: Full kernel execution flow\n\n1. Validates node\n2. Evaluates dharma\n3. Ingests event\n4. Logs execution\n5. Returns execution ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Scenario 3: Apply Karma & Check Reputation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nidHash\": \"ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50\",\n  \"actorOwnerId\": \"c75d0110-9085-4411-8e2d-f1c5274d7f07\",\n  \"actionType\": \"positive_action\",\n  \"karmaDelta\": 25,\n  \"trustDelta\": 10,\n  \"reason\": \"Completed high-value transaction with excellent service\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/apply-karma",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "apply-karma"]
+            },
+            "description": "🎯 Test Case: Apply positive karma\n\n1. Apply +25 karma, +10 trust\n2. Creates entry in node_karma_log\n3. Updates node_trust_state\n4. Then check reputation with calculate-reputation endpoint"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

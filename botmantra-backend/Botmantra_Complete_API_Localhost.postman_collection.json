@@ -1,0 +1,413 @@
+{
+  "info": {
+    "name": "Botmantra Complete API (Localhost)",
+    "description": "Auto-generated collection for manual Postman testing. Base URL: {{baseUrl}}",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "nidHash", "value": "ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50" },
+    { "key": "targetOwnerId", "value": "c75d0110-9085-4411-8e2d-f1c5274d7f07" },
+    { "key": "test_reset_id", "value": "test-reset-id" },
+    { "key": "test_reset_email", "value": "test@example.com" },
+    { "key": "test_reset_token", "value": "test-reset-token" },
+    { "key": "test_reset_otp", "value": "123456" },
+    { "key": "test_reset_expires_at", "value": "2026-02-07T12:00:00Z" },
+    { "key": "test_reset_created_at", "value": "2026-02-07T11:00:00Z" }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["health"]
+        }
+      }
+    },
+    {
+      "name": "Database Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/db-status",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "db-status"]
+        }
+      }
+    },
+    {
+      "name": "Validate Node Action",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nidHash\": \"test_node_001\",\n  \"targetOwnerId\": \"owner-uuid-123\",\n  \"actionType\": \"read\",\n  \"requesterUuid\": \"user-uuid-456\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/kernel/validate",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "kernel", "validate"]
+        }
+      }
+    },
+    {
+      "name": "Execute Node Runtime",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nidHash\": \"test_node_001\",\n  \"targetOwnerId\": \"owner-uuid-123\",\n  \"actionType\": \"execute\",\n  \"payload\": {\n    \"command\": \"test\",\n    \"parameters\": {}\n  }\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/kernel/execute",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "kernel", "execute"]
+        }
+      }
+    },
+    {
+      "name": "Evaluate Dharma",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nidHash\": \"test_node_001\",\n  \"actionType\": \"read\",\n  \"principle\": \"dharma_principle_001\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/kernel/evaluate-dharma",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "kernel", "evaluate-dharma"]
+        }
+      }
+    },
+    {
+      "name": "Apply Karma",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nidHash\": \"test_node_001\",\n  \"actorOwnerId\": \"actor-uuid-789\",\n  \"actionType\": \"help\",\n  \"karmaDelta\": 10,\n  \"trustDelta\": 5,\n  \"reason\": \"User performed helpful action\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/kernel/apply-karma",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "kernel", "apply-karma"]
+        }
+      }
+    },
+    {
+      "name": "Ingest Event",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nidHash\": \"test_node_001\",\n  \"eventType\": \"action_completed\",\n  \"payload\": {\n    \"action_id\": \"act-001\",\n    \"status\": \"success\",\n    \"timestamp\": \"2026-01-29T10:00:00Z\"\n  },\n  \"prevHash\": \"prev_hash_if_known\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/kernel/event-ingest",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "kernel", "event-ingest"]
+        }
+      }
+    },
+    {
+      "name": "Calculate Reputation",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"nidHash\": \"test_node_001\"\n}" },
+        "url": {
+          "raw": "{{baseUrl}}/api/kernel/calculate-reputation",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "kernel", "calculate-reputation"]
+        }
+      }
+    },
+    {
+      "name": "Get Session Details",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/kernel/session/session_id_or_uuid",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "kernel", "session", "session_id_or_uuid"]
+        }
+      }
+    },
+    {
+      "name": "Get Execution Details",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/kernel/execution/execution_id_or_hash",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "kernel", "execution", "execution_id_or_hash"]
+        }
+      }
+    },
+    {
+      "name": "Get Reputation Score",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/kernel/reputation/{{nidHash}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "kernel", "reputation", "{{nidHash}}"]
+        }
+      }
+    },
+    {
+      "name": "Get Permissions",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/kernel/permissions/{{nidHash}}?targetOwnerId={{targetOwnerId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "kernel", "permissions", "{{nidHash}}"],
+          "query": [{ "key": "targetOwnerId", "value": "{{targetOwnerId}}" }]
+        }
+      }
+    },
+    {
+      "name": "Get Event History",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/kernel/events/{{nidHash}}?limit=50&offset=0",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "kernel", "events", "{{nidHash}}"],
+          "query": [
+            { "key": "limit", "value": "50" },
+            { "key": "offset", "value": "0" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Failure Logs",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/kernel/failures/{{nidHash}}?limit=50",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "kernel", "failures", "{{nidHash}}"],
+          "query": [{ "key": "limit", "value": "50" }]
+        }
+      }
+    },
+    {
+      "name": "Get Dharma Logs",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/kernel/dharma-logs/{{nidHash}}?limit=50",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "kernel", "dharma-logs", "{{nidHash}}"],
+          "query": [{ "key": "limit", "value": "50" }]
+        }
+      }
+    },
+    {
+      "name": "Get Karma Logs",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/kernel/karma-logs/{{nidHash}}?limit=50",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "kernel", "karma-logs", "{{nidHash}}"],
+          "query": [{ "key": "limit", "value": "50" }]
+        }
+      }
+    },
+    {
+      "name": "Get Table Data (All Records)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/table/users?limit=10&offset=0",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "table", "users"],
+          "query": [
+            { "key": "limit", "value": "10" },
+            { "key": "offset", "value": "0" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get node_core Table",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/table/node_core?limit=10&offset=0",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "table", "node_core"],
+          "query": [
+            { "key": "limit", "value": "10" },
+            { "key": "offset", "value": "0" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get businesses Table",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/table/businesses?limit=10&offset=0",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "table", "businesses"],
+          "query": [
+            { "key": "limit", "value": "10" },
+            { "key": "offset", "value": "0" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Insert Record (password_reset_store)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": \"{{test_reset_id}}\",\n  \"email\": \"{{test_reset_email}}\",\n  \"reset_token\": \"{{test_reset_token}}\",\n  \"otp_code\": \"{{test_reset_otp}}\",\n  \"is_used\": false,\n  \"expires_at\": \"{{test_reset_expires_at}}\",\n  \"created_at\": \"{{test_reset_created_at}}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/table/password_reset_store",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "table", "password_reset_store"]
+        }
+      }
+    },
+    {
+      "name": "Update Record (password_reset_store)",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"filter\": {\n    \"id\": \"{{test_reset_id}}\"\n  },\n  \"data\": {\n    \"is_used\": true\n  }\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/table/password_reset_store",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "table", "password_reset_store"]
+        }
+      }
+    },
+    {
+      "name": "Delete Record (password_reset_store)",
+      "request": {
+        "method": "DELETE",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"filter\": {\n    \"id\": \"{{test_reset_id}}\"\n  }\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/table/password_reset_store",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "table", "password_reset_store"]
+        }
+      }
+    },
+    {
+      "name": "Chat - Web Platform",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"platform\": \"web\",\n  \"message\": \"Hello, how can I check my account balance?\",\n  \"userId\": \"user-123\",\n  \"sessionId\": \"session-web-001\",\n  \"currentNode\": null\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/chat/process",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "chat", "process"]
+        }
+      }
+    },
+    {
+      "name": "Chat - App Platform",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"platform\": \"app\",\n  \"message\": \"Navigate to home screen\",\n  \"userId\": \"user-123\",\n  \"sessionId\": \"session-app-001\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/chat/process",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "chat", "process"]
+        }
+      }
+    },
+    {
+      "name": "Chat - WhatsApp Platform",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"platform\": \"whatsapp\",\n  \"message\": \"I want to signup\",\n  \"sessionId\": \"session-wa-001\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/chat/process",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "chat", "process"]
+        }
+      }
+    },
+    {
+      "name": "Chat - Telegram Platform",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"platform\": \"telegram\",\n  \"query\": \"What is my current status?\",\n  \"userId\": \"user-456\",\n  \"sessionId\": \"session-tg-001\",\n  \"currentNode\": \"account_node\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/chat/process",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "chat", "process"]
+        }
+      }
+    },
+    {
+      "name": "Chat - File Upload",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": {
+          "raw": "{{baseUrl}}/api/chat/process",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "chat", "process"]
+        }
+      }
+    }
+  ]
+}

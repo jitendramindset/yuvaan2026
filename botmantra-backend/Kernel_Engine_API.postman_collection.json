@@ -1,0 +1,502 @@
+{
+  "info": {
+    "name": "Kernel Engine API",
+    "description": "Complete API collection for the Botmantra Kernel Engine",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "item": [
+    {
+      "name": "Health & Status",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/health",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["health"]
+            },
+            "description": "Check if the server is running"
+          },
+          "response": []
+        },
+        {
+          "name": "Database Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/db-status",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "db-status"]
+            },
+            "description": "Check database connection status"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Kernel Operations",
+      "item": [
+        {
+          "name": "Validate Node Action",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nidHash\": \"test-node-123\",\n  \"targetOwnerId\": \"owner-456\",\n  \"actionType\": \"transfer\",\n  \"requesterUuid\": \"user-789\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/validate",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "validate"]
+            },
+            "description": "Validate if a node action is allowed"
+          },
+          "response": []
+        },
+        {
+          "name": "Evaluate Dharma",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nidHash\": \"test-node-123\",\n  \"action\": \"transfer\",\n  \"targetOwnerId\": \"owner-456\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/evaluate-dharma",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "evaluate-dharma"]
+            },
+            "description": "Evaluate the dharma (ethical correctness) of an action"
+          },
+          "response": []
+        },
+        {
+          "name": "Apply Karma",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nidHash\": \"test-node-123\",\n  \"actorOwnerId\": \"actor-999\",\n  \"actionType\": \"positive_action\",\n  \"karmaDelta\": 10,\n  \"trustDelta\": 5,\n  \"reason\": \"Successfully completed transaction\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/apply-karma",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "apply-karma"]
+            },
+            "description": "Apply karma points to a node"
+          },
+          "response": []
+        },
+        {
+          "name": "Node Event Ingest",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nidHash\": \"test-node-123\",\n  \"eventType\": \"action_completed\",\n  \"payload\": {\n    \"result\": \"success\",\n    \"amount\": 1000,\n    \"timestamp\": \"2026-01-28T15:30:00Z\"\n  },\n  \"prevHash\": \"previous-event-hash\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/event-ingest",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "event-ingest"]
+            },
+            "description": "Ingest an event for a node"
+          },
+          "response": []
+        },
+        {
+          "name": "Node Runtime Execute",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nodeHash\": \"test-node-123\",\n  \"action\": \"process_transaction\",\n  \"params\": {\n    \"amount\": 1000,\n    \"recipient\": \"recipient-123\"\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/execute",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "execute"]
+            },
+            "description": "Execute a node action in the kernel engine"
+          },
+          "response": []
+        },
+        {
+          "name": "Calculate Reputation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nidHash\": \"test-node-123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/calculate-reputation",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "calculate-reputation"]
+            },
+            "description": "Calculate reputation score for a node"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Session & Logs",
+      "item": [
+        {
+          "name": "Get Session Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/session/test-node-123",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "session", "test-node-123"]
+            },
+            "description": "Get session information for a node (replace test-node-123 with actual nodeHash)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Execution Log",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/execution/test-node-123",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "execution", "test-node-123"]
+            },
+            "description": "Get execution log for a node (replace test-node-123 with actual nodeHash)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Reputation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/reputation/test-node-123",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "reputation", "test-node-123"]
+            },
+            "description": "Get reputation and karma for a node"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Permissions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/permissions/test-node-123?targetOwnerId=owner-456",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "permissions", "test-node-123"],
+              "query": [
+                {
+                  "key": "targetOwnerId",
+                  "value": "owner-456"
+                }
+              ]
+            },
+            "description": "Get effective permissions for a node"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Event History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/events/test-node-123?limit=50",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "events", "test-node-123"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "50"
+                }
+              ]
+            },
+            "description": "Get event history for a node"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Failures",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/failures/test-node-123?limit=50",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "failures", "test-node-123"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "50"
+                }
+              ]
+            },
+            "description": "Get failure logs for a node"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Dharma Logs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/dharma-logs/test-node-123?limit=50",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "dharma-logs", "test-node-123"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "50"
+                }
+              ]
+            },
+            "description": "Get dharma evaluation logs for a node"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Karma Logs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/karma-logs/test-node-123?limit=50",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "karma-logs", "test-node-123"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "50"
+                }
+              ]
+            },
+            "description": "Get karma change history for a node"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Database Tables",
+      "item": [
+        {
+          "name": "Get Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/table/users?limit=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "table", "users"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Get users from the database"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Node Core",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/table/node_core?limit=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "table", "node_core"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Get node core data"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Node Trust State",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/table/node_trust_state?limit=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "table", "node_trust_state"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Get node trust state data"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Execution Logs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/table/node_execution_log?limit=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "table", "node_execution_log"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Get execution logs from database"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Dharma Logs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/table/node_dharma_log?limit=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "table", "node_dharma_log"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Get dharma logs from database"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Karma Logs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/table/node_karma_log?limit=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "table", "node_karma_log"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Get karma logs from database"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

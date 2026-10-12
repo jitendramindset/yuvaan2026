@@ -1,0 +1,444 @@
+{
+  "name": "NODE_AI_WORKER",
+  "nodes": [
+    {
+      "parameters": {
+        "triggerTimes": [
+          {
+            "mode": "everyX",
+            "value": 5,
+            "unit": "seconds"
+          }
+        ]
+      },
+      "id": "cron_trigger_ai",
+      "name": "Cron Trigger",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT *\nFROM node_ai_task_queue\nWHERE status='pending'\nORDER BY created_at\nLIMIT 5;"
+      },
+      "id": "fetch_pending_ai",
+      "name": "Fetch Pending AI Jobs",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [500, 300]
+    },
+    {
+      "parameters": {
+        "batchSize": 1
+      },
+      "id": "split_ai_batches",
+      "name": "Split In Batches",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 2,
+      "position": [700, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "const task = $input.first().json;\n\nreturn {\n  id: task.id,\n  provider: task.payload?.provider || 'openai',\n  prompt: task.payload?.prompt || '',\n  system_prompt: task.payload?.system_prompt || 'You are a helpful assistant.',\n  model: task.payload?.model || 'gpt-4-turbo',\n  temperature: task.payload?.temperature || 0.7,\n  max_tokens: task.payload?.max_tokens || 2000\n};"
+      },
+      "id": "prepare_ai_request",
+      "name": "Prepare AI Request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": [
+            {
+              "condition": "objectProperty",
+              "value1": "={{ $json.provider }}",
+              "value2": "openai"
+            },
+            {
+              "condition": "objectProperty",
+              "value1": "={{ $json.provider }}",
+              "value2": "gemini"
+            },
+            {
+              "condition": "objectProperty",
+              "value1": "={{ $json.provider }}",
+              "value2": "claude"
+            }
+          ]
+        }
+      },
+      "id": "route_provider",
+      "name": "Route by Provider",
+      "type": "n8n-nodes-base.switchNode",
+      "typeVersion": 1,
+      "position": [1100, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.OPENAI_API_KEY }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "application/json",
+        "body": "={\n  \"model\": \"{{ $json.model }}\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"{{ $json.system_prompt }}\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"{{ $json.prompt }}\"\n    }\n  ],\n  \"temperature\": {{ $json.temperature }},\n  \"max_tokens\": {{ $json.max_tokens }}\n}"
+      },
+      "id": "call_openai",
+      "name": "Call OpenAI",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1350, 150]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={{ $env.GEMINI_API_KEY }}",
+        "sendBody": true,
+        "contentType": "application/json",
+        "body": "={\n  \"contents\": [\n    {\n      \"parts\": [\n        {\n          \"text\": \"{{ $json.prompt }}\"\n        }\n      ]\n    }\n  ]\n}"
+      },
+      "id": "call_gemini",
+      "name": "Call Gemini",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1350, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "{{ $env.CLAUDE_API_KEY }}"
+            },
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "application/json",
+        "body": "={\n  \"model\": \"claude-3-opus-20240229\",\n  \"max_tokens\": {{ $json.max_tokens }},\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"{{ $json.prompt }}\"\n    }\n  ]\n}"
+      },
+      "id": "call_claude",
+      "name": "Call Claude",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1350, 450]
+    },
+    {
+      "parameters": {
+        "mode": "mergeByPosition"
+      },
+      "id": "merge_openai",
+      "name": "Merge OpenAI",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2,
+      "position": [1600, 150]
+    },
+    {
+      "parameters": {
+        "mode": "mergeByPosition"
+      },
+      "id": "merge_gemini",
+      "name": "Merge Gemini",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2,
+      "position": [1600, 300]
+    },
+    {
+      "parameters": {
+        "mode": "mergeByPosition"
+      },
+      "id": "merge_claude",
+      "name": "Merge Claude",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2,
+      "position": [1600, 450]
+    },
+    {
+      "parameters": {
+        "functionCode": "const response = $input.first().json;\nconst taskId = response.id;\nconst aiText = response.choices?.[0]?.message?.content || JSON.stringify(response);\nreturn { task_id: taskId, ai_response: aiText, status: 'done' };"
+      },
+      "id": "extract_openai",
+      "name": "Extract OpenAI Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1850, 150]
+    },
+    {
+      "parameters": {
+        "functionCode": "const response = $input.first().json;\nconst taskId = response.id;\nconst aiText = response.candidates?.[0]?.content?.parts?.[0]?.text || JSON.stringify(response);\nreturn { task_id: taskId, ai_response: aiText, status: 'done' };"
+      },
+      "id": "extract_gemini",
+      "name": "Extract Gemini Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1850, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "const response = $input.first().json;\nconst taskId = response.id;\nconst aiText = response.content?.[0]?.text || JSON.stringify(response);\nreturn { task_id: taskId, ai_response: aiText, status: 'done' };"
+      },
+      "id": "extract_claude",
+      "name": "Extract Claude Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1850, 450]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE node_ai_task_queue\nSET result = {{ $json.ai_response }},\n    status = 'done'\nWHERE id = {{ $json.task_id }};"
+      },
+      "id": "update_openai",
+      "name": "Update Task (OpenAI)",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [2100, 150]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE node_ai_task_queue\nSET result = {{ $json.ai_response }},\n    status = 'done'\nWHERE id = {{ $json.task_id }};"
+      },
+      "id": "update_gemini",
+      "name": "Update Task (Gemini)",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [2100, 300]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE node_ai_task_queue\nSET result = {{ $json.ai_response }},\n    status = 'done'\nWHERE id = {{ $json.task_id }};"
+      },
+      "id": "update_claude",
+      "name": "Update Task (Claude)",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [2100, 450]
+    }
+  ],
+  "connections": {
+    "Cron Trigger": {
+      "main": [
+        [
+          {
+            "node": "Fetch Pending AI Jobs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Pending AI Jobs": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split In Batches": {
+      "main": [
+        [
+          {
+            "node": "Prepare AI Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare AI Request": {
+      "main": [
+        [
+          {
+            "node": "Route by Provider",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Provider": {
+      "main": [
+        [
+          {
+            "node": "Call OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Call Gemini",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Call Claude",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Merge OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call Gemini": {
+      "main": [
+        [
+          {
+            "node": "Merge Gemini",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call Claude": {
+      "main": [
+        [
+          {
+            "node": "Merge Claude",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Extract OpenAI Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Gemini": {
+      "main": [
+        [
+          {
+            "node": "Extract Gemini Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Claude": {
+      "main": [
+        [
+          {
+            "node": "Extract Claude Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract OpenAI Result": {
+      "main": [
+        [
+          {
+            "node": "Update Task (OpenAI)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Gemini Result": {
+      "main": [
+        [
+          {
+            "node": "Update Task (Gemini)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Claude Result": {
+      "main": [
+        [
+          {
+            "node": "Update Task (Claude)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Task (OpenAI)": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Update Task (Gemini)": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Update Task (Claude)": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "active": false
+}

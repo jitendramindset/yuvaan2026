@@ -1,0 +1,198 @@
+{
+  "name": "Kernel Queue Consumer & Router",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "kernel-events",
+        "httpMethod": "POST",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook_trigger",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "kernel-events-consumer"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Extract event from webhook\nconst event = $input.first().json;\n\nreturn {\n  event_type: event.event_type,\n  event_id: event.event_id,\n  user_id: event.user_id,\n  business_id: event.business_id,\n  request_id: event.request_id,\n  payload: event.payload,\n  timestamp: new Date().toISOString(),\n  status: 'received'\n};\n"
+      },
+      "id": "extract_event",
+      "name": "Extract Event",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [500, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": [
+            {
+              "condition": "objectProperty",
+              "value1": "={{ $node.extract_event.json.event_type }}",
+              "value2": "ai_task_created"
+            },
+            {
+              "condition": "objectProperty",
+              "value1": "={{ $node.extract_event.json.event_type }}",
+              "value2": "memory_write_pending"
+            },
+            {
+              "condition": "objectProperty",
+              "value1": "={{ $node.extract_event.json.event_type }}",
+              "value2": "automation_triggered"
+            },
+            {
+              "condition": "objectProperty",
+              "value1": "={{ $node.extract_event.json.event_type }}",
+              "value2": "notification_queued"
+            }
+          ]
+        }
+      },
+      "id": "router",
+      "name": "Route by Event Type",
+      "type": "n8n-nodes-base.switchNode",
+      "typeVersion": 1,
+      "position": [750, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.N8N_WEBHOOK_BASE }}/ai-task-worker",
+        "sendBody": true,
+        "contentType": "application/json",
+        "body": "={{ $node.extract_event.json }}"
+      },
+      "id": "trigger_ai_worker",
+      "name": "Trigger AI Worker",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1000, 100]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.N8N_WEBHOOK_BASE }}/memory-worker",
+        "sendBody": true,
+        "contentType": "application/json",
+        "body": "={{ $node.extract_event.json }}"
+      },
+      "id": "trigger_memory_worker",
+      "name": "Trigger Memory Worker",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1000, 250]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.N8N_WEBHOOK_BASE }}/automation-engine",
+        "sendBody": true,
+        "contentType": "application/json",
+        "body": "={{ $node.extract_event.json }}"
+      },
+      "id": "trigger_automation_engine",
+      "name": "Trigger Automation Engine",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1000, 400]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.N8N_WEBHOOK_BASE }}/notification-engine",
+        "sendBody": true,
+        "contentType": "application/json",
+        "body": "={{ $node.extract_event.json }}"
+      },
+      "id": "trigger_notification_engine",
+      "name": "Trigger Notification Engine",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1000, 550]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "schema": "public",
+        "table": "node_event_queue",
+        "columns": "event_id,event_type,request_id,user_id,business_id,status,processed_at",
+        "executeQueries": true,
+        "valueType": "object",
+        "values": "={\n  \"event_id\": \"{{ $node.extract_event.json.event_id }}\",\n  \"event_type\": \"{{ $node.extract_event.json.event_type }}\",\n  \"request_id\": \"{{ $node.extract_event.json.request_id }}\",\n  \"user_id\": \"{{ $node.extract_event.json.user_id }}\",\n  \"business_id\": \"{{ $node.extract_event.json.business_id }}\",\n  \"status\": \"processed\",\n  \"processed_at\": \"{{ $node.extract_event.json.timestamp }}\"\n}"
+      },
+      "id": "mark_event_processed",
+      "name": "Mark Event Processed",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [1250, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "return {\n  status: 'success',\n  message: 'Event routed and processing initiated',\n  event_id: $node.extract_event.json.event_id,\n  event_type: $node.extract_event.json.event_type,\n  timestamp: new Date().toISOString()\n};"
+      },
+      "id": "success_response",
+      "name": "Success Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1500, 300]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "schema": "public",
+        "table": "node_event_queue",
+        "columns": "event_id,event_type,request_id,user_id,business_id,status,error_message,processed_at",
+        "executeQueries": true,
+        "valueType": "object",
+        "values": "={\n  \"event_id\": \"{{ $node.extract_event.json.event_id }}\",\n  \"event_type\": \"{{ $node.extract_event.json.event_type }}\",\n  \"request_id\": \"{{ $node.extract_event.json.request_id }}\",\n  \"user_id\": \"{{ $node.extract_event.json.user_id }}\",\n  \"business_id\": \"{{ $node.extract_event.json.business_id }}\",\n  \"status\": \"failed\",\n  \"error_message\": \"{{ $error.message }}\",\n  \"processed_at\": \"{{ $now.toISOString() }}\"\n}"
+      },
+      "id": "log_error",
+      "name": "Log Error",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [1500, 500]
+    }
+  ],
+  "connections": {
+    "webhook_trigger": {
+      "main": [[{ "node": "extract_event", "type": "main", "index": 0 }]]
+    },
+    "extract_event": {
+      "main": [[{ "node": "router", "type": "main", "index": 0 }]]
+    },
+    "router": {
+      "main": [
+        [{ "node": "trigger_ai_worker", "type": "main", "index": 0 }],
+        [{ "node": "trigger_memory_worker", "type": "main", "index": 0 }],
+        [{ "node": "trigger_automation_engine", "type": "main", "index": 0 }],
+        [{ "node": "trigger_notification_engine", "type": "main", "index": 0 }]
+      ]
+    },
+    "trigger_ai_worker": {
+      "main": [[{ "node": "mark_event_processed", "type": "main", "index": 0 }]]
+    },
+    "trigger_memory_worker": {
+      "main": [[{ "node": "mark_event_processed", "type": "main", "index": 0 }]]
+    },
+    "trigger_automation_engine": {
+      "main": [[{ "node": "mark_event_processed", "type": "main", "index": 0 }]]
+    },
+    "trigger_notification_engine": {
+      "main": [[{ "node": "mark_event_processed", "type": "main", "index": 0 }]]
+    },
+    "mark_event_processed": {
+      "main": [[{ "node": "success_response", "type": "main", "index": 0 }]]
+    },
+    "success_response": {
+      "main": []
+    }
+  },
+  "active": true,
+  "settings": {
+    "errorWorkflow": "error-handler"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "name": "KERNEL_WEBHOOK_GATEWAY",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "kernel-events",
+        "httpMethod": "POST",
+        "responseMode": "responseNode"
+      },
+      "id": "webhook_kernel_events",
+      "name": "Kernel Events Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO node_event_queue\n(event_type, payload, nid_hash, status, created_at)\nVALUES\n({{ $json.type }}, {{ $json.payload }}, {{ $json.nid_hash }}, 'pending', NOW());"
+      },
+      "id": "insert_event",
+      "name": "Insert Event",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [550, 300]
+    },
+    {
+      "parameters": {
+        "responseCode": 200,
+        "responseData": "={\n  \"status\": \"queued\",\n  \"event_type\": \"{{ $json.type }}\"\n}"
+      },
+      "id": "return_response",
+      "name": "Return Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [850, 300]
+    }
+  ],
+  "connections": {
+    "Kernel Events Webhook": {
+      "main": [
+        [
+          {
+            "node": "Insert Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert Event": {
+      "main": [
+        [
+          {
+            "node": "Return Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "active": false
+}

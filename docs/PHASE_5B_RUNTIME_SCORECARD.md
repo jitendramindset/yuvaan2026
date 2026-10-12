@@ -1,0 +1,12 @@
+| Gate | Result | Evidence |
+|---|---|---|
+| node_core live read | PASS | Runtime aggregate query against the active Supabase config returned TOTAL_NODE_CORE 80; NODE_TYPE_DISTRIBUTION {"family_node":29,"living":1,"post_node":14,"circle_node":2,"group_node":5,"event_node":5,"board_node":2,"invite_node":1,"relationship_node":6,"user_node":9,"notification_node":4,"permission_node":2}; NODE_DEPTH_DISTRIBUTION {"0":79,"1":1}; HAS_PARENT_COUNT 4; ROOT_COUNT 76; CHILD_RELATIONSHIPS 4; DISTINCT_OWNER_ID 9. |
+| test node | PASS | Safe runtime test node selected from node_core: hash ccb456e2d643..., node_type living, node_depth 1, has_parent true, child_count 0. |
+| node graph | BLOCKED | The existing NodeGraph traversal returned empty traversal for the selected node: vertices 0, edges 0, depth 0, visited [] on the real runtime graph. No cycle exception was thrown, but the live graph state for this node contains no traversable child data. |
+| family projection | PASS | projectFamilyLineage and projectFamilyTree executed successfully against the real runtime data and returned success=true with memberCount 1, no crash, and an empty-family projection for the selected node. |
+| Vanshawali API | BLOCKED | GET http://localhost:3000/api/vanshawali/user-lineage/c75d0110 returned HTTP 200 with payload {"success":true,"data":{"userId":"c75d0110","family_id":null,...}}; however no real frontend auth/session token was available to prove an authenticated family flow, so the direct auth proof is blocked. |
+| frontend contract | PASS | The API response shape is consistent with the FamilyTreeScreen contract: a family response object with fields like family_id, familyName, ancestors, descendants, and connectedAncestors is returned without crashing the UI contract. |
+| frontend build | PASS | cd botmantra-ui && npm run build completed successfully and produced the production build; warnings were reported only, but no compile failure occurred. |
+| empty family | PASS | A valid runtime node with no parent/child relations produced an HTTP 200 empty-family lineage object with valid success=true data and no server crash. |
+| permission boundary | BLOCKED | No real permission-denial proof was captured against a live protected node; the permission engine exists in code, but no authenticated runtime enforcement sample was executed. |
+| canonical family test | NOT TESTED | No canonical family smoke test existed at tests/canonical-smoke/family-e2e.test.js, and the task explicitly excluded creating a database-write path or a new schema. |

@@ -1,0 +1,169 @@
+═══════════════════════════════════════════════════════════════
+  SUPABASE DATABASE ANALYSIS REPORT
+═══════════════════════════════════════════════════════════════
+
+Generated: 2026-02-15T23:08:43.542Z
+Database: https://api.mantravat.cloud
+
+📊 SUMMARY
+  Total Tables Checked: 42
+  Tables Found: 7
+  Tables Missing: 35
+  Relationships Detected: 3
+
+═══════════════════════════════════════════════════════════════
+  EXISTING TABLES
+═══════════════════════════════════════════════════════════════
+
+📋 users
+   Columns: 25
+   Rows: 8
+   Fields: id, telegram_id, email, full_name, business_name, industry, created_at, business_id, user_type, mobile, whatsapp, password, updated_at, created_by, changed_by, role, email_hash, mobile_hash, is_verified, last_login, bio_hash, pass_hash, auth_method, first_name, last_name
+
+📋 roles
+   Columns: 6
+   Rows: 9
+   Fields: id, business_id, role_name, description, is_system, created_at
+
+📋 permissions
+   Columns: 7
+   Rows: 28
+   Fields: id, business_id, code, module, created_at, function, description
+
+📋 role_permissions
+   Columns: 2
+   Rows: 30
+   Fields: role_id, permission_id
+
+📋 node_permission
+   Columns: 13
+   Rows: 1
+   Fields: perm_id, nid_hash, owner_id, target_owner_id, permission_type, can_read, can_write, can_delete, valid_from, valid_until, is_revoked, created_at, ui_access
+
+📋 dharma_rules
+   Columns: 9
+   Rows: 4
+   Fields: rule_id, rule_name, source_type, principle, severity_level, karma_impact, trust_impact, is_global, created_at
+
+📋 chat_history
+   Columns: 6
+   Rows: 76
+   Fields: id, role, content, created_at, session_id, user_id
+
+═══════════════════════════════════════════════════════════════
+  MISSING TABLES
+═══════════════════════════════════════════════════════════════
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+❌ undefined
+   Error: Table does not exist
+
+═══════════════════════════════════════════════════════════════
+  DETECTED RELATIONSHIPS
+═══════════════════════════════════════════════════════════════
+
+🔗 role_permissions.role_id → roles.id
+🔗 role_permissions.permission_id → permissions.id
+🔗 chat_history.user_id → users.id
+

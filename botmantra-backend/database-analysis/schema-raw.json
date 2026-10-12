@@ -1,0 +1,18 @@
+{
+  "metadata": {
+    "inspected_at": "2026-02-15T23:08:22.049Z",
+    "database_url": "https://api.mantravat.cloud"
+  },
+  "tables": [],
+  "columns": [],
+  "primaryKeys": [],
+  "foreignKeys": [],
+  "uniqueConstraints": [],
+  "checkConstraints": [],
+  "indexes": [],
+  "functions": [],
+  "triggers": [],
+  "views": [],
+  "rlsPolicies": [],
+  "enums": []
+}

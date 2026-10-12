@@ -1,0 +1,159 @@
+{
+  "crudEndpoints": {
+    "users": {
+      "list": {
+        "method": "GET",
+        "path": "/api/users",
+        "implemented": false
+      },
+      "getById": {
+        "method": "GET",
+        "path": "/api/users/:id",
+        "implemented": false
+      },
+      "create": {
+        "method": "POST",
+        "path": "/api/users",
+        "implemented": false
+      },
+      "update": {
+        "method": "PUT",
+        "path": "/api/users/:id",
+        "implemented": false
+      },
+      "delete": {
+        "method": "DELETE",
+        "path": "/api/users/:id",
+        "implemented": false
+      }
+    },
+    "roles": {
+      "list": {
+        "method": "GET",
+        "path": "/api/roles",
+        "implemented": false
+      },
+      "getById": {
+        "method": "GET",
+        "path": "/api/roles/:id",
+        "implemented": false
+      },
+      "create": {
+        "method": "POST",
+        "path": "/api/roles",
+        "implemented": false
+      },
+      "update": {
+        "method": "PUT",
+        "path": "/api/roles/:id",
+        "implemented": false
+      },
+      "delete": {
+        "method": "DELETE",
+        "path": "/api/roles/:id",
+        "implemented": false
+      }
+    },
+    "permissions": {
+      "list": {
+        "method": "GET",
+        "path": "/api/permissions",
+        "implemented": false
+      },
+      "getById": {
+        "method": "GET",
+        "path": "/api/permissions/:id",
+        "implemented": false
+      },
+      "create": {
+        "method": "POST",
+        "path": "/api/permissions",
+        "implemented": false
+      },
+      "update": {
+        "method": "PUT",
+        "path": "/api/permissions/:id",
+        "implemented": false
+      },
+      "delete": {
+        "method": "DELETE",
+        "path": "/api/permissions/:id",
+        "implemented": false
+      }
+    },
+    "role_permissions": {
+      "list": {
+        "method": "GET",
+        "path": "/api/role-permissions",
+        "implemented": false
+      },
+      "getById": null,
+      "create": {
+        "method": "POST",
+        "path": "/api/role-permissions",
+        "implemented": false
+      },
+      "update": null,
+      "delete": null
+    },
+    "node_permission": {
+      "list": {
+        "method": "GET",
+        "path": "/api/node-permission",
+        "implemented": false
+      },
+      "getById": null,
+      "create": {
+        "method": "POST",
+        "path": "/api/node-permission",
+        "implemented": false
+      },
+      "update": null,
+      "delete": null
+    },
+    "dharma_rules": {
+      "list": {
+        "method": "GET",
+        "path": "/api/dharma-rules",
+        "implemented": false
+      },
+      "getById": null,
+      "create": {
+        "method": "POST",
+        "path": "/api/dharma-rules",
+        "implemented": false
+      },
+      "update": null,
+      "delete": null
+    },
+    "chat_history": {
+      "list": {
+        "method": "GET",
+        "path": "/api/chat-history",
+        "implemented": false
+      },
+      "getById": {
+        "method": "GET",
+        "path": "/api/chat-history/:id",
+        "implemented": false
+      },
+      "create": {
+        "method": "POST",
+        "path": "/api/chat-history",
+        "implemented": false
+      },
+      "update": {
+        "method": "PUT",
+        "path": "/api/chat-history/:id",
+        "implemented": false
+      },
+      "delete": {
+        "method": "DELETE",
+        "path": "/api/chat-history/:id",
+        "implemented": false
+      }
+    }
+  },
+  "customEndpoints": [],
+  "missingImplementations": []
+}

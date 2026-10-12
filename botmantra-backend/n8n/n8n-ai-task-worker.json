@@ -1,0 +1,154 @@
+{
+  "name": "AI Task Worker",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "ai-task-worker",
+        "httpMethod": "POST",
+        "responseMode": "responseNode"
+      },
+      "id": "webhook_ai_task",
+      "name": "AI Task Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "operation": "getSingle",
+        "schema": "public",
+        "table": "node_ai_task_queue",
+        "where": "id = {{ $node.webhook_ai_task.json.payload.task_id }}"
+      },
+      "id": "get_task",
+      "name": "Get AI Task",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [500, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.OPENAI_API_KEY }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "application/json",
+        "body": "={\n  \"model\": \"{{ $node.get_task.json.model || 'gpt-4-turbo' }}\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"{{ $node.get_task.json.system_prompt }}\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"{{ $node.get_task.json.prompt }}\"\n    }\n  ],\n  \"temperature\": {{ $node.get_task.json.temperature || 0.7 }},\n  \"max_tokens\": {{ $node.get_task.json.max_tokens || 2000 }}\n}"
+      },
+      "id": "call_openai",
+      "name": "Call OpenAI",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [750, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "const response = $input.first().json;\nconst aiResult = response.choices[0].message.content;\nconst usage = response.usage;\n\nreturn {\n  task_id: $node.get_task.json.id,\n  result: aiResult,\n  tokens_used: usage.total_tokens,\n  completion_time: new Date().toISOString(),\n  status: 'completed'\n};"
+      },
+      "id": "extract_result",
+      "name": "Extract Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1000, 300]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "schema": "public",
+        "table": "node_ai_task_queue",
+        "where": "id = {{ $node.get_task.json.id }}",
+        "columns": "status,result,completed_at,tokens_used",
+        "executeQueries": true,
+        "valueType": "object",
+        "values": "={\n  \"status\": \"completed\",\n  \"result\": \"{{ $node.extract_result.json.result }}\",\n  \"completed_at\": \"{{ $node.extract_result.json.completion_time }}\",\n  \"tokens_used\": {{ $node.extract_result.json.tokens_used }}\n}"
+      },
+      "id": "update_task_completed",
+      "name": "Update Task Completed",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [1250, 300]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "schema": "public",
+        "table": "node_trust_state",
+        "where": "user_id = '{{ $node.get_task.json.user_id }}'",
+        "columns": "karma_score",
+        "executeQueries": true,
+        "valueType": "object",
+        "values": "={\n  \"karma_score\": \"karma_score + 5\"\n}"
+      },
+      "id": "reward_karma",
+      "name": "Reward Karma (Task Complete)",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [1250, 450]
+    },
+    {
+      "parameters": {
+        "functionCode": "return {\n  status: 'success',\n  message: 'AI task completed and result stored',\n  task_id: $node.extract_result.json.task_id,\n  tokens_used: $node.extract_result.json.tokens_used,\n  timestamp: new Date().toISOString()\n};"
+      },
+      "id": "success_response",
+      "name": "Success Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1500, 300]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "schema": "public",
+        "table": "node_ai_task_queue",
+        "where": "id = {{ $node.get_task.json.id }}",
+        "columns": "status,error_message,attempted_at",
+        "executeQueries": true,
+        "valueType": "object",
+        "values": "={\n  \"status\": \"failed\",\n  \"error_message\": \"{{ $error.message }}\",\n  \"attempted_at\": \"{{ $now.toISOString() }}\"\n}"
+      },
+      "id": "mark_task_failed",
+      "name": "Mark Task Failed",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [1500, 500]
+    }
+  ],
+  "connections": {
+    "webhook_ai_task": {
+      "main": [[{ "node": "get_task", "type": "main", "index": 0 }]]
+    },
+    "get_task": {
+      "main": [[{ "node": "call_openai", "type": "main", "index": 0 }]]
+    },
+    "call_openai": {
+      "main": [[{ "node": "extract_result", "type": "main", "index": 0 }]]
+    },
+    "extract_result": {
+      "main": [
+        [
+          { "node": "update_task_completed", "type": "main", "index": 0 },
+          { "node": "reward_karma", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "update_task_completed": {
+      "main": [[{ "node": "success_response", "type": "main", "index": 0 }]]
+    },
+    "reward_karma": {
+      "main": []
+    },
+    "success_response": {
+      "main": []
+    }
+  },
+  "active": true
+}

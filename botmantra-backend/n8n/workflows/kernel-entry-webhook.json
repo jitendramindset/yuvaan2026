@@ -1,0 +1,49 @@
+{
+  "name": "Kernel Entry Webhook",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "kernel-entry",
+        "httpMethod": "POST",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "WebhookKernelEntry",
+      "name": "Kernel Entry",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [200, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:5000/api/kernel/execute",
+        "method": "POST",
+        "jsonParameters": true,
+        "options": {},
+        "bodyParametersJson": "={{$json}}"
+      },
+      "id": "HttpKernelExecute",
+      "name": "Kernel Execute",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [500, 300]
+    }
+  ],
+  "connections": {
+    "Kernel Entry": {
+      "main": [
+        [
+          {
+            "node": "Kernel Execute",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

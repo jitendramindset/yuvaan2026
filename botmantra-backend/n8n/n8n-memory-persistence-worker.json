@@ -1,0 +1,118 @@
+{
+  "name": "Memory Persistence Worker",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "memory-worker",
+        "httpMethod": "POST",
+        "responseMode": "responseNode"
+      },
+      "id": "webhook_memory",
+      "name": "Memory Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Extract message data from event\nconst event = $input.first().json;\n\nreturn {\n  request_id: event.request_id,\n  user_id: event.user_id,\n  business_id: event.business_id,\n  message: event.payload.message,\n  role: event.payload.role || 'user',\n  session_id: event.payload.session_id,\n  timestamp: event.payload.timestamp || new Date().toISOString(),\n  metadata: event.payload.metadata || {}\n};"
+      },
+      "id": "prepare_message",
+      "name": "Prepare Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [500, 300]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "schema": "public",
+        "table": "ai_chat_messages",
+        "columns": "user_id,business_id,session_id,role,content,request_id,metadata,created_at",
+        "executeQueries": true,
+        "valueType": "object",
+        "values": "={\n  \"user_id\": \"{{ $node.prepare_message.json.user_id }}\",\n  \"business_id\": \"{{ $node.prepare_message.json.business_id }}\",\n  \"session_id\": \"{{ $node.prepare_message.json.session_id }}\",\n  \"role\": \"{{ $node.prepare_message.json.role }}\",\n  \"content\": \"{{ $node.prepare_message.json.message }}\",\n  \"request_id\": \"{{ $node.prepare_message.json.request_id }}\",\n  \"metadata\": \"{{ JSON.stringify($node.prepare_message.json.metadata) }}\",\n  \"created_at\": \"{{ $node.prepare_message.json.timestamp }}\"\n}"
+      },
+      "id": "insert_message",
+      "name": "Insert Message",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [750, 300]
+    },
+    {
+      "parameters": {
+        "operation": "query",
+        "query": "SELECT COUNT(*) as message_count, MAX(created_at) as last_message FROM ai_chat_messages WHERE user_id = '{{ $node.prepare_message.json.user_id }}' AND business_id = '{{ $node.prepare_message.json.business_id }}';"
+      },
+      "id": "get_message_stats",
+      "name": "Get Message Stats",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [1000, 300]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "schema": "public",
+        "table": "node_trust_state",
+        "where": "user_id = '{{ $node.prepare_message.json.user_id }}'",
+        "columns": "last_activity_at,message_count",
+        "executeQueries": true,
+        "valueType": "object",
+        "values": "={\n  \"last_activity_at\": \"{{ $now.toISOString() }}\",\n  \"message_count\": \"message_count + 1\"\n}"
+      },
+      "id": "update_activity",
+      "name": "Update Activity",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [1250, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "return {\n  status: 'success',\n  message: 'Chat message persisted to memory',\n  user_id: $node.prepare_message.json.user_id,\n  message_count: $node.get_message_stats.json[0].message_count,\n  timestamp: new Date().toISOString()\n};"
+      },
+      "id": "success_response",
+      "name": "Success Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1500, 300]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "schema": "public",
+        "table": "node_event_queue",
+        "columns": "event_id,event_type,request_id,user_id,business_id,status,error_message,processed_at",
+        "executeQueries": true,
+        "valueType": "object",
+        "values": "={\n  \"event_id\": \"{{ 'err_' + Date.now() }}\",\n  \"event_type\": \"memory_persistence_failed\",\n  \"request_id\": \"{{ $node.prepare_message.json.request_id }}\",\n  \"user_id\": \"{{ $node.prepare_message.json.user_id }}\",\n  \"business_id\": \"{{ $node.prepare_message.json.business_id }}\",\n  \"status\": \"failed\",\n  \"error_message\": \"{{ $error.message }}\",\n  \"processed_at\": \"{{ $now.toISOString() }}\"\n}"
+      },
+      "id": "log_error",
+      "name": "Log Error",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [1500, 500]
+    }
+  ],
+  "connections": {
+    "webhook_memory": {
+      "main": [[{ "node": "prepare_message", "type": "main", "index": 0 }]]
+    },
+    "prepare_message": {
+      "main": [[{ "node": "insert_message", "type": "main", "index": 0 }]]
+    },
+    "insert_message": {
+      "main": [[{ "node": "get_message_stats", "type": "main", "index": 0 }]]
+    },
+    "get_message_stats": {
+      "main": [[{ "node": "update_activity", "type": "main", "index": 0 }]]
+    },
+    "update_activity": {
+      "main": [[{ "node": "success_response", "type": "main", "index": 0 }]]
+    },
+    "success_response": {
+      "main": []
+    }
+  },
+  "active": true
+}

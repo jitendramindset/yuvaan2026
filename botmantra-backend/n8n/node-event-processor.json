@@ -1,0 +1,320 @@
+{
+  "name": "NODE_EVENT_PROCESSOR",
+  "nodes": [
+    {
+      "parameters": {
+        "triggerTimes": [
+          {
+            "mode": "everyX",
+            "value": 10,
+            "unit": "seconds"
+          }
+        ]
+      },
+      "id": "cron_trigger",
+      "name": "Cron Trigger",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT *\nFROM node_event_queue\nWHERE status='pending'\nORDER BY created_at\nLIMIT 20;"
+      },
+      "id": "fetch_pending_events",
+      "name": "Fetch Pending Events",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [500, 300]
+    },
+    {
+      "parameters": {
+        "batchSize": 1
+      },
+      "id": "split_batches",
+      "name": "Split In Batches",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 2,
+      "position": [700, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": [
+            {
+              "condition": "objectProperty",
+              "value1": "={{ $json.event_type }}",
+              "value2": "trust_update"
+            },
+            {
+              "condition": "objectProperty",
+              "value1": "={{ $json.event_type }}",
+              "value2": "karma_update"
+            },
+            {
+              "condition": "objectProperty",
+              "value1": "={{ $json.event_type }}",
+              "value2": "notification"
+            },
+            {
+              "condition": "objectProperty",
+              "value1": "={{ $json.event_type }}",
+              "value2": "audit"
+            }
+          ]
+        }
+      },
+      "id": "route_event_type",
+      "name": "Route by Event Type",
+      "type": "n8n-nodes-base.switchNode",
+      "typeVersion": 1,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE node_trust_state\nSET trust_score = trust_score + {{ $json.payload.delta }}\nWHERE nid_hash = {{ $json.payload.nid_hash }};"
+      },
+      "id": "trust_update",
+      "name": "Trust Update",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [1150, 150]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE node_trust_state\nSET karma_points = karma_points + {{ $json.payload.delta }}\nWHERE nid_hash = {{ $json.payload.nid_hash }};"
+      },
+      "id": "karma_update",
+      "name": "Karma Update",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [1150, 300]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO node_notifications (user_id, business_id, type, payload, created_at)\nVALUES ({{ $json.payload.user_id }}, {{ $json.payload.business_id }}, 'event_notification', {{ $json.payload }}, NOW());"
+      },
+      "id": "notification_insert",
+      "name": "Send Notification",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [1150, 450]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO node_audit_log (event_type, payload, created_at)\nVALUES ({{ $json.event_type }}, {{ $json.payload }}, NOW());"
+      },
+      "id": "audit_log",
+      "name": "Audit Log",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [1150, 600]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE node_event_queue\nSET status='done'\nWHERE id={{ $json.id }};"
+      },
+      "id": "mark_done_trust",
+      "name": "Mark Processed (Trust)",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [1400, 150]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE node_event_queue\nSET status='done'\nWHERE id={{ $json.id }};"
+      },
+      "id": "mark_done_karma",
+      "name": "Mark Processed (Karma)",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [1400, 300]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE node_event_queue\nSET status='done'\nWHERE id={{ $json.id }};"
+      },
+      "id": "mark_done_notification",
+      "name": "Mark Processed (Notification)",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [1400, 450]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE node_event_queue\nSET status='done'\nWHERE id={{ $json.id }};"
+      },
+      "id": "mark_done_audit",
+      "name": "Mark Processed (Audit)",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [1400, 600]
+    }
+  ],
+  "connections": {
+    "Cron Trigger": {
+      "main": [
+        [
+          {
+            "node": "Fetch Pending Events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Pending Events": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split In Batches": {
+      "main": [
+        [
+          {
+            "node": "Route by Event Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Event Type": {
+      "main": [
+        [
+          {
+            "node": "Trust Update",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Karma Update",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Notification",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Audit Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trust Update": {
+      "main": [
+        [
+          {
+            "node": "Mark Processed (Trust)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Karma Update": {
+      "main": [
+        [
+          {
+            "node": "Mark Processed (Karma)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Notification": {
+      "main": [
+        [
+          {
+            "node": "Mark Processed (Notification)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Audit Log": {
+      "main": [
+        [
+          {
+            "node": "Mark Processed (Audit)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark Processed (Trust)": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Mark Processed (Karma)": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Mark Processed (Notification)": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Mark Processed (Audit)": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "active": false
+}

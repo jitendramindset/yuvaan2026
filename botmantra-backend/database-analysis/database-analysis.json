@@ -1,0 +1,1969 @@
+{
+  "metadata": {
+    "inspected_at": "2026-02-15T23:08:43.537Z",
+    "database_url": "https://api.mantravat.cloud"
+  },
+  "tables": [
+    {
+      "exists": true,
+      "tableName": "users",
+      "columns": [
+        {
+          "name": "id",
+          "type": "string",
+          "sampleValue": "702c6c73-9fc6-4e25-8919-c1e7b16342b0"
+        },
+        {
+          "name": "telegram_id",
+          "type": "string",
+          "sampleValue": "Jit2012"
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "sampleValue": "mantravat@gmail.com"
+        },
+        {
+          "name": "full_name",
+          "type": "string",
+          "sampleValue": "Jitendra Prasad"
+        },
+        {
+          "name": "business_name",
+          "type": "object",
+          "sampleValue": null
+        },
+        {
+          "name": "industry",
+          "type": "object",
+          "sampleValue": null
+        },
+        {
+          "name": "created_at",
+          "type": "string",
+          "sampleValue": "2026-01-13T10:53:14.938+00:00"
+        },
+        {
+          "name": "business_id",
+          "type": "object",
+          "sampleValue": null
+        },
+        {
+          "name": "user_type",
+          "type": "string",
+          "sampleValue": "Admin"
+        },
+        {
+          "name": "mobile",
+          "type": "string",
+          "sampleValue": "9886029888"
+        },
+        {
+          "name": "whatsapp",
+          "type": "string",
+          "sampleValue": "988 602 9888"
+        },
+        {
+          "name": "password",
+          "type": "string",
+          "sampleValue": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92"
+        },
+        {
+          "name": "updated_at",
+          "type": "string",
+          "sampleValue": "2026-01-13T17:10:39.974717+00:00"
+        },
+        {
+          "name": "created_by",
+          "type": "object",
+          "sampleValue": null
+        },
+        {
+          "name": "changed_by",
+          "type": "object",
+          "sampleValue": null
+        },
+        {
+          "name": "role",
+          "type": "string",
+          "sampleValue": "Owner"
+        },
+        {
+          "name": "email_hash",
+          "type": "object",
+          "sampleValue": null
+        },
+        {
+          "name": "mobile_hash",
+          "type": "string",
+          "sampleValue": "ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50"
+        },
+        {
+          "name": "is_verified",
+          "type": "boolean",
+          "sampleValue": false
+        },
+        {
+          "name": "last_login",
+          "type": "object",
+          "sampleValue": null
+        },
+        {
+          "name": "bio_hash",
+          "type": "object",
+          "sampleValue": null
+        },
+        {
+          "name": "pass_hash",
+          "type": "string",
+          "sampleValue": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92"
+        },
+        {
+          "name": "auth_method",
+          "type": "object",
+          "sampleValue": null
+        },
+        {
+          "name": "first_name",
+          "type": "string",
+          "sampleValue": "Jitendra"
+        },
+        {
+          "name": "last_name",
+          "type": "string",
+          "sampleValue": "Prasad"
+        }
+      ],
+      "sampleData": {
+        "id": "702c6c73-9fc6-4e25-8919-c1e7b16342b0",
+        "telegram_id": "Jit2012",
+        "email": "mantravat@gmail.com",
+        "full_name": "Jitendra Prasad",
+        "business_name": null,
+        "industry": null,
+        "created_at": "2026-01-13T10:53:14.938+00:00",
+        "business_id": null,
+        "user_type": "Admin",
+        "mobile": "9886029888",
+        "whatsapp": "988 602 9888",
+        "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+        "updated_at": "2026-01-13T17:10:39.974717+00:00",
+        "created_by": null,
+        "changed_by": null,
+        "role": "Owner",
+        "email_hash": null,
+        "mobile_hash": "ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50",
+        "is_verified": false,
+        "last_login": null,
+        "bio_hash": null,
+        "pass_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+        "auth_method": null,
+        "first_name": "Jitendra",
+        "last_name": "Prasad"
+      },
+      "rowCount": 8
+    },
+    {
+      "exists": true,
+      "tableName": "roles",
+      "columns": [
+        {
+          "name": "id",
+          "type": "string",
+          "sampleValue": "20dbc488-da2f-4b79-b5e5-cbc40f301861"
+        },
+        {
+          "name": "business_id",
+          "type": "string",
+          "sampleValue": "138fe182-7bcd-479e-b994-8a57e2bc9add"
+        },
+        {
+          "name": "role_name",
+          "type": "string",
+          "sampleValue": "SuperAdmin"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "sampleValue": "Platform Owner"
+        },
+        {
+          "name": "is_system",
+          "type": "boolean",
+          "sampleValue": true
+        },
+        {
+          "name": "created_at",
+          "type": "string",
+          "sampleValue": "2026-01-15T20:05:47.478681"
+        }
+      ],
+      "sampleData": {
+        "id": "20dbc488-da2f-4b79-b5e5-cbc40f301861",
+        "business_id": "138fe182-7bcd-479e-b994-8a57e2bc9add",
+        "role_name": "SuperAdmin",
+        "description": "Platform Owner",
+        "is_system": true,
+        "created_at": "2026-01-15T20:05:47.478681"
+      },
+      "rowCount": 9
+    },
+    {
+      "exists": true,
+      "tableName": "permissions",
+      "columns": [
+        {
+          "name": "id",
+          "type": "string",
+          "sampleValue": "2fc071c8-e901-415c-b4e9-fcb3fab4fd7c"
+        },
+        {
+          "name": "business_id",
+          "type": "string",
+          "sampleValue": "138fe182-7bcd-479e-b994-8a57e2bc9add"
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "sampleValue": "USER_MANAGE"
+        },
+        {
+          "name": "module",
+          "type": "string",
+          "sampleValue": "USER_SECURITY"
+        },
+        {
+          "name": "created_at",
+          "type": "string",
+          "sampleValue": "2026-01-15T20:18:53.535942"
+        },
+        {
+          "name": "function",
+          "type": "string",
+          "sampleValue": "USER_MANAGE"
+        },
+        {
+          "name": "description",
+          "type": "object",
+          "sampleValue": null
+        }
+      ],
+      "sampleData": {
+        "id": "2fc071c8-e901-415c-b4e9-fcb3fab4fd7c",
+        "business_id": "138fe182-7bcd-479e-b994-8a57e2bc9add",
+        "code": "USER_MANAGE",
+        "module": "USER_SECURITY",
+        "created_at": "2026-01-15T20:18:53.535942",
+        "function": "USER_MANAGE",
+        "description": null
+      },
+      "rowCount": 28
+    },
+    {
+      "exists": true,
+      "tableName": "role_permissions",
+      "columns": [
+        {
+          "name": "role_id",
+          "type": "string",
+          "sampleValue": "20dbc488-da2f-4b79-b5e5-cbc40f301861"
+        },
+        {
+          "name": "permission_id",
+          "type": "string",
+          "sampleValue": "2fc071c8-e901-415c-b4e9-fcb3fab4fd7c"
+        }
+      ],
+      "sampleData": {
+        "role_id": "20dbc488-da2f-4b79-b5e5-cbc40f301861",
+        "permission_id": "2fc071c8-e901-415c-b4e9-fcb3fab4fd7c"
+      },
+      "rowCount": 30
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": true,
+      "tableName": "node_permission",
+      "columns": [
+        {
+          "name": "perm_id",
+          "type": "string",
+          "sampleValue": "4247ba0b-2eee-40d8-8d78-2f3692b77cbd"
+        },
+        {
+          "name": "nid_hash",
+          "type": "string",
+          "sampleValue": "ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50"
+        },
+        {
+          "name": "owner_id",
+          "type": "string",
+          "sampleValue": "702c6c73-9fc6-4e25-8919-c1e7b16342b0"
+        },
+        {
+          "name": "target_owner_id",
+          "type": "string",
+          "sampleValue": "702c6c73-9fc6-4e25-8919-c1e7b16342b0"
+        },
+        {
+          "name": "permission_type",
+          "type": "string",
+          "sampleValue": "Owner"
+        },
+        {
+          "name": "can_read",
+          "type": "boolean",
+          "sampleValue": true
+        },
+        {
+          "name": "can_write",
+          "type": "boolean",
+          "sampleValue": true
+        },
+        {
+          "name": "can_delete",
+          "type": "boolean",
+          "sampleValue": true
+        },
+        {
+          "name": "valid_from",
+          "type": "string",
+          "sampleValue": "2026-02-12T19:42:14.204519"
+        },
+        {
+          "name": "valid_until",
+          "type": "object",
+          "sampleValue": null
+        },
+        {
+          "name": "is_revoked",
+          "type": "boolean",
+          "sampleValue": false
+        },
+        {
+          "name": "created_at",
+          "type": "string",
+          "sampleValue": "2026-02-12T19:42:14.204519"
+        },
+        {
+          "name": "ui_access",
+          "type": "boolean",
+          "sampleValue": true
+        }
+      ],
+      "sampleData": {
+        "perm_id": "4247ba0b-2eee-40d8-8d78-2f3692b77cbd",
+        "nid_hash": "ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50",
+        "owner_id": "702c6c73-9fc6-4e25-8919-c1e7b16342b0",
+        "target_owner_id": "702c6c73-9fc6-4e25-8919-c1e7b16342b0",
+        "permission_type": "Owner",
+        "can_read": true,
+        "can_write": true,
+        "can_delete": true,
+        "valid_from": "2026-02-12T19:42:14.204519",
+        "valid_until": null,
+        "is_revoked": false,
+        "created_at": "2026-02-12T19:42:14.204519",
+        "ui_access": true
+      },
+      "rowCount": 1
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": true,
+      "tableName": "dharma_rules",
+      "columns": [
+        {
+          "name": "rule_id",
+          "type": "string",
+          "sampleValue": "0cdd9473-16b2-4338-9184-c3cd61818e63"
+        },
+        {
+          "name": "rule_name",
+          "type": "string",
+          "sampleValue": "Ahimsa"
+        },
+        {
+          "name": "source_type",
+          "type": "string",
+          "sampleValue": "UNIVERSAL"
+        },
+        {
+          "name": "principle",
+          "type": "string",
+          "sampleValue": "NON_VIOLENCE"
+        },
+        {
+          "name": "severity_level",
+          "type": "number",
+          "sampleValue": 4
+        },
+        {
+          "name": "karma_impact",
+          "type": "number",
+          "sampleValue": 30
+        },
+        {
+          "name": "trust_impact",
+          "type": "number",
+          "sampleValue": 20
+        },
+        {
+          "name": "is_global",
+          "type": "boolean",
+          "sampleValue": true
+        },
+        {
+          "name": "created_at",
+          "type": "string",
+          "sampleValue": "2026-01-23T04:41:38.620453"
+        }
+      ],
+      "sampleData": {
+        "rule_id": "0cdd9473-16b2-4338-9184-c3cd61818e63",
+        "rule_name": "Ahimsa",
+        "source_type": "UNIVERSAL",
+        "principle": "NON_VIOLENCE",
+        "severity_level": 4,
+        "karma_impact": 30,
+        "trust_impact": 20,
+        "is_global": true,
+        "created_at": "2026-01-23T04:41:38.620453"
+      },
+      "rowCount": 4
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": true,
+      "tableName": "chat_history",
+      "columns": [
+        {
+          "name": "id",
+          "type": "string",
+          "sampleValue": "eaab8d2c-b9db-4c09-bd24-76c0f9007468"
+        },
+        {
+          "name": "role",
+          "type": "string",
+          "sampleValue": "Admin"
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "sampleValue": "9886029888"
+        },
+        {
+          "name": "created_at",
+          "type": "string",
+          "sampleValue": "2026-01-12T22:21:56.905527+00:00"
+        },
+        {
+          "name": "session_id",
+          "type": "string",
+          "sampleValue": "dc29f0e9-8f71-4877-97d8-6b047dee234f"
+        },
+        {
+          "name": "user_id",
+          "type": "object",
+          "sampleValue": null
+        }
+      ],
+      "sampleData": {
+        "id": "eaab8d2c-b9db-4c09-bd24-76c0f9007468",
+        "role": "Admin",
+        "content": "9886029888",
+        "created_at": "2026-01-12T22:21:56.905527+00:00",
+        "session_id": "dc29f0e9-8f71-4877-97d8-6b047dee234f",
+        "user_id": null
+      },
+      "rowCount": 76
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    },
+    {
+      "exists": false,
+      "error": "Table does not exist"
+    }
+  ],
+  "relationships": [
+    {
+      "fromTable": "role_permissions",
+      "fromColumn": "role_id",
+      "toTable": "roles",
+      "toColumn": "id",
+      "type": "foreign_key"
+    },
+    {
+      "fromTable": "role_permissions",
+      "fromColumn": "permission_id",
+      "toTable": "permissions",
+      "toColumn": "id",
+      "type": "foreign_key"
+    },
+    {
+      "fromTable": "chat_history",
+      "fromColumn": "user_id",
+      "toTable": "users",
+      "toColumn": "id",
+      "type": "foreign_key"
+    }
+  ],
+  "apiMapping": {
+    "crudEndpoints": {
+      "users": {
+        "list": {
+          "method": "GET",
+          "path": "/api/users",
+          "implemented": false
+        },
+        "getById": {
+          "method": "GET",
+          "path": "/api/users/:id",
+          "implemented": false
+        },
+        "create": {
+          "method": "POST",
+          "path": "/api/users",
+          "implemented": false
+        },
+        "update": {
+          "method": "PUT",
+          "path": "/api/users/:id",
+          "implemented": false
+        },
+        "delete": {
+          "method": "DELETE",
+          "path": "/api/users/:id",
+          "implemented": false
+        }
+      },
+      "roles": {
+        "list": {
+          "method": "GET",
+          "path": "/api/roles",
+          "implemented": false
+        },
+        "getById": {
+          "method": "GET",
+          "path": "/api/roles/:id",
+          "implemented": false
+        },
+        "create": {
+          "method": "POST",
+          "path": "/api/roles",
+          "implemented": false
+        },
+        "update": {
+          "method": "PUT",
+          "path": "/api/roles/:id",
+          "implemented": false
+        },
+        "delete": {
+          "method": "DELETE",
+          "path": "/api/roles/:id",
+          "implemented": false
+        }
+      },
+      "permissions": {
+        "list": {
+          "method": "GET",
+          "path": "/api/permissions",
+          "implemented": false
+        },
+        "getById": {
+          "method": "GET",
+          "path": "/api/permissions/:id",
+          "implemented": false
+        },
+        "create": {
+          "method": "POST",
+          "path": "/api/permissions",
+          "implemented": false
+        },
+        "update": {
+          "method": "PUT",
+          "path": "/api/permissions/:id",
+          "implemented": false
+        },
+        "delete": {
+          "method": "DELETE",
+          "path": "/api/permissions/:id",
+          "implemented": false
+        }
+      },
+      "role_permissions": {
+        "list": {
+          "method": "GET",
+          "path": "/api/role-permissions",
+          "implemented": false
+        },
+        "getById": null,
+        "create": {
+          "method": "POST",
+          "path": "/api/role-permissions",
+          "implemented": false
+        },
+        "update": null,
+        "delete": null
+      },
+      "node_permission": {
+        "list": {
+          "method": "GET",
+          "path": "/api/node-permission",
+          "implemented": false
+        },
+        "getById": null,
+        "create": {
+          "method": "POST",
+          "path": "/api/node-permission",
+          "implemented": false
+        },
+        "update": null,
+        "delete": null
+      },
+      "dharma_rules": {
+        "list": {
+          "method": "GET",
+          "path": "/api/dharma-rules",
+          "implemented": false
+        },
+        "getById": null,
+        "create": {
+          "method": "POST",
+          "path": "/api/dharma-rules",
+          "implemented": false
+        },
+        "update": null,
+        "delete": null
+      },
+      "chat_history": {
+        "list": {
+          "method": "GET",
+          "path": "/api/chat-history",
+          "implemented": false
+        },
+        "getById": {
+          "method": "GET",
+          "path": "/api/chat-history/:id",
+          "implemented": false
+        },
+        "create": {
+          "method": "POST",
+          "path": "/api/chat-history",
+          "implemented": false
+        },
+        "update": {
+          "method": "PUT",
+          "path": "/api/chat-history/:id",
+          "implemented": false
+        },
+        "delete": {
+          "method": "DELETE",
+          "path": "/api/chat-history/:id",
+          "implemented": false
+        }
+      }
+    },
+    "customEndpoints": [],
+    "missingImplementations": []
+  },
+  "uiMapping": {
+    "forms": {
+      "users": {
+        "title": "Users",
+        "fields": [
+          {
+            "name": "id",
+            "label": "Id",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Id"
+          },
+          {
+            "name": "telegram_id",
+            "label": "Telegram Id",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Telegram Id"
+          },
+          {
+            "name": "email",
+            "label": "Email",
+            "type": "email",
+            "required": true,
+            "placeholder": "Enter Email",
+            "validation": "email"
+          },
+          {
+            "name": "full_name",
+            "label": "Full Name",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Full Name"
+          },
+          {
+            "name": "business_name",
+            "label": "Business Name",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Business Name"
+          },
+          {
+            "name": "industry",
+            "label": "Industry",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Industry"
+          },
+          {
+            "name": "created_at",
+            "label": "Created At",
+            "type": "datetime-local",
+            "required": false,
+            "placeholder": "Enter Created At"
+          },
+          {
+            "name": "business_id",
+            "label": "Business Id",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Business Id"
+          },
+          {
+            "name": "user_type",
+            "label": "User Type",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter User Type"
+          },
+          {
+            "name": "mobile",
+            "label": "Mobile",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Mobile"
+          },
+          {
+            "name": "whatsapp",
+            "label": "Whatsapp",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Whatsapp"
+          },
+          {
+            "name": "password",
+            "label": "Password",
+            "type": "password",
+            "required": true,
+            "placeholder": "Enter Password"
+          },
+          {
+            "name": "updated_at",
+            "label": "Updated At",
+            "type": "datetime-local",
+            "required": false,
+            "placeholder": "Enter Updated At"
+          },
+          {
+            "name": "created_by",
+            "label": "Created By",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Created By"
+          },
+          {
+            "name": "changed_by",
+            "label": "Changed By",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Changed By"
+          },
+          {
+            "name": "role",
+            "label": "Role",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Role"
+          },
+          {
+            "name": "email_hash",
+            "label": "Email Hash",
+            "type": "email",
+            "required": true,
+            "placeholder": "Enter Email Hash",
+            "validation": "email"
+          },
+          {
+            "name": "mobile_hash",
+            "label": "Mobile Hash",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Mobile Hash"
+          },
+          {
+            "name": "is_verified",
+            "label": "Is Verified",
+            "type": "checkbox",
+            "required": true,
+            "placeholder": "Enter Is Verified"
+          },
+          {
+            "name": "last_login",
+            "label": "Last Login",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Last Login"
+          },
+          {
+            "name": "bio_hash",
+            "label": "Bio Hash",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Bio Hash"
+          },
+          {
+            "name": "pass_hash",
+            "label": "Pass Hash",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Pass Hash"
+          },
+          {
+            "name": "auth_method",
+            "label": "Auth Method",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Auth Method"
+          },
+          {
+            "name": "first_name",
+            "label": "First Name",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter First Name"
+          },
+          {
+            "name": "last_name",
+            "label": "Last Name",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Last Name"
+          }
+        ]
+      },
+      "roles": {
+        "title": "Roles",
+        "fields": [
+          {
+            "name": "id",
+            "label": "Id",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Id"
+          },
+          {
+            "name": "business_id",
+            "label": "Business Id",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Business Id"
+          },
+          {
+            "name": "role_name",
+            "label": "Role Name",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Role Name"
+          },
+          {
+            "name": "description",
+            "label": "Description",
+            "type": "textarea",
+            "required": false,
+            "placeholder": "Enter Description"
+          },
+          {
+            "name": "is_system",
+            "label": "Is System",
+            "type": "checkbox",
+            "required": true,
+            "placeholder": "Enter Is System"
+          },
+          {
+            "name": "created_at",
+            "label": "Created At",
+            "type": "datetime-local",
+            "required": false,
+            "placeholder": "Enter Created At"
+          }
+        ]
+      },
+      "permissions": {
+        "title": "Permissions",
+        "fields": [
+          {
+            "name": "id",
+            "label": "Id",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Id"
+          },
+          {
+            "name": "business_id",
+            "label": "Business Id",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Business Id"
+          },
+          {
+            "name": "code",
+            "label": "Code",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Code"
+          },
+          {
+            "name": "module",
+            "label": "Module",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Module"
+          },
+          {
+            "name": "created_at",
+            "label": "Created At",
+            "type": "datetime-local",
+            "required": false,
+            "placeholder": "Enter Created At"
+          },
+          {
+            "name": "function",
+            "label": "Function",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Function"
+          },
+          {
+            "name": "description",
+            "label": "Description",
+            "type": "textarea",
+            "required": false,
+            "placeholder": "Enter Description"
+          }
+        ]
+      },
+      "role_permissions": {
+        "title": "Role Permissions",
+        "fields": [
+          {
+            "name": "role_id",
+            "label": "Role Id",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Role Id"
+          },
+          {
+            "name": "permission_id",
+            "label": "Permission Id",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Permission Id"
+          }
+        ]
+      },
+      "node_permission": {
+        "title": "Node Permission",
+        "fields": [
+          {
+            "name": "perm_id",
+            "label": "Perm Id",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Perm Id"
+          },
+          {
+            "name": "nid_hash",
+            "label": "Nid Hash",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Nid Hash"
+          },
+          {
+            "name": "owner_id",
+            "label": "Owner Id",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Owner Id"
+          },
+          {
+            "name": "target_owner_id",
+            "label": "Target Owner Id",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Target Owner Id"
+          },
+          {
+            "name": "permission_type",
+            "label": "Permission Type",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Permission Type"
+          },
+          {
+            "name": "can_read",
+            "label": "Can Read",
+            "type": "checkbox",
+            "required": true,
+            "placeholder": "Enter Can Read"
+          },
+          {
+            "name": "can_write",
+            "label": "Can Write",
+            "type": "checkbox",
+            "required": true,
+            "placeholder": "Enter Can Write"
+          },
+          {
+            "name": "can_delete",
+            "label": "Can Delete",
+            "type": "checkbox",
+            "required": true,
+            "placeholder": "Enter Can Delete"
+          },
+          {
+            "name": "valid_from",
+            "label": "Valid From",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Valid From"
+          },
+          {
+            "name": "valid_until",
+            "label": "Valid Until",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Valid Until"
+          },
+          {
+            "name": "is_revoked",
+            "label": "Is Revoked",
+            "type": "checkbox",
+            "required": true,
+            "placeholder": "Enter Is Revoked"
+          },
+          {
+            "name": "created_at",
+            "label": "Created At",
+            "type": "datetime-local",
+            "required": false,
+            "placeholder": "Enter Created At"
+          },
+          {
+            "name": "ui_access",
+            "label": "Ui Access",
+            "type": "checkbox",
+            "required": true,
+            "placeholder": "Enter Ui Access"
+          }
+        ]
+      },
+      "dharma_rules": {
+        "title": "Dharma Rules",
+        "fields": [
+          {
+            "name": "rule_id",
+            "label": "Rule Id",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Rule Id"
+          },
+          {
+            "name": "rule_name",
+            "label": "Rule Name",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Rule Name"
+          },
+          {
+            "name": "source_type",
+            "label": "Source Type",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Source Type"
+          },
+          {
+            "name": "principle",
+            "label": "Principle",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Principle"
+          },
+          {
+            "name": "severity_level",
+            "label": "Severity Level",
+            "type": "number",
+            "required": true,
+            "placeholder": "Enter Severity Level"
+          },
+          {
+            "name": "karma_impact",
+            "label": "Karma Impact",
+            "type": "number",
+            "required": true,
+            "placeholder": "Enter Karma Impact"
+          },
+          {
+            "name": "trust_impact",
+            "label": "Trust Impact",
+            "type": "number",
+            "required": true,
+            "placeholder": "Enter Trust Impact"
+          },
+          {
+            "name": "is_global",
+            "label": "Is Global",
+            "type": "checkbox",
+            "required": true,
+            "placeholder": "Enter Is Global"
+          },
+          {
+            "name": "created_at",
+            "label": "Created At",
+            "type": "datetime-local",
+            "required": false,
+            "placeholder": "Enter Created At"
+          }
+        ]
+      },
+      "chat_history": {
+        "title": "Chat History",
+        "fields": [
+          {
+            "name": "id",
+            "label": "Id",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Id"
+          },
+          {
+            "name": "role",
+            "label": "Role",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Role"
+          },
+          {
+            "name": "content",
+            "label": "Content",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Content"
+          },
+          {
+            "name": "created_at",
+            "label": "Created At",
+            "type": "datetime-local",
+            "required": false,
+            "placeholder": "Enter Created At"
+          },
+          {
+            "name": "session_id",
+            "label": "Session Id",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter Session Id"
+          },
+          {
+            "name": "user_id",
+            "label": "User Id",
+            "type": "text",
+            "required": true,
+            "placeholder": "Enter User Id"
+          }
+        ]
+      }
+    },
+    "dataGrids": {
+      "users": {
+        "title": "Users",
+        "columns": [
+          {
+            "field": "id",
+            "headerName": "Id",
+            "width": 80,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "telegram_id",
+            "headerName": "Telegram Id",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "email",
+            "headerName": "Email",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "full_name",
+            "headerName": "Full Name",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "business_name",
+            "headerName": "Business Name",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "industry",
+            "headerName": "Industry",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "created_at",
+            "headerName": "Created At",
+            "width": 150,
+            "type": "dateTime",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "business_id",
+            "headerName": "Business Id",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "user_type",
+            "headerName": "User Type",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "mobile",
+            "headerName": "Mobile",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "whatsapp",
+            "headerName": "Whatsapp",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "updated_at",
+            "headerName": "Updated At",
+            "width": 150,
+            "type": "dateTime",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "created_by",
+            "headerName": "Created By",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "changed_by",
+            "headerName": "Changed By",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "role",
+            "headerName": "Role",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "email_hash",
+            "headerName": "Email Hash",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "mobile_hash",
+            "headerName": "Mobile Hash",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "is_verified",
+            "headerName": "Is Verified",
+            "width": 150,
+            "type": "boolean",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "last_login",
+            "headerName": "Last Login",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "bio_hash",
+            "headerName": "Bio Hash",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "pass_hash",
+            "headerName": "Pass Hash",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "auth_method",
+            "headerName": "Auth Method",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "first_name",
+            "headerName": "First Name",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "last_name",
+            "headerName": "Last Name",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          }
+        ],
+        "actions": [
+          "view",
+          "edit",
+          "delete"
+        ],
+        "features": {
+          "search": true,
+          "filter": true,
+          "pagination": true,
+          "export": true
+        }
+      },
+      "roles": {
+        "title": "Roles",
+        "columns": [
+          {
+            "field": "id",
+            "headerName": "Id",
+            "width": 80,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "business_id",
+            "headerName": "Business Id",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "role_name",
+            "headerName": "Role Name",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "description",
+            "headerName": "Description",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "is_system",
+            "headerName": "Is System",
+            "width": 150,
+            "type": "boolean",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "created_at",
+            "headerName": "Created At",
+            "width": 150,
+            "type": "dateTime",
+            "sortable": true,
+            "filterable": true
+          }
+        ],
+        "actions": [
+          "view",
+          "edit",
+          "delete"
+        ],
+        "features": {
+          "search": true,
+          "filter": true,
+          "pagination": true,
+          "export": true
+        }
+      },
+      "permissions": {
+        "title": "Permissions",
+        "columns": [
+          {
+            "field": "id",
+            "headerName": "Id",
+            "width": 80,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "business_id",
+            "headerName": "Business Id",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "code",
+            "headerName": "Code",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "module",
+            "headerName": "Module",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "created_at",
+            "headerName": "Created At",
+            "width": 150,
+            "type": "dateTime",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "function",
+            "headerName": "Function",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "description",
+            "headerName": "Description",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          }
+        ],
+        "actions": [
+          "view",
+          "edit",
+          "delete"
+        ],
+        "features": {
+          "search": true,
+          "filter": true,
+          "pagination": true,
+          "export": true
+        }
+      },
+      "role_permissions": {
+        "title": "Role Permissions",
+        "columns": [
+          {
+            "field": "role_id",
+            "headerName": "Role Id",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "permission_id",
+            "headerName": "Permission Id",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          }
+        ],
+        "actions": [
+          "view",
+          "edit",
+          "delete"
+        ],
+        "features": {
+          "search": true,
+          "filter": true,
+          "pagination": true,
+          "export": true
+        }
+      },
+      "node_permission": {
+        "title": "Node Permission",
+        "columns": [
+          {
+            "field": "perm_id",
+            "headerName": "Perm Id",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "nid_hash",
+            "headerName": "Nid Hash",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "owner_id",
+            "headerName": "Owner Id",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "target_owner_id",
+            "headerName": "Target Owner Id",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "permission_type",
+            "headerName": "Permission Type",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "can_read",
+            "headerName": "Can Read",
+            "width": 150,
+            "type": "boolean",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "can_write",
+            "headerName": "Can Write",
+            "width": 150,
+            "type": "boolean",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "can_delete",
+            "headerName": "Can Delete",
+            "width": 150,
+            "type": "boolean",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "valid_from",
+            "headerName": "Valid From",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "valid_until",
+            "headerName": "Valid Until",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "is_revoked",
+            "headerName": "Is Revoked",
+            "width": 150,
+            "type": "boolean",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "created_at",
+            "headerName": "Created At",
+            "width": 150,
+            "type": "dateTime",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "ui_access",
+            "headerName": "Ui Access",
+            "width": 150,
+            "type": "boolean",
+            "sortable": true,
+            "filterable": true
+          }
+        ],
+        "actions": [
+          "view",
+          "edit",
+          "delete"
+        ],
+        "features": {
+          "search": true,
+          "filter": true,
+          "pagination": true,
+          "export": true
+        }
+      },
+      "dharma_rules": {
+        "title": "Dharma Rules",
+        "columns": [
+          {
+            "field": "rule_id",
+            "headerName": "Rule Id",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "rule_name",
+            "headerName": "Rule Name",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "source_type",
+            "headerName": "Source Type",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "principle",
+            "headerName": "Principle",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "severity_level",
+            "headerName": "Severity Level",
+            "width": 150,
+            "type": "number",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "karma_impact",
+            "headerName": "Karma Impact",
+            "width": 150,
+            "type": "number",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "trust_impact",
+            "headerName": "Trust Impact",
+            "width": 150,
+            "type": "number",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "is_global",
+            "headerName": "Is Global",
+            "width": 150,
+            "type": "boolean",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "created_at",
+            "headerName": "Created At",
+            "width": 150,
+            "type": "dateTime",
+            "sortable": true,
+            "filterable": true
+          }
+        ],
+        "actions": [
+          "view",
+          "edit",
+          "delete"
+        ],
+        "features": {
+          "search": true,
+          "filter": true,
+          "pagination": true,
+          "export": true
+        }
+      },
+      "chat_history": {
+        "title": "Chat History",
+        "columns": [
+          {
+            "field": "id",
+            "headerName": "Id",
+            "width": 80,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "role",
+            "headerName": "Role",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "content",
+            "headerName": "Content",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "created_at",
+            "headerName": "Created At",
+            "width": 150,
+            "type": "dateTime",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "session_id",
+            "headerName": "Session Id",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          },
+          {
+            "field": "user_id",
+            "headerName": "User Id",
+            "width": 150,
+            "type": "string",
+            "sortable": true,
+            "filterable": true
+          }
+        ],
+        "actions": [
+          "view",
+          "edit",
+          "delete"
+        ],
+        "features": {
+          "search": true,
+          "filter": true,
+          "pagination": true,
+          "export": true
+        }
+      }
+    },
+    "dashboards": {}
+  }
+}

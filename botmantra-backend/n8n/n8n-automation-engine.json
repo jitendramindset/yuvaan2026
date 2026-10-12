@@ -1,0 +1,169 @@
+{
+  "name": "Automation Engine",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "automation-engine",
+        "httpMethod": "POST",
+        "responseMode": "responseNode"
+      },
+      "id": "webhook_automation",
+      "name": "Automation Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": [
+            {
+              "condition": "objectProperty",
+              "value1": "={{ $node.webhook_automation.json.payload.action_type }}",
+              "value2": "send_email"
+            },
+            {
+              "condition": "objectProperty",
+              "value1": "={{ $node.webhook_automation.json.payload.action_type }}",
+              "value2": "webhook_call"
+            },
+            {
+              "condition": "objectProperty",
+              "value1": "={{ $node.webhook_automation.json.payload.action_type }}",
+              "value2": "create_record"
+            },
+            {
+              "condition": "objectProperty",
+              "value1": "={{ $node.webhook_automation.json.payload.action_type }}",
+              "value2": "update_record"
+            }
+          ]
+        }
+      },
+      "id": "route_automation",
+      "name": "Route Automation Type",
+      "type": "n8n-nodes-base.switchNode",
+      "typeVersion": 1,
+      "position": [500, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "{{ $node.webhook_automation.json.payload.webhook_url }}",
+        "authentication": "none",
+        "sendBody": true,
+        "contentType": "application/json",
+        "body": "={\n  \"user_id\": \"{{ $node.webhook_automation.json.user_id }}\",\n  \"business_id\": \"{{ $node.webhook_automation.json.business_id }}\",\n  \"request_id\": \"{{ $node.webhook_automation.json.request_id }}\",\n  \"payload\": {{ JSON.stringify($node.webhook_automation.json.payload) }},\n  \"timestamp\": \"{{ $now.toISOString() }}\"\n}"
+      },
+      "id": "webhook_call",
+      "name": "Webhook Call",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [750, 100]
+    },
+    {
+      "parameters": {
+        "fromEmail": "{{ $env.SENDGRID_FROM_EMAIL }}",
+        "toEmail": "={{ $node.webhook_automation.json.payload.email }}",
+        "subject": "={{ $node.webhook_automation.json.payload.subject }}",
+        "htmlBody": "={{ $node.webhook_automation.json.payload.body }}"
+      },
+      "id": "send_email",
+      "name": "Send Email",
+      "type": "n8n-nodes-base.sendGrid",
+      "typeVersion": 2,
+      "position": [750, 250]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "schema": "public",
+        "table": "{{ $node.webhook_automation.json.payload.table_name }}",
+        "columns": "{{ $node.webhook_automation.json.payload.columns.join(',') }}",
+        "executeQueries": true,
+        "valueType": "object",
+        "values": "={{ $node.webhook_automation.json.payload.values }}"
+      },
+      "id": "create_record",
+      "name": "Create Record",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [750, 400]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "schema": "public",
+        "table": "{{ $node.webhook_automation.json.payload.table_name }}",
+        "where": "id = {{ $node.webhook_automation.json.payload.record_id }}",
+        "columns": "{{ Object.keys($node.webhook_automation.json.payload.values).join(',') }}",
+        "executeQueries": true,
+        "valueType": "object",
+        "values": "={{ $node.webhook_automation.json.payload.values }}"
+      },
+      "id": "update_record",
+      "name": "Update Record",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [750, 550]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "schema": "public",
+        "table": "node_automation_log",
+        "columns": "request_id,user_id,business_id,action_type,status,result,executed_at",
+        "executeQueries": true,
+        "valueType": "object",
+        "values": "={\n  \"request_id\": \"{{ $node.webhook_automation.json.request_id }}\",\n  \"user_id\": \"{{ $node.webhook_automation.json.user_id }}\",\n  \"business_id\": \"{{ $node.webhook_automation.json.business_id }}\",\n  \"action_type\": \"{{ $node.webhook_automation.json.payload.action_type }}\",\n  \"status\": \"success\",\n  \"result\": \"{{ JSON.stringify($node[$node.route_automation.json.routingNode].json) }}\",\n  \"executed_at\": \"{{ $now.toISOString() }}\"\n}"
+      },
+      "id": "log_automation",
+      "name": "Log Automation",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [1000, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "return {\n  status: 'success',\n  message: 'Automation executed successfully',\n  request_id: $node.webhook_automation.json.request_id,\n  action_type: $node.webhook_automation.json.payload.action_type,\n  timestamp: new Date().toISOString()\n};"
+      },
+      "id": "success_response",
+      "name": "Success Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 300]
+    }
+  ],
+  "connections": {
+    "webhook_automation": {
+      "main": [[{ "node": "route_automation", "type": "main", "index": 0 }]]
+    },
+    "route_automation": {
+      "main": [
+        [{ "node": "webhook_call", "type": "main", "index": 0 }],
+        [{ "node": "send_email", "type": "main", "index": 0 }],
+        [{ "node": "create_record", "type": "main", "index": 0 }],
+        [{ "node": "update_record", "type": "main", "index": 0 }]
+      ]
+    },
+    "webhook_call": {
+      "main": [[{ "node": "log_automation", "type": "main", "index": 0 }]]
+    },
+    "send_email": {
+      "main": [[{ "node": "log_automation", "type": "main", "index": 0 }]]
+    },
+    "create_record": {
+      "main": [[{ "node": "log_automation", "type": "main", "index": 0 }]]
+    },
+    "update_record": {
+      "main": [[{ "node": "log_automation", "type": "main", "index": 0 }]]
+    },
+    "log_automation": {
+      "main": [[{ "node": "success_response", "type": "main", "index": 0 }]]
+    },
+    "success_response": {
+      "main": []
+    }
+  },
+  "active": true
+}

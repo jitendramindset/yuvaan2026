@@ -1,0 +1,243 @@
+{
+  "generated": "2026-02-04T06:50:01.511Z",
+  "tables": [
+    {
+      "name": "ai_action_logs",
+      "category": "ai",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\ai_action_logs.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\ai_action_logs.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "ai_action_requests",
+      "category": "ai",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\ai_action_requests.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\ai_action_requests.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "ai_action_whitelist",
+      "category": "ai",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\ai_action_whitelist.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\ai_action_whitelist.test.js",
+      "endpoints": 2
+    },
+    {
+      "name": "ai_agent_rules",
+      "category": "ai",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\ai_agent_rules.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\ai_agent_rules.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "ai_agent_templates",
+      "category": "ai",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\ai_agent_templates.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\ai_agent_templates.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "ai_app_requests",
+      "category": "ai",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\ai_app_requests.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\ai_app_requests.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "ai_chat_messages",
+      "category": "ai",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\ai_chat_messages.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\ai_chat_messages.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "ai_chat_sessions",
+      "category": "ai",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\ai_chat_sessions.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\ai_chat_sessions.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "ai_dashboard_requests",
+      "category": "ai",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\ai_dashboard_requests.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\ai_dashboard_requests.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "ai_generated_templates",
+      "category": "ai",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\ai_generated_templates.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\ai_generated_templates.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "ai_knowledge_base",
+      "category": "ai",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\ai_knowledge_base.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\ai_knowledge_base.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "ai_model_router",
+      "category": "ai",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\ai_model_router.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\ai_model_router.test.js",
+      "endpoints": 2
+    },
+    {
+      "name": "ai_plugins",
+      "category": "ai",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\ai_plugins.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\ai_plugins.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "ai_semantic_cache",
+      "category": "ai",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\ai_semantic_cache.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\ai_semantic_cache.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "ai_session_memory",
+      "category": "ai",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\ai_session_memory.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\ai_session_memory.test.js",
+      "endpoints": 2
+    },
+    {
+      "name": "ai_summary_cache",
+      "category": "ai",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\ai_summary_cache.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\ai_summary_cache.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "ai_voice_logs",
+      "category": "ai",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\ai_voice_logs.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\ai_voice_logs.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "business_automation_profiles",
+      "category": "business",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\business_automation_profiles.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\business_automation_profiles.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "business_branding",
+      "category": "business",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\business_branding.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\business_branding.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "business_data_sources",
+      "category": "business",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\business_data_sources.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\business_data_sources.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "business_documents",
+      "category": "business",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\business_documents.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\business_documents.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "business_domains",
+      "category": "business",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\business_domains.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\business_domains.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "business_functions",
+      "category": "business",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\business_functions.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\business_functions.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "business_labels",
+      "category": "business",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\business_labels.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\business_labels.test.js",
+      "endpoints": 2
+    },
+    {
+      "name": "business_metadata",
+      "category": "business",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\business_metadata.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\business_metadata.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "business_modules",
+      "category": "business",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\business_modules.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\business_modules.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "business_plugins",
+      "category": "business",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\business_plugins.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\business_plugins.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "business_subscriptions",
+      "category": "business",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\business_subscriptions.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\business_subscriptions.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "business_templates",
+      "category": "business",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\business_templates.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\business_templates.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "business_users",
+      "category": "business",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\business_users.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\business_users.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "clients",
+      "category": "crm",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\clients.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\clients.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "invoices",
+      "category": "crm",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\invoices.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\invoices.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "payments",
+      "category": "crm",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\payments.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\payments.test.js",
+      "endpoints": 5
+    },
+    {
+      "name": "projects",
+      "category": "crm",
+      "routeFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\routes\\generated\\projects.routes.js",
+      "testFile": "D:\\React App\\Yuvaan-v1\\botmantra-backend\\tests\\generated\\projects.test.js",
+      "endpoints": 5
+    }
+  ]
+}

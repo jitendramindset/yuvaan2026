@@ -1,0 +1,107 @@
+{
+  "info": {
+    "_postman_id": "botmantra-auth-api-2026",
+    "name": "Botmantra Auth API",
+    "description": "Signup and signin flow for Botmantra backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "exec": [
+          "if (!pm.collectionVariables.get('email')) {",
+          "  const ts = Date.now();",
+          "  pm.collectionVariables.set('email', `test+${ts}@example.com`);",
+          "  pm.collectionVariables.set('password', 'Test@123456');",
+          "  pm.collectionVariables.set('fullName', 'Test User');",
+          "  pm.collectionVariables.set('mobileNo', '+1234567890');",
+          "}"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "Signup",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 201', function () {",
+              "  pm.expect(pm.response.code).to.equal(201);",
+              "});",
+              "pm.test('Response is JSON', function () {",
+              "  pm.response.to.be.json;",
+              "});",
+              "pm.test('Signup success true', function () {",
+              "  const jsonData = pm.response.json();",
+              "  pm.expect(jsonData.success).to.equal(true);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fullName\": \"{{fullName}}\",\n  \"email\": \"{{email}}\",\n  \"mobileNo\": \"{{mobileNo}}\",\n  \"password\": \"{{password}}\",\n  \"confirmPassword\": \"{{password}}\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/auth/signup",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "auth", "signup"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Signin",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 200', function () {",
+              "  pm.expect(pm.response.code).to.equal(200);",
+              "});",
+              "pm.test('Response is JSON', function () {",
+              "  pm.response.to.be.json;",
+              "});",
+              "pm.test('Login success true', function () {",
+              "  const jsonData = pm.response.json();",
+              "  pm.expect(jsonData.success).to.equal(true);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"emailOrPhone\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/auth/signin",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "auth", "signin"]
+        }
+      },
+      "response": []
+    }
+  ]
+}

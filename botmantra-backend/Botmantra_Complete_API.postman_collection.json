@@ -1,0 +1,1031 @@
+{
+  "info": {
+    "_postman_id": "botmantra-complete-api-2026",
+    "name": "Botmantra Complete API",
+    "description": "Complete API collection for Botmantra backend system - Kernel Engine + Generic CRUD operations",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "item": [
+    {
+      "name": "🔍 Health & Status",
+      "item": [
+        {
+          "name": "Health Check",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is OK', function() {",
+                  "    pm.expect(pm.response.code).to.equal(200);",
+                  "});",
+                  "pm.test('Response is JSON', function() {",
+                  "    pm.response.to.be.json;",
+                  "});",
+                  "pm.test('Has status field', function() {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.status).to.equal('OK');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/health",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["health"]
+            },
+            "description": "Check if the backend server is running and healthy"
+          },
+          "response": []
+        },
+        {
+          "name": "Database Status",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is connected', function() {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.status).to.equal('connected');",
+                  "});",
+                  "pm.test('Response status is 200', function() {",
+                  "    pm.expect(pm.response.code).to.equal(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/db-status",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "db-status"]
+            },
+            "description": "Check if Supabase database is connected"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "⚙️ Kernel Engine - Validation & Execution",
+      "item": [
+        {
+          "name": "Validate Node Action",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Response is JSON', function() {",
+                  "    pm.response.to.be.json;",
+                  "});",
+                  "pm.test('Has required fields', function() {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.any.keys('success', 'error', 'nidHash', 'valid');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nidHash\": \"test_node_001\",\n  \"targetOwnerId\": \"owner-uuid-123\",\n  \"actionType\": \"read\",\n  \"requesterUuid\": \"user-uuid-456\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/validate",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "validate"]
+            },
+            "description": "Validate if an action is allowed on a node without executing it"
+          },
+          "response": []
+        },
+        {
+          "name": "Execute Node Runtime",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Response status is 200 or 500', function() {",
+                  "    pm.expect([200, 500]).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('Response is JSON', function() {",
+                  "    pm.response.to.be.json;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nidHash\": \"test_node_001\",\n  \"targetOwnerId\": \"owner-uuid-123\",\n  \"actionType\": \"execute\",\n  \"payload\": {\n    \"command\": \"test\",\n    \"parameters\": {}\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/execute",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "execute"]
+            },
+            "description": "Execute an action on a node (main kernel execution endpoint)"
+          },
+          "response": []
+        },
+        {
+          "name": "Evaluate Dharma",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Response is JSON', function() {",
+                  "    pm.response.to.be.json;",
+                  "});",
+                  "pm.test('Response status is 200 or 500', function() {",
+                  "    pm.expect([200, 500]).to.include(pm.response.code);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nidHash\": \"test_node_001\",\n  \"actionType\": \"read\",\n  \"principle\": \"dharma_principle_001\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/evaluate-dharma",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "evaluate-dharma"]
+            },
+            "description": "Evaluate if an action aligns with dharma principles"
+          },
+          "response": []
+        },
+        {
+          "name": "Apply Karma",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Response is JSON', function() {",
+                  "    pm.response.to.be.json;",
+                  "});",
+                  "pm.test('Response status is 200 or 500', function() {",
+                  "    pm.expect([200, 500]).to.include(pm.response.code);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nidHash\": \"test_node_001\",\n  \"actorOwnerId\": \"actor-uuid-789\",\n  \"actionType\": \"help\",\n  \"karmaDelta\": 10,\n  \"trustDelta\": 5,\n  \"reason\": \"User performed helpful action\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/apply-karma",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "apply-karma"]
+            },
+            "description": "Apply karma and trust changes to a node based on actions"
+          },
+          "response": []
+        },
+        {
+          "name": "Ingest Event",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Response is JSON', function() {",
+                  "    pm.response.to.be.json;",
+                  "});",
+                  "pm.test('Response status is 200 or 500', function() {",
+                  "    pm.expect([200, 500]).to.include(pm.response.code);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nidHash\": \"test_node_001\",\n  \"eventType\": \"action_completed\",\n  \"payload\": {\n    \"action_id\": \"act-001\",\n    \"status\": \"success\",\n    \"timestamp\": \"2026-01-29T10:00:00Z\"\n  },\n  \"prevHash\": \"prev_hash_if_known\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/event-ingest",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "event-ingest"]
+            },
+            "description": "Queue an event for processing in the node runtime"
+          },
+          "response": []
+        },
+        {
+          "name": "Calculate Reputation",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Response is JSON', function() {",
+                  "    pm.response.to.be.json;",
+                  "});",
+                  "pm.test('Response status is 200 or 500', function() {",
+                  "    pm.expect([200, 500]).to.include(pm.response.code);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nidHash\": \"test_node_001\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/calculate-reputation",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "calculate-reputation"]
+            },
+            "description": "Calculate the current reputation score for a node"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "📊 Kernel Engine - Data Retrieval",
+      "item": [
+        {
+          "name": "Get Session Details",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Response is JSON', function() {",
+                  "    pm.response.to.be.json;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/session/session_id_or_uuid",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "session", "session_id_or_uuid"]
+            },
+            "description": "Get runtime session details by session ID or UUID"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Execution Details",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Response is JSON', function() {",
+                  "    pm.response.to.be.json;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/execution/execution_id_or_hash",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "execution", "execution_id_or_hash"]
+            },
+            "description": "Get execution log details by execution ID or node hash"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Reputation Score",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Response is JSON', function() {",
+                  "    pm.response.to.be.json;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/reputation/ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "reputation", "ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50"]
+            },
+            "description": "Get karma and reputation state for a node"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Permissions",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Response is JSON', function() {",
+                  "    pm.response.to.be.json;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/permissions/ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50?targetOwnerId=c75d0110-9085-4411-8e2d-f1c5274d7f07",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "permissions", "ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50"],
+              "query": [
+                {
+                  "key": "targetOwnerId",
+                  "value": "c75d0110-9085-4411-8e2d-f1c5274d7f07"
+                }
+              ]
+            },
+            "description": "Get effective permissions for a node and owner"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Event History",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Response is JSON', function() {",
+                  "    pm.response.to.be.json;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/events/ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50?limit=50&offset=0",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "events", "ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "50"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            },
+            "description": "Get event history for a node with pagination"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Failure Logs",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Response is JSON', function() {",
+                  "    pm.response.to.be.json;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/failures/ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50?limit=50",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "failures", "ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "50"
+                }
+              ]
+            },
+            "description": "Get failure logs for a node"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Dharma Logs",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Response is JSON', function() {",
+                  "    pm.response.to.be.json;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/dharma-logs/ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50?limit=50",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "dharma-logs", "ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "50"
+                }
+              ]
+            },
+            "description": "Get dharma evaluation logs for a node"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Karma Logs",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Response is JSON', function() {",
+                  "    pm.response.to.be.json;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/kernel/karma-logs/ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50?limit=50",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "kernel", "karma-logs", "ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "50"
+                }
+              ]
+            },
+            "description": "Get karma change history for a node"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🔄 Generic CRUD Operations",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "const now = new Date();",
+              "const expiresAt = new Date(Date.now() + 60 * 60 * 1000).toISOString();",
+              "pm.collectionVariables.set('test_reset_id', pm.variables.replaceIn('{{$randomUUID}}'));",
+              "pm.collectionVariables.set('test_reset_email', `test+${Date.now()}@example.com`);",
+              "pm.collectionVariables.set('test_reset_token', pm.variables.replaceIn('{{$randomUUID}}').replace(/-/g, ''));",
+              "pm.collectionVariables.set('test_reset_otp', Math.floor(100000 + Math.random() * 900000).toString());",
+              "pm.collectionVariables.set('test_reset_expires_at', expiresAt);",
+              "pm.collectionVariables.set('test_reset_created_at', now.toISOString());"
+            ]
+          }
+        }
+      ],
+      "item": [
+        {
+          "name": "Get Table Data (All Records)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Response is JSON', function() {",
+                  "    pm.response.to.be.json;",
+                  "});",
+                  "pm.test('Has success field', function() {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.equal(true);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/table/users?limit=10&offset=0",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "table", "users"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            },
+            "description": "Get all records from a table with pagination. Replace 'users' with any table name."
+          },
+          "response": []
+        },
+        {
+          "name": "Get node_core Table",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Response is JSON', function() {",
+                  "    pm.response.to.be.json;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/table/node_core?limit=10&offset=0",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "table", "node_core"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            },
+            "description": "Get all node_core records"
+          },
+          "response": []
+        },
+        {
+          "name": "Get businesses Table",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Response is JSON', function() {",
+                  "    pm.response.to.be.json;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/table/businesses?limit=10&offset=0",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "table", "businesses"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            },
+            "description": "Get all businesses records"
+          },
+          "response": []
+        },
+        {
+          "name": "Insert Record",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Response status is 201', function() {",
+                  "    pm.expect(pm.response.code).to.equal(201);",
+                  "});",
+                  "pm.test('Response is JSON', function() {",
+                  "    pm.response.to.be.json;",
+                  "});",
+                  "pm.test('Has success field', function() {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.equal(true);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"{{test_reset_id}}\",\n  \"email\": \"{{test_reset_email}}\",\n  \"reset_token\": \"{{test_reset_token}}\",\n  \"otp_code\": \"{{test_reset_otp}}\",\n  \"is_used\": false,\n  \"expires_at\": \"{{test_reset_expires_at}}\",\n  \"created_at\": \"{{test_reset_created_at}}\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/table/password_reset_store",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "table", "password_reset_store"]
+            },
+            "description": "Insert a new record into a table"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Record",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Response is JSON', function() {",
+                  "    pm.response.to.be.json;",
+                  "});",
+                  "pm.test('Has success field', function() {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.equal(true);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filter\": {\n    \"id\": \"{{test_reset_id}}\"\n  },\n  \"data\": {\n    \"is_used\": true\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/table/password_reset_store",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "table", "password_reset_store"]
+            },
+            "description": "Update a record in a table. Requires filter and data fields."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Record",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Response is JSON', function() {",
+                  "    pm.response.to.be.json;",
+                  "});",
+                  "pm.test('Has success field', function() {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.equal(true);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filter\": {\n    \"id\": \"{{test_reset_id}}\"\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/table/password_reset_store",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "table", "password_reset_store"]
+            },
+            "description": "Delete a record from a table"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🤖 Unified Chat API",
+      "item": [
+        {
+          "name": "Chat - Web Platform",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"platform\": \"web\",\n  \"message\": \"Hello, how can I check my account balance?\",\n  \"userId\": \"user-123\",\n  \"sessionId\": \"session-web-001\",\n  \"currentNode\": null\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/chat/process",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "chat", "process"]
+            },
+            "description": "Unified chat endpoint for web platform - returns full JSON with UI data"
+          },
+          "response": []
+        },
+        {
+          "name": "Chat - App Platform",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"platform\": \"app\",\n  \"message\": \"Navigate to home screen\",\n  \"userId\": \"user-123\",\n  \"sessionId\": \"session-app-001\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/chat/process",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "chat", "process"]
+            },
+            "description": "Mobile app platform - returns mobile-optimized JSON"
+          },
+          "response": []
+        },
+        {
+          "name": "Chat - WhatsApp Platform",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"platform\": \"whatsapp\",\n  \"message\": \"I want to signup\",\n  \"sessionId\": \"session-wa-001\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/chat/process",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "chat", "process"]
+            },
+            "description": "WhatsApp platform - returns text-formatted response"
+          },
+          "response": []
+        },
+        {
+          "name": "Chat - Telegram Platform",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"platform\": \"telegram\",\n  \"query\": \"What is my current status?\",\n  \"userId\": \"user-456\",\n  \"sessionId\": \"session-tg-001\",\n  \"currentNode\": \"account_node\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/chat/process",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "chat", "process"]
+            },
+            "description": "Telegram platform - returns formatted response with buttons"
+          },
+          "response": []
+        },
+        {
+          "name": "Chat - File Upload",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "platform",
+                  "value": "web",
+                  "type": "text"
+                },
+                {
+                  "key": "message",
+                  "value": "Please analyze this document",
+                  "type": "text"
+                },
+                {
+                  "key": "userId",
+                  "value": "user-123",
+                  "type": "text"
+                },
+                {
+                  "key": "sessionId",
+                  "value": "session-upload-001",
+                  "type": "text"
+                },
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/chat/process",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "chat", "process"]
+            },
+            "description": "File upload - stores as binary data with vector (NO file storage)"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "nid_hash",
+      "value": "ccb456e2d643e0a0a8d8dcf6adde1220ffe714da5452457d3aa3abc3a8943f50",
+      "type": "string"
+    },
+    {
+      "key": "owner_uuid",
+      "value": "c75d0110-9085-4411-8e2d-f1c5274d7f07",
+      "type": "string"
+    },
+    {
+      "key": "user_uuid",
+      "value": "64a39f9d-e2ca-4773-ab18-cb00f0f88875",
+      "type": "string"
+    }
+  ]
+}
